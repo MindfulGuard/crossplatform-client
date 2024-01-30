@@ -1,0 +1,102 @@
+{
+  "elements": {
+    "model_settings": {
+      "id": {
+        "library_uri": "package:mindfulguard/db/tables/settings_table.dart",
+        "name": "model_settings"
+      },
+      "declaration": {
+        "source_uri": "package:mindfulguard/db/tables/settings_table.dart",
+        "offset": 44,
+        "name": "ModelSettings"
+      },
+      "references": [],
+      "type": "table",
+      "columns": [
+        {
+          "sqlType": {
+            "builtin": "int"
+          },
+          "nullable": false,
+          "nameInSql": "id",
+          "nameInDart": "id",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/settings_table.dart",
+            "offset": 90,
+            "name": "id"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "primary",
+              "is_auto_increment": true
+            }
+          ],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "key",
+          "nameInDart": "key",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/settings_table.dart",
+            "offset": 143,
+            "name": "key"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "unique"
+            }
+          ],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "value",
+          "nameInDart": "value",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/settings_table.dart",
+            "offset": 198,
+            "name": "value"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        }
+      ],
+      "existing_data_class": null,
+      "table_constraints": [],
+      "custom_parent_class": null,
+      "fixed_entity_info_name": null,
+      "base_dart_name": "ModelSettings",
+      "row_class_name": "ModelSetting",
+      "without_rowid": false,
+      "strict": false,
+      "write_default_constraints": true,
+      "custom_constraints": [],
+      "attached_indices": []
+    }
+  },
+  "imports": [
+    "package:drift/drift.dart"
+  ]
+}

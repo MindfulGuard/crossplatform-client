@@ -1,0 +1,130 @@
+{
+  "elements": {
+    "model_user": {
+      "id": {
+        "library_uri": "package:mindfulguard/db/tables/user_table.dart",
+        "name": "model_user"
+      },
+      "declaration": {
+        "source_uri": "package:mindfulguard/db/tables/user_table.dart",
+        "offset": 44,
+        "name": "ModelUser"
+      },
+      "references": [],
+      "type": "table",
+      "columns": [
+        {
+          "sqlType": {
+            "builtin": "int"
+          },
+          "nullable": false,
+          "nameInSql": "id",
+          "nameInDart": "id",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/user_table.dart",
+            "offset": 86,
+            "name": "id"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "primary",
+              "is_auto_increment": true
+            }
+          ],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "login",
+          "nameInDart": "login",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/user_table.dart",
+            "offset": 139,
+            "name": "login"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "unique"
+            }
+          ],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "secret_string",
+          "nameInDart": "secretString",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/user_table.dart",
+            "offset": 196,
+            "name": "secretString"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "unique"
+            }
+          ],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "access_token",
+          "nameInDart": "accessToken",
+          "declaration": {
+            "source_uri": "package:mindfulguard/db/tables/user_table.dart",
+            "offset": 260,
+            "name": "accessToken"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "documentationComment": null,
+          "constraints": [
+            {
+              "type": "unique"
+            }
+          ],
+          "customConstraints": null
+        }
+      ],
+      "existing_data_class": null,
+      "table_constraints": [],
+      "custom_parent_class": null,
+      "fixed_entity_info_name": null,
+      "base_dart_name": "ModelUser",
+      "row_class_name": "ModelUserData",
+      "without_rowid": false,
+      "strict": false,
+      "write_default_constraints": true,
+      "custom_constraints": [],
+      "attached_indices": []
+    }
+  },
+  "imports": [
+    "package:drift/drift.dart"
+  ]
+}

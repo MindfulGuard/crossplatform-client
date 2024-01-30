@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+.flutter-plugins
+.flutter-plugins-dependencies
