@@ -31,5 +31,9 @@ abstract class BaseApi<T> {
     headers['Device'] = deviceName.toString();
   }
 
+  void setAuthTokenHeader(String token){
+    headers['Authorization'] = "Bearer $token";
+  }
+
   Future<T?> execute();
 }

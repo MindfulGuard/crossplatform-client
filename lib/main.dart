@@ -2,5 +2,5 @@ import 'package:flutter/material.dart';
 import 'package:mindfulguard/view/router.dart';
 
 void main() async {
-  runApp(App());
+  runApp(const App());
 }
