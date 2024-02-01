@@ -25,11 +25,19 @@ class $ModelUserTable extends ModelUser
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
-  static const VerificationMeta _secretStringMeta =
-      const VerificationMeta('secretString');
+  static const VerificationMeta _passwordMeta =
+      const VerificationMeta('password');
   @override
-  late final GeneratedColumn<String> secretString = GeneratedColumn<String>(
-      'secret_string', aliasedName, true,
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+      'password', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  static const VerificationMeta _privateKeyMeta =
+      const VerificationMeta('privateKey');
+  @override
+  late final GeneratedColumn<String> privateKey = GeneratedColumn<String>(
+      'private_key', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
@@ -42,7 +50,8 @@ class $ModelUserTable extends ModelUser
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
   @override
-  List<GeneratedColumn> get $columns => [id, login, secretString, accessToken];
+  List<GeneratedColumn> get $columns =>
+      [id, login, password, privateKey, accessToken];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -60,11 +69,15 @@ class $ModelUserTable extends ModelUser
       context.handle(
           _loginMeta, login.isAcceptableOrUnknown(data['login']!, _loginMeta));
     }
-    if (data.containsKey('secret_string')) {
+    if (data.containsKey('password')) {
+      context.handle(_passwordMeta,
+          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
+    }
+    if (data.containsKey('private_key')) {
       context.handle(
-          _secretStringMeta,
-          secretString.isAcceptableOrUnknown(
-              data['secret_string']!, _secretStringMeta));
+          _privateKeyMeta,
+          privateKey.isAcceptableOrUnknown(
+              data['private_key']!, _privateKeyMeta));
     }
     if (data.containsKey('access_token')) {
       context.handle(
@@ -85,8 +98,10 @@ class $ModelUserTable extends ModelUser
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       login: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}login']),
-      secretString: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}secret_string']),
+      password: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}password']),
+      privateKey: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}private_key']),
       accessToken: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}access_token']),
     );
@@ -101,10 +116,15 @@ class $ModelUserTable extends ModelUser
 class ModelUserData extends DataClass implements Insertable<ModelUserData> {
   final int id;
   final String? login;
-  final String? secretString;
+  final String? password;
+  final String? privateKey;
   final String? accessToken;
   const ModelUserData(
-      {required this.id, this.login, this.secretString, this.accessToken});
+      {required this.id,
+      this.login,
+      this.password,
+      this.privateKey,
+      this.accessToken});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -112,8 +132,11 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
     if (!nullToAbsent || login != null) {
       map['login'] = Variable<String>(login);
     }
-    if (!nullToAbsent || secretString != null) {
-      map['secret_string'] = Variable<String>(secretString);
+    if (!nullToAbsent || password != null) {
+      map['password'] = Variable<String>(password);
+    }
+    if (!nullToAbsent || privateKey != null) {
+      map['private_key'] = Variable<String>(privateKey);
     }
     if (!nullToAbsent || accessToken != null) {
       map['access_token'] = Variable<String>(accessToken);
@@ -126,9 +149,12 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
       id: Value(id),
       login:
           login == null && nullToAbsent ? const Value.absent() : Value(login),
-      secretString: secretString == null && nullToAbsent
+      password: password == null && nullToAbsent
           ? const Value.absent()
-          : Value(secretString),
+          : Value(password),
+      privateKey: privateKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(privateKey),
       accessToken: accessToken == null && nullToAbsent
           ? const Value.absent()
           : Value(accessToken),
@@ -141,7 +167,8 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
     return ModelUserData(
       id: serializer.fromJson<int>(json['id']),
       login: serializer.fromJson<String?>(json['login']),
-      secretString: serializer.fromJson<String?>(json['secretString']),
+      password: serializer.fromJson<String?>(json['password']),
+      privateKey: serializer.fromJson<String?>(json['privateKey']),
       accessToken: serializer.fromJson<String?>(json['accessToken']),
     );
   }
@@ -151,7 +178,8 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'login': serializer.toJson<String?>(login),
-      'secretString': serializer.toJson<String?>(secretString),
+      'password': serializer.toJson<String?>(password),
+      'privateKey': serializer.toJson<String?>(privateKey),
       'accessToken': serializer.toJson<String?>(accessToken),
     };
   }
@@ -159,13 +187,14 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
   ModelUserData copyWith(
           {int? id,
           Value<String?> login = const Value.absent(),
-          Value<String?> secretString = const Value.absent(),
+          Value<String?> password = const Value.absent(),
+          Value<String?> privateKey = const Value.absent(),
           Value<String?> accessToken = const Value.absent()}) =>
       ModelUserData(
         id: id ?? this.id,
         login: login.present ? login.value : this.login,
-        secretString:
-            secretString.present ? secretString.value : this.secretString,
+        password: password.present ? password.value : this.password,
+        privateKey: privateKey.present ? privateKey.value : this.privateKey,
         accessToken: accessToken.present ? accessToken.value : this.accessToken,
       );
   @override
@@ -173,51 +202,58 @@ class ModelUserData extends DataClass implements Insertable<ModelUserData> {
     return (StringBuffer('ModelUserData(')
           ..write('id: $id, ')
           ..write('login: $login, ')
-          ..write('secretString: $secretString, ')
+          ..write('password: $password, ')
+          ..write('privateKey: $privateKey, ')
           ..write('accessToken: $accessToken')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, login, secretString, accessToken);
+  int get hashCode => Object.hash(id, login, password, privateKey, accessToken);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ModelUserData &&
           other.id == this.id &&
           other.login == this.login &&
-          other.secretString == this.secretString &&
+          other.password == this.password &&
+          other.privateKey == this.privateKey &&
           other.accessToken == this.accessToken);
 }
 
 class ModelUserCompanion extends UpdateCompanion<ModelUserData> {
   final Value<int> id;
   final Value<String?> login;
-  final Value<String?> secretString;
+  final Value<String?> password;
+  final Value<String?> privateKey;
   final Value<String?> accessToken;
   const ModelUserCompanion({
     this.id = const Value.absent(),
     this.login = const Value.absent(),
-    this.secretString = const Value.absent(),
+    this.password = const Value.absent(),
+    this.privateKey = const Value.absent(),
     this.accessToken = const Value.absent(),
   });
   ModelUserCompanion.insert({
     this.id = const Value.absent(),
     this.login = const Value.absent(),
-    this.secretString = const Value.absent(),
+    this.password = const Value.absent(),
+    this.privateKey = const Value.absent(),
     this.accessToken = const Value.absent(),
   });
   static Insertable<ModelUserData> custom({
     Expression<int>? id,
     Expression<String>? login,
-    Expression<String>? secretString,
+    Expression<String>? password,
+    Expression<String>? privateKey,
     Expression<String>? accessToken,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (login != null) 'login': login,
-      if (secretString != null) 'secret_string': secretString,
+      if (password != null) 'password': password,
+      if (privateKey != null) 'private_key': privateKey,
       if (accessToken != null) 'access_token': accessToken,
     });
   }
@@ -225,12 +261,14 @@ class ModelUserCompanion extends UpdateCompanion<ModelUserData> {
   ModelUserCompanion copyWith(
       {Value<int>? id,
       Value<String?>? login,
-      Value<String?>? secretString,
+      Value<String?>? password,
+      Value<String?>? privateKey,
       Value<String?>? accessToken}) {
     return ModelUserCompanion(
       id: id ?? this.id,
       login: login ?? this.login,
-      secretString: secretString ?? this.secretString,
+      password: password ?? this.password,
+      privateKey: privateKey ?? this.privateKey,
       accessToken: accessToken ?? this.accessToken,
     );
   }
@@ -244,8 +282,11 @@ class ModelUserCompanion extends UpdateCompanion<ModelUserData> {
     if (login.present) {
       map['login'] = Variable<String>(login.value);
     }
-    if (secretString.present) {
-      map['secret_string'] = Variable<String>(secretString.value);
+    if (password.present) {
+      map['password'] = Variable<String>(password.value);
+    }
+    if (privateKey.present) {
+      map['private_key'] = Variable<String>(privateKey.value);
     }
     if (accessToken.present) {
       map['access_token'] = Variable<String>(accessToken.value);
@@ -258,7 +299,8 @@ class ModelUserCompanion extends UpdateCompanion<ModelUserData> {
     return (StringBuffer('ModelUserCompanion(')
           ..write('id: $id, ')
           ..write('login: $login, ')
-          ..write('secretString: $secretString, ')
+          ..write('password: $password, ')
+          ..write('privateKey: $privateKey, ')
           ..write('accessToken: $accessToken')
           ..write(')'))
         .toString();

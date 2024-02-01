@@ -140,6 +140,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "cryptography",
+      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/cryptography-2.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.6",
       "packageUri": "lib/",
@@ -524,7 +530,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-30T08:05:52.977748Z",
+  "generated": "2024-02-01T12:51:34.857670Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }

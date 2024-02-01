@@ -175,7 +175,8 @@ class _SignInPageState extends State<SignInPage> {
 
     final modelUser = ModelUserCompanion(
       login: drift.Value(login.text),
-      secretString: drift.Value(secretString),
+      password: drift.Value(password.text),
+      privateKey: drift.Value(privateKey.text),
       accessToken: drift.Value(token)
     );
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
+import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -24,11 +25,6 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMixin{
   late AnimationController _controller;
   late Animation<double> _animation;
-
-  String _formatUnixTimestamp(int unixTimestamp) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
-    return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
-  }
 
   IconData _defineDeviceIconByName(String device) {
     IconData responseIcon = Icons.devices;
@@ -63,7 +59,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     );
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
 
@@ -99,6 +95,10 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {
     _controller.value = 0.0;
+    List<String> partsDevice = tokenInfo['device'].split('/');
+    String deviceApplication = partsDevice[0];
+    String deviceSystem = partsDevice[1];
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -123,11 +123,12 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
                     SizedBox(height: 20),
                     Text('Token Information', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     SizedBox(height: 10),
-                    Text('Device: ${tokenInfo['device']}', style: TextStyle(fontSize: 20)),
-                    Text('Created At: ${_formatUnixTimestamp(tokenInfo['created_at'])}', style: TextStyle(fontSize: 20)),
-                    Text('Updated At: ${_formatUnixTimestamp(tokenInfo['updated_at'])}', style: TextStyle(fontSize: 20)),
-                    Text('Expiration Time: ${_formatUnixTimestamp(tokenInfo['expiration'])}', style: TextStyle(fontSize: 20)),
-                    Text('Last IP: ${tokenInfo['last_ip']}', style: TextStyle(fontSize: 20)),
+                    Text('Application: ${deviceApplication}', style: TextStyle(fontSize: 20)),
+                    Text('System: ${deviceSystem}', style: TextStyle(fontSize: 20)),
+                    Text('Created At: ${formatUnixTimestamp(tokenInfo['created_at'])}', style: TextStyle(fontSize: 20)),
+                    Text('Updated At: ${formatUnixTimestamp(tokenInfo['updated_at'])}', style: TextStyle(fontSize: 20)),
+                    Text('Expiration Time: ${formatUnixTimestamp(tokenInfo['expiration'])}', style: TextStyle(fontSize: 20)),
+                    Text('Ip Address: ${tokenInfo['last_ip']}', style: TextStyle(fontSize: 20)),
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async{
@@ -168,7 +169,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
               children: [
                 Text('Api Server: ${widget.apiUrl}', style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text('Username: ${information['username']}', style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text('Created At: ${_formatUnixTimestamp(information['created_at'])}', style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text('Created At: ${formatUnixTimestamp(information['created_at'])}', style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text('IP Address: ${information['ip']}', style: TextStyle(fontSize: 16)), // Set font size to 16
               ],
             ),
@@ -190,9 +191,9 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
                   subtitle: Column( // Using a Column to display multiple pieces of information vertically
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Last IP: ${token['last_ip']}'),
-                      Text('Created At: ${_formatUnixTimestamp(token['created_at'])}'), // Formatted created at date and time
-                      Text('Updated At: ${_formatUnixTimestamp(token['updated_at'])}'),
+                      Text('Created At: ${formatUnixTimestamp(token['created_at'])}'), // Formatted created at date and time
+                      Text('Updated At: ${formatUnixTimestamp(token['updated_at'])}'),
+                      Text('IP Address: ${token['last_ip']}'),
                     ],
                   ),
                 ),

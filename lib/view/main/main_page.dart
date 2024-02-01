@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
+import 'package:mindfulguard/view/main/items/safe_page.dart';
 import 'package:mindfulguard/view/user/information.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,10 +20,14 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   String apiUrl = "";
   String accessToken = "";
+  String password = "";
+  String privateKey = "";
   int _currentIndex = 0;
   bool _isLoading = true;
   late Map<String, Object> userInfoApi = <String, Object>{}; // Declare userInfoApi as late
   late List<Widget> _pages; // Declare _pages as late
+  Map<String, dynamic> itemsApiResponse = {};
+  bool isLoading = true;
 
   Future<void> _initializeUserInfo() async {
     var userInfoResponse = await _checkUserAuthentication();
@@ -36,11 +43,32 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future<void> _getItems() async {
+    var api = await ItemsApi(apiUrl, accessToken).execute();
+
+    if (api?.statusCode != 200 || api?.body == null) {
+      return;
+    } else {
+      var decodedApiResponse = json.decode(api!.body);
+      var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
+        decodedApiResponse,
+        password,
+        Crypto.fromPrivateKeyToBytes(privateKey)
+      );
+      
+      setState(() {
+        itemsApiResponse = decryptedApiResponse;
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _initializeUserInfo();
   }
+
 
   Future<Response?> _checkUserAuthentication() async {
     var db = AppDb();
@@ -55,7 +83,6 @@ class _MainPageState extends State<MainPage> {
       );
     } else{
       var userInfoApiResponse = await UserInfoApi(dataSettings.value!, token).execute();
-      print(userInfoApiResponse);
       if (userInfoApiResponse?.statusCode != 200){
         Navigator.pushReplacement(
           context,
@@ -65,7 +92,10 @@ class _MainPageState extends State<MainPage> {
       else{
         print(dataSettings.value);
         this.apiUrl = dataSettings.value!;
+        this.password = dataUser.firstOrNull!.password!;
+        this.privateKey = dataUser.firstOrNull!.privateKey!;
         this.accessToken = token;
+        await _getItems();
         return userInfoApiResponse;
       }
     }
@@ -73,9 +103,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _initializePages() {
-    print(userInfoApi);
     _pages = [
-      Center(child: Text('Page with items')),
+      SafePage(
+        itemsApiResponse: itemsApiResponse,
+        apiUrl: apiUrl,
+        token: accessToken,
+        password: password,
+        privateKey: privateKey,
+        privateKeyBytes: Crypto.fromPrivateKeyToBytes(privateKey),
+      ),
       UserInfoPage(
         apiUrl: apiUrl,
         userInfoApi: userInfoApi,
@@ -88,9 +124,9 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _currentIndex = index;
       _initializeUserInfo(); // Call _initializeUserInfo when tab is tapped
+      _getItems();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
