@@ -2,6 +2,7 @@ import 'dart:io';
 
 class ContentType {
   static String xWwwFormUrlencoded = "application/x-www-form-urlencoded";
+  static String applicationJson = "application/json";
 }
 
 abstract class BaseApi<T> {

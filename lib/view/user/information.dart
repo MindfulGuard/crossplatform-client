@@ -90,7 +90,6 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
       }
     }
     print(api?.statusCode);
-    print(api?.body);
   }
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {
@@ -105,38 +104,40 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Center(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return Transform.scale(
-                          scale: 0.5 + (_animation.value * 0.7),
-                          child: Icon(_defineDeviceIconByName(tokenInfo['device']), size: 70, color: Colors.blue),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    Text('Token Information', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10),
-                    Text('Application: ${deviceApplication}', style: TextStyle(fontSize: 20)),
-                    Text('System: ${deviceSystem}', style: TextStyle(fontSize: 20)),
-                    Text('Created At: ${formatUnixTimestamp(tokenInfo['created_at'])}', style: TextStyle(fontSize: 20)),
-                    Text('Updated At: ${formatUnixTimestamp(tokenInfo['updated_at'])}', style: TextStyle(fontSize: 20)),
-                    Text('Expiration Time: ${formatUnixTimestamp(tokenInfo['expiration'])}', style: TextStyle(fontSize: 20)),
-                    Text('Ip Address: ${tokenInfo['last_ip']}', style: TextStyle(fontSize: 20)),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () async{
-                        await _deleteToken(tokenInfo['id']);
-                      },
-                      child: Text('Terminate Session'),
-                    ),
-                  ],
+              child: SingleChildScrollView( // Wrap with SingleChildScrollView
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AnimatedBuilder(
+                        animation: _animation,
+                        builder: (context, child) {
+                          return Transform.scale(
+                            scale: 0.5 + (_animation.value * 0.7),
+                            child: Icon(_defineDeviceIconByName(tokenInfo['device']), size: 70, color: Colors.blue),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Text('Token Information', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 10),
+                      Text('Application: ${deviceApplication}', style: TextStyle(fontSize: 20)),
+                      Text('System: ${deviceSystem}', style: TextStyle(fontSize: 20)),
+                      Text('Created At: ${formatUnixTimestamp(tokenInfo['created_at'])}', style: TextStyle(fontSize: 20)),
+                      Text('Updated At: ${formatUnixTimestamp(tokenInfo['updated_at'])}', style: TextStyle(fontSize: 20)),
+                      Text('Expiration Time: ${formatUnixTimestamp(tokenInfo['expiration'])}', style: TextStyle(fontSize: 20)),
+                      Text('Ip Address: ${tokenInfo['last_ip']}', style: TextStyle(fontSize: 20)),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () async{
+                          await _deleteToken(tokenInfo['id']);
+                        },
+                        child: Text('Terminate Session'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
