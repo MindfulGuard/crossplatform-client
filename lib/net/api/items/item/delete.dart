@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mindfulguard/net/api/base.dart';
 
-class ItemCreateApi extends BaseApi<http.Response> {
+class ItemDeleteApi extends BaseApi<http.Response> {
   String apiUrl;
   String token;
   String safeId;
-  Map<String, dynamic> body;
+  String itemId;
 
-  ItemCreateApi(
+  ItemDeleteApi(
     this.apiUrl,
     this.token,
     this.safeId,
-    this.body,
+    this.itemId,
   ) : super(ContentType.applicationJson);
 
   @override
@@ -20,11 +20,9 @@ class ItemCreateApi extends BaseApi<http.Response> {
     try {
       this.setAuthTokenHeader(token);
       
-      var response = await http.post(
-        Uri.parse("$apiUrl/v1/safe/$safeId/item"),
+      var response = await http.delete(
+        Uri.parse("$apiUrl/v1/safe/$safeId/item/$itemId"),
         headers: headers,
-        body: jsonEncode(body),
-        encoding: utf8,
       );
 
       return response;

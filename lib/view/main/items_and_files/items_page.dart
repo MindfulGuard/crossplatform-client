@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
+import 'package:mindfulguard/net/api/items/item/delete.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
@@ -111,6 +112,26 @@ class _ItemsPageState extends State<ItemsPage> {
     });
   }
 
+Future<void> _deleteItem(String itemId) async {
+  try {
+    var api = await ItemDeleteApi(
+      widget.apiUrl,
+      widget.token,
+      widget.selectedSafeId,
+      itemId,
+    ).execute();
+
+    if (api?.statusCode != 200) {
+      print('Delete request failed with status code: ${api?.statusCode}');
+      return;
+    }
+    await _getItems();
+    print('Item deleted successfully');
+  } catch (error) {
+    print('Error during item deletion: $error');
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -118,33 +139,55 @@ class _ItemsPageState extends State<ItemsPage> {
         RefreshIndicator(
           onRefresh: _handleRefresh,
           child: ListView.builder(
-            itemCount: selectedSafeItems.length,
-            itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
-                    Card(
-                      margin: EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text(selectedSafeItems[index]['items'][i]['title']),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(selectedSafeItems[index]['items'][i]['category']),
-                            Text('Tags: ${selectedSafeItems[index]['items'][i]['tags'].join(', ')}'),
-                            // Add more details as per your requirement
-                          ],
-                        ),
-                        onTap: () {
-                          _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
-                        },
+          itemCount: selectedSafeItems.length,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
+                  Card(
+                    margin: EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(selectedSafeItems[index]['items'][i]['title']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(selectedSafeItems[index]['items'][i]['category']),
+                          Text('Tags: ${selectedSafeItems[index]['items'][i]['tags'].join(', ')}'),
+                          // Add more details as per your requirement
+                        ],
+                      ),
+                      onTap: () {
+                        _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
+                      },
+                      trailing: PopupMenuButton(
+                        icon: Icon(Icons.more_vert),
+                        itemBuilder: (BuildContext context) => [
+                          PopupMenuItem(
+                            child: GestureDetector(
+                              onTap: () {
+                                // Edit item
+                              },
+                              child: Text('Edit'),
+                            ),
+                          ),
+                          PopupMenuItem(
+                            child: GestureDetector(
+                              onTap: () {
+                                // Handle the menu item click
+                                _deleteItem(selectedSafeItems[index]['items'][i]['id']);
+                              },
+                              child: Text('Delete'),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                ],
-              );
-            },
-          ),
+                  ),
+              ],
+            );
+          },
+        ),
         ),
         Positioned(
           bottom: 16,

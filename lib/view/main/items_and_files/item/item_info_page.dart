@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Добавлено для использования Clipboard
 import 'package:url_launcher/url_launcher.dart'; // Добавлено для открытия ссылок
@@ -31,77 +29,77 @@ class ItemsInfoPage extends StatefulWidget {
 class _ItemsInfoPageState extends State<ItemsInfoPage> {
   bool _isPasswordVisible = false; // Добавлено состояние для отслеживания видимости пароля
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(),
-    body: SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(
-            child: Text(
-              widget.selectedSafeItems['title'],
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Text(
+                widget.selectedSafeItems['title'],
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 8.0),
-          Center(
-            child: Text(
-              widget.selectedSafeItems['category'],
-              style: TextStyle(
-                fontSize: 24.0,
-                fontStyle: FontStyle.italic,
-                color: Colors.grey,
+            SizedBox(height: 8.0),
+            Center(
+              child: Text(
+                widget.selectedSafeItems['category'],
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 8.0),
-          Center(
-            child: widget.selectedSafeItems['notes'].isNotEmpty
-                ? Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blue,
-                        width: 2.0,
+            SizedBox(height: 8.0),
+            Center(
+              child: widget.selectedSafeItems['notes'].isNotEmpty
+                  ? Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      widget.selectedSafeItems['notes'],
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        color: Colors.black,
+                      child: Text(
+                        widget.selectedSafeItems['notes'],
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  )
-                : Container(),
-          ),
-          SizedBox(height: 11.0),
-          // Вывод тэгов в отдельных мини-контейнерах
-        if (widget.selectedSafeItems['tags'] != null &&
-            widget.selectedSafeItems['tags'].isNotEmpty)
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 8.0,
-            children: widget.selectedSafeItems['tags']
-                .map<Widget>((tag) => _buildTagCard(tag))
-                .toList(), // Преобразование в List<Widget>
-          ),
-          SizedBox(height: 11.0),
-          for (var section in widget.selectedSafeItems['sections'])
-            _buildSectionCard(section),
-        ],
+                    )
+                  : Container(),
+            ),
+            SizedBox(height: 11.0),
+            // Вывод тэгов в отдельных мини-контейнерах
+          if (widget.selectedSafeItems['tags'] != null &&
+              widget.selectedSafeItems['tags'].isNotEmpty)
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: widget.selectedSafeItems['tags']
+                  .map<Widget>((tag) => _buildTagCard(tag))
+                  .toList(), // Преобразование в List<Widget>
+            ),
+            SizedBox(height: 11.0),
+            for (var section in widget.selectedSafeItems['sections'])
+              _buildSectionCard(section),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildTagCard(String tag) {
     return Container(
