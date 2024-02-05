@@ -5,6 +5,7 @@ import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
+import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
 
 class ItemsPage extends StatefulWidget {
   final String apiUrl;
@@ -82,47 +83,68 @@ class _ItemsPageState extends State<ItemsPage> {
     }
   }
 
+  Future<void> _handleRefresh() async {
+    // Perform the refresh operation here
+    await _getItems();
+  }
+
+  Future<void> _navigateToItemDetailsPage(Map<String, dynamic> selectedItem) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemsInfoPage(
+          apiUrl: widget.apiUrl,
+          token: widget.token,
+          password: widget.password,
+          privateKey: widget.privateKey,
+          privateKeyBytes: widget.privateKeyBytes,
+          selectedSafeId: widget.selectedSafeId,
+          selectedSafeItems: selectedItem,
+        ),
+      ),
+    ).then((result) {
+      // Handle the result if needed
+      if (result != null && result == true) {
+        // Trigger a refresh or update here if needed
+        _getItems();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Use FutureBuilder to handle the loading state
-        FutureBuilder(
-          future: _getItems(),
-          builder: (context, snapshot) {
-            if (isLoading || ModalRoute.of(context)?.isCurrent == false) {
-              // Show loading indicator when returning to the screen
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return ListView.builder(
-                itemCount: selectedSafeItems.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
-                        Card(
-                          margin: EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(selectedSafeItems[index]['items'][i]['title']),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(selectedSafeItems[index]['items'][i]['category']),
-                                Text('Tags: ${selectedSafeItems[index]['items'][i]['tags'].join(', ')}'),
-                                // Add more details as per your requirement
-                              ],
-                            ),
-                          ),
+        RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: ListView.builder(
+            itemCount: selectedSafeItems.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
+                    Card(
+                      margin: EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text(selectedSafeItems[index]['items'][i]['title']),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(selectedSafeItems[index]['items'][i]['category']),
+                            Text('Tags: ${selectedSafeItems[index]['items'][i]['tags'].join(', ')}'),
+                            // Add more details as per your requirement
+                          ],
                         ),
-                    ],
-                  );
-                },
+                        onTap: () {
+                          _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
+                        },
+                      ),
+                    ),
+                ],
               );
-            }
-          },
+            },
+          ),
         ),
         Positioned(
           bottom: 16,

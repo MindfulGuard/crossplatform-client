@@ -42,6 +42,8 @@ dependencies:
   path: ^1.8.3
   crypto: ^3.0.3
   cryptography: ^2.7.0
+  url_launcher: ^6.2.4
+  totp: ^0.0.1
 
 dev_dependencies:
   flutter_test:
