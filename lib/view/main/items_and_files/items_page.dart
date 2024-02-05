@@ -6,6 +6,7 @@ import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
+import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
 
 class ItemsPage extends StatefulWidget {
@@ -166,7 +167,7 @@ Future<void> _deleteItem(String itemId) async {
                           PopupMenuItem(
                             child: GestureDetector(
                               onTap: () {
-                                // Edit item
+                                _navigateToItemsUpdatePage(index, i);
                               },
                               child: Text('Edit'),
                             ),
@@ -200,6 +201,32 @@ Future<void> _deleteItem(String itemId) async {
         ),
       ],
     );
+  }
+
+  Future<void> _navigateToItemsUpdatePage(int indexSafe, int indexItem) async {
+    print(indexSafe);
+    print(indexItem);
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemsEditPage(
+          apiUrl: widget.apiUrl,
+          token: widget.token,
+          password: widget.password,
+          privateKey: widget.privateKey,
+          privateKeyBytes: widget.privateKeyBytes,
+          selectedSafeId: widget.selectedSafeId,
+          selectedItemId: selectedSafeItems[indexSafe]['items'][indexItem]['id'],
+          selectedItemData: selectedSafeItems[indexSafe]['items'][indexItem],
+      )
+      ),
+    ).then((result) {
+      // Handle the result if needed
+      if (result != null && result == true) {
+        // Trigger a refresh or update here
+        _getItems();
+      }
+    });
   }
 
   Future<void> _navigateToItemsCreatePage() async {

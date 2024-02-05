@@ -33,7 +33,6 @@ class ItemsCreatePage extends StatefulWidget {
 class _ItemsCreatePageState extends State<ItemsCreatePage> {
   List<Map<String, dynamic>> sections = [];
   String notes = '';
-  Map<String, dynamic> formData = {};
   final TextEditingController titleController = TextEditingController(text: '');
   String? category;
   final TextEditingController notesController = TextEditingController(text: '');
