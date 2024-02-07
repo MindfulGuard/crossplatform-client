@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Добавлено для использования Clipboard
-import 'package:url_launcher/url_launcher.dart'; // Добавлено для открытия ссылок
+import 'package:flutter/services.dart'; // Added to use Clipboard
+import 'package:url_launcher/url_launcher.dart'; // Added to open links
 
 class ItemsInfoPage extends StatefulWidget {
   final String apiUrl;

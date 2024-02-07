@@ -18,6 +18,7 @@ class ItemCreateApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       this.setAuthTokenHeader(token);
       
       var response = await http.post(

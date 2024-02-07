@@ -1,8 +1,6 @@
-import 'dart:convert';
-
-import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'dart:convert';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
@@ -10,10 +8,9 @@ import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:mindfulguard/view/main/main_page.dart';
-
+import 'package:drift/drift.dart' as drift;
 
 class SignInPage extends StatefulWidget {
-
   SignInPage({Key? key}) : super(key: key);
 
   @override
@@ -27,14 +24,9 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController login = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController privateKey = TextEditingController();
-  TextEditingController tokenExpiration = TextEditingController();
+  DateTime selectedDateTime = DateTime.now();
   TextEditingController oneTimeOrBackupCode = TextEditingController();
   String? _selectedOption = "";
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +68,20 @@ class _SignInPageState extends State<SignInPage> {
                   controller: privateKey,
                 ),
                 SizedBox(height: 10),
-                AlignTextField(
-                  keyboardType: TextInputType.number,
-                  labelText: "Token expiration (max 90 days)",
-                  controller: tokenExpiration,
+                ListTile(
+                  title: Text(
+                    "Token expiration (max 90 days)",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    "${selectedDateTime.year}-${selectedDateTime.month}-${selectedDateTime.day} ${selectedDateTime.hour}:${selectedDateTime.minute}",
+                  ),
+                  onTap: () {
+                    _selectDateTime(context);
+                  },
                 ),
-                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 10),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -142,6 +142,34 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDateTime,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 90)), // Max 90 days
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
+  }
+
   Future<Response?> _signInApi() async {
     var configApi = await ConfigurationApi(apiUrl.text).execute();
     if (configApi!.statusCode != 200){
@@ -161,7 +189,7 @@ class _SignInPageState extends State<SignInPage> {
       apiUrl.text,
       login.text,
       secretString,
-      int.parse(tokenExpiration.text),
+      (selectedDateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) ~/ 60000, // From unixtime (milliseconds) to minutes.
       oneTimeOrBackupCode.text,
       _selectedOption!
     ).execute();

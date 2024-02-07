@@ -18,6 +18,7 @@ class SafeCreateApi extends BaseApi<http.Response> {
 
   Future<http.Response?> execute() async {
     try {
+      await init();
       Map<String, String> body = <String, String>{};
       body['name'] = name;
       body['description'] = description;

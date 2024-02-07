@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:mindfulguard/view/main/items_and_files/files_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/items_page.dart';
 
 class ItemsNavigator extends StatefulWidget {
@@ -64,7 +65,14 @@ class _ItemsNavigatorPageState extends State<ItemsNavigator> with SingleTickerPr
             selectedSafeId: widget.selectedSafeId,
           ),
           // Replace with the content/widgets for Section 2
-          Container(child: Center(child: Text('Content for Section 2'))),
+          FilesPage(
+            apiUrl: widget.apiUrl,
+            token: widget.token,
+            password: widget.password,
+            privateKey: widget.privateKey,
+            privateKeyBytes: widget.privateKeyBytes,
+            selectedSafeId: widget.selectedSafeId,
+          ),
           // Add more containers for additional sections
         ],
       ),

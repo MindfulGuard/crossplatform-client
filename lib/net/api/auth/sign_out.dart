@@ -15,6 +15,7 @@ class SignOutApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       setAuthTokenHeader(token);
       var response = await http.delete(
         Uri.parse("$apiUrl/v1/auth/sign_out/$tokenId"),

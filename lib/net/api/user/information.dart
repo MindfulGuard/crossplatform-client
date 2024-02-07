@@ -16,6 +16,7 @@ class UserInfoApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       setAuthTokenHeader(token);
 
       print("$apiUrl/v1/user");

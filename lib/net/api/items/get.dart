@@ -14,6 +14,7 @@ class ItemsApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       this.setAuthTokenHeader(token);
       var response = await http.get(
         Uri.parse("$apiUrl/v1/safe/all/item"),

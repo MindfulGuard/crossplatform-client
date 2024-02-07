@@ -42,6 +42,7 @@ class _SafePageState extends State<SafePage> {
   @override
   void initState() {
     super.initState();
+    fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
     _nameController = TextEditingController();
     _descriptionController = TextEditingController();
   }

@@ -1,5 +1,5 @@
 name: mindfulguard
-description: "A new Flutter project."
+description: "Password manager"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -44,6 +44,10 @@ dependencies:
   cryptography: ^2.7.0
   url_launcher: ^6.2.4
   totp: ^0.0.1
+  permission_handler: ^11.2.0
+  open_file: ^3.3.2
+  package_info_plus: ^5.0.1
+  file_picker: ^6.1.1
 
 dev_dependencies:
   flutter_test:

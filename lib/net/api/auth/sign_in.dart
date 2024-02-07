@@ -23,6 +23,7 @@ class SignInApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       Map<String, String> body = <String, String>{};
       body['login'] = login;
       body['secret_string'] = secretString;

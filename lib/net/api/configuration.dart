@@ -11,6 +11,7 @@ class ConfigurationApi extends BaseApi<http.Response> {
   @override
   Future<http.Response?> execute() async {
     try {
+      await init();
       var response = await http.get(
         Uri.parse("$apiUrl/v1/public/configuration"),
       );

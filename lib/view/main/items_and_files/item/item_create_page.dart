@@ -3,10 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
-import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/create.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
-import 'package:mindfulguard/view/main/items_and_files/items_page.dart';
 
 class ItemsCreatePage extends StatefulWidget {
   final String apiUrl;
