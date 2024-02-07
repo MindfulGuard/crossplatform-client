@@ -48,6 +48,20 @@ dependencies:
   open_file: ^3.3.2
   package_info_plus: ^5.0.1
   file_picker: ^6.1.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/icon/mindfulguard_logo.png"
+  web:
+    generate: true
+    image_path: "assets/icon/mindfulguard_logo.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/icon/mindfulguard_logo.png"
+    icon_size: 256 # min:48, max:256, default: 48
 
 dev_dependencies:
   flutter_test:

@@ -10,6 +10,10 @@ analyzer_plugin
 3.0
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer_plugin-0.11.3/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer_plugin-0.11.3/lib/
+archive
+2.12
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.4.10/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.4.10/lib/
 args
 2.19
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.2/
@@ -134,6 +138,10 @@ fixnum
 2.19
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.0/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.0/lib/
+flutter_launcher_icons
+2.18
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.13.1/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.13.1/lib/
 flutter_lints
 2.19
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.3/
@@ -170,6 +178,10 @@ http_parser
 2.12
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2/lib/
+image
+2.15
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.1.6/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.1.6/lib/
 io
 2.12
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.4/
@@ -274,6 +286,10 @@ permission_handler_windows
 2.12
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_windows-0.2.1/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_windows-0.2.1/lib/
+petitparser
+3.2
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-6.0.2/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-6.0.2/lib/
 platform
 3.0
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.4/
@@ -282,6 +298,10 @@ plugin_platform_interface
 3.0
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8/lib/
+pointycastle
+3.0
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/pointycastle-3.7.4/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/pointycastle-3.7.4/lib/
 pool
 2.12
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/pool-1.5.1/
@@ -418,6 +438,10 @@ xdg_directories
 3.0
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.4/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.4/lib/
+xml
+3.2
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.5.0/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.5.0/lib/
 yaml
 2.19
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2/
