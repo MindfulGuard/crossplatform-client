@@ -1,4 +1,5 @@
 *.iml
+.vscode
 *.keystore
 key.properties
 .gradle
@@ -17,3 +18,16 @@ key.properties
 local.properties
 .flutter-plugins
 .flutter-plugins-dependencies
+.dart_tool/
+.packages
+build/
+pubspec.lock
+doc/api/
+.env*
+*.dart.js
+*.info.json
+*.js
+*.js_
+*.js.deps
+*.js.map
+*.jks

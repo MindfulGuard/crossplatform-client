@@ -1,0 +1,52 @@
+name: Windows
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.9'
+
+      - name: Install yq
+        run: choco install yq
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Build
+        run: flutter build windows
+
+      - name: Extract version from pubspec.yaml
+        shell: bash
+        run: |
+          version=$(yq eval '.version' pubspec.yaml)
+          echo "version=${version}" >> $GITHUB_ENV
+  
+      - name: Create directory
+        run: |
+            mkdir mindfulguard_windows_x64
+            Copy-Item -Path "build\windows\x64\runner\Release\*" -Destination "mindfulguard_windows_x64\" -Recurse
+            Compress-Archive -Path "mindfulguard_windows_x64/" -DestinationPath mindfulguard_windows_x64.zip -CompressionLevel Optimal
+        working-directory: ${{ github.workspace }}
+  
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+            files: mindfulguard_windows_x64.zip
+            tag_name: ${{ env.version }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.ACTIONS }}
