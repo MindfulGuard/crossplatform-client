@@ -1,1 +1,0 @@
- D:\\Alex\\programming\\MindfulGuard\\android\\.dart_tool\\flutter_build\\d4ee21eb4506e74d25b38100ccf3942c\\native_assets.yaml: 

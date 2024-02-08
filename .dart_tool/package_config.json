@@ -81,9 +81,9 @@
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.2.11",
+      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "built_collection",
@@ -423,7 +423,7 @@
     },
     {
       "name": "permission_handler_android",
-      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.3",
+      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -537,7 +537,7 @@
     },
     {
       "name": "sqlite3_flutter_libs",
-      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.19+1",
+      "rootUri": "file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.20",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -704,7 +704,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-02-07T16:50:37.432170Z",
+  "generated": "2024-02-08T07:10:59.525803Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }

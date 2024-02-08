@@ -51,9 +51,9 @@ build_runner
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner-2.4.8/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner-2.4.8/lib/
 build_runner_core
-2.19
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.2.11/
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.2.11/lib/
+3.0
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.3.0/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner_core-7.3.0/lib/
 built_collection
 2.12
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/built_collection-5.1.1/
@@ -268,8 +268,8 @@ file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-11.2.0/lib/
 permission_handler_android
 2.15
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.3/
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.3/lib/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.4/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.4/lib/
 permission_handler_apple
 2.15
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_apple-9.3.0/
@@ -340,8 +340,8 @@ file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3-2.3.0/
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3-2.3.0/lib/
 sqlite3_flutter_libs
 2.12
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.19+1/
-file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.19+1/lib/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.20/
+file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.20/lib/
 sqlparser
 3.0
 file:///C:/Users/paksh/AppData/Local/Pub/Cache/hosted/pub.dev/sqlparser-0.34.0/
