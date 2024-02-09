@@ -33,8 +33,8 @@ jobs:
         
       - name: Sign Apk
         run: |
-          echo '${{ secrets.KEYSTORE }}' | base64 --decode > upload-keystore.jks
-          echo '${{ secrets.KEY_PROPERTIES }}' > key.properties
+          echo '${{ secrets.KEYSTORE }}' | base64 --decode > android/upload-keystore.jks
+          echo '${{ secrets.KEY_PROPERTIES }}' >> android/gradle.properties
       
       - name: Build Apk
         run: |
