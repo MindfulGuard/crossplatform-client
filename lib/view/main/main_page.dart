@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
     if (api?.statusCode != 200 || api?.body == null) {
       return;
     } else {
-      var decodedApiResponse = json.decode(api!.body);
+      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
       var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
         decodedApiResponse,
         password,

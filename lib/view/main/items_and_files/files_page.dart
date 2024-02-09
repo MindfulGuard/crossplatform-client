@@ -67,7 +67,7 @@ class _FilesPageState extends State<FilesPage> {
       );
       return;
     } else {
-      var decodedApiResponse = json.decode(api!.body);
+      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
 
       setState(() {
         itemsApiResponse = decodedApiResponse;

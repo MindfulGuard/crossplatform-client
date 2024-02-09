@@ -66,7 +66,7 @@ class _ItemsPageState extends State<ItemsPage> {
       );
       return;
     } else {
-      var decodedApiResponse = json.decode(api!.body);
+      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
       var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
         decodedApiResponse,
         widget.password,
