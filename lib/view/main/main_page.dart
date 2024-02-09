@@ -115,6 +115,7 @@ class _MainPageState extends State<MainPage> {
       UserInfoPage(
         apiUrl: apiUrl,
         userInfoApi: userInfoApi,
+        diskInfo: itemsApiResponse['disk'],
         token: accessToken,
       ),
     ];

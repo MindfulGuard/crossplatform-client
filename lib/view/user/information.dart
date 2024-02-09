@@ -8,11 +8,13 @@ import 'package:mindfulguard/view/auth/sign_in_page.dart';
 
 class UserInfoPage extends StatefulWidget {
   Map<String, dynamic> userInfoApi;
+  Map<String, dynamic> diskInfo;
   final String apiUrl;
   final String token;
 
   UserInfoPage({
     required this.userInfoApi,
+    required this.diskInfo,
     required this.apiUrl,
     required this.token,
     Key? key
@@ -176,6 +178,11 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
             ),
             Divider(thickness: 1, color: Colors.black),
             SizedBox(height: 10),
+            DiskSpaceBarWidget(
+              totalSpace: widget.diskInfo['total_space'],
+              filledSpace: widget.diskInfo['filled_space'],
+            ),
+            SizedBox(height: 10),
             Text(
               'Devices',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -204,5 +211,69 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
       ),
     ),
     );
+  }
+}
+
+
+class DiskSpaceBarWidget extends StatelessWidget {
+  final int totalSpace; // Total space (in bytes)
+  final int filledSpace; // Filled space (in bytes)
+
+  DiskSpaceBarWidget({required this.totalSpace, required this.filledSpace});
+
+  @override
+  Widget build(BuildContext context) {
+    double fillPercentage = filledSpace / totalSpace;
+    Color progressBarColor = _getProgressBarColor(fillPercentage);
+
+    return Card(
+      margin: EdgeInsets.only(bottom: 8),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LinearProgressIndicator(
+              value: fillPercentage,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(progressBarColor),
+              borderRadius: BorderRadius.circular(10),
+              minHeight: 10,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Total Space: ${_formatBytes(totalSpace)}',
+              style: TextStyle(fontSize: 16)
+            ),
+            Text(
+              'Filled: ${_formatBytes(filledSpace)}',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getProgressBarColor(double fillPercentage) {
+    if (fillPercentage < 0.5) {
+      return Colors.green;
+    } else if (fillPercentage < 0.75) {
+      return Colors.yellow;
+    } else {
+      return Colors.red;
+    }
+  }
+
+  String _formatBytes(int bytes) {
+    if (bytes <= 0) return '0 B';
+    const List<String> units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    int i = 0;
+    double val = bytes.toDouble();
+    while (val >= 1024 && i < units.length - 1) {
+      val /= 1024;
+      i++;
+    }
+    return '${val.toStringAsFixed(2)} ${units[i]}';
   }
 }
