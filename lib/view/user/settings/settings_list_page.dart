@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/user/settings/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
 
 class SettingsListPage extends StatefulWidget {
   Map<String, dynamic> userInfoApi;
+  List<dynamic> devicesInfoApi;
   final String apiUrl;
   final String token;
 
   SettingsListPage({
     required this.userInfoApi,
+    required this.devicesInfoApi,
     required this.apiUrl,
     required this.token,
     Key? key
@@ -26,8 +29,8 @@ class _SettingsListPageState extends State<SettingsListPage>{
     super.didChangeDependencies();
     setState(() {
       settings = [
-        {'name': AppLocalizations.of(context)!.language, 'icon': Icons.language},
-        // Add more settings as needed
+        {'name': AppLocalizations.of(context)!.language, 'icon': Icons.translate},
+        {'name': AppLocalizations.of(context)!.devices, 'icon': Icons.devices},
       ];
     });
   }
@@ -47,16 +50,23 @@ class _SettingsListPageState extends State<SettingsListPage>{
               settings[index]['name'],
             ),
             onTap: () {
-              // Открываем определенную страницу в зависимости от нажатой кнопки
+              // Open a specific page depending on the button pressed
               if (settings[index]['name'] == AppLocalizations.of(context)!.language) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LanguageSettingsPage(
-                    userInfoApi: widget.userInfoApi,
                     token: widget.token,
                     apiUrl: widget.apiUrl,
                   )),
                 );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.devices) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DevicesSettingsPage(
+                      token: widget.token,
+                      apiUrl: widget.apiUrl,
+                    )),
+                  );
               }
             },
           );

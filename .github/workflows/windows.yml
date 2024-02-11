@@ -39,6 +39,7 @@ jobs:
         run: |
             mkdir mindfulguard_windows_x64
             Copy-Item -Path "build\windows\x64\runner\Release\*" -Destination "mindfulguard_windows_x64\" -Recurse
+            Copy-Item -Path "LICENSE" -Destination "mindfulguard_windows_x64\"
             Compress-Archive -Path "mindfulguard_windows_x64/" -DestinationPath mindfulguard_windows_x64.zip -CompressionLevel Optimal
         working-directory: ${{ github.workspace }}
   

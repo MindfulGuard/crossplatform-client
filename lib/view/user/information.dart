@@ -97,60 +97,6 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
     print(api?.statusCode);
   }
 
-  void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {
-    _controller.value = 0.0;
-    List<String> partsDevice = tokenInfo['device'].split('/');
-    String deviceApplication = partsDevice[0];
-    String deviceSystem = partsDevice[1];
-
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Center(
-              child: SingleChildScrollView( // Wrap with SingleChildScrollView
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _animation,
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: 0.5 + (_animation.value * 0.7),
-                            child: Icon(_defineDeviceIconByName(tokenInfo['device']), size: 70, color: Colors.blue),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      Text(AppLocalizations.of(context)!.application(deviceApplication), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.system(deviceSystem), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(tokenInfo['created_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(tokenInfo['updated_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.expirationTime(formatUnixTimestamp(tokenInfo['expiration'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.ipAddress(tokenInfo['last_ip']), style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () async{
-                          await _deleteToken(tokenInfo['id']);
-                        },
-                        child: Text(AppLocalizations.of(context)!.terminateSession),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-    _controller.forward();
-  }
-
   @override
   Widget build(BuildContext context) {
     var information = widget.userInfoApi['information'] as Map<String, dynamic>;
@@ -183,30 +129,6 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
               totalSpace: widget.diskInfo['total_space'],
               filledSpace: widget.diskInfo['filled_space'],
             ),
-            SizedBox(height: 10),
-            Text(
-              AppLocalizations.of(context)!.devices,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            for (var token in tokens)
-              Card(
-                margin: EdgeInsets.only(bottom: 8),
-                child: ListTile(
-                  title: Text(AppLocalizations.of(context)!.device(token['device'])),
-                  onTap: () {
-                    _showTokenInformation(context, token);
-                  },
-                  subtitle: Column( // Using a Column to display multiple pieces of information vertically
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
-                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(token['updated_at']))),
-                      Text(AppLocalizations.of(context)!.ipAddress(token['last_ip'])),
-                    ],
-                  ),
-                ),
-              ),
           ],
         ),
       ),
@@ -216,6 +138,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => SettingsListPage(
+            devicesInfoApi: tokens,
             userInfoApi: information,
             apiUrl: widget.apiUrl,
             token: widget.token,
@@ -224,6 +147,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
         },
         child: Icon(Icons.settings),
         backgroundColor: Colors.blue,
+        foregroundColor: Colors.black,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

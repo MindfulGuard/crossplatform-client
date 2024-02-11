@@ -184,7 +184,7 @@
             }
         }
     },
-    "tags": "Тэги: {value}",
+    "tags": "Теги: {value}",
     "@tags" :{
         "placeholders": {
             "value": {
@@ -192,7 +192,7 @@
             }
         }
     },
-    "permissionDeniedUnableToSaveFile": "Отказано в разрешении. Невозможно сохранить файл.",
+    "permissionDeniedUnableToSaveFile": "Отказано в доступе. Невозможно сохранить файл.",
     "failedToDownloadFileStatusCode": "Не удалось загрузить файл. Код состояния: {value}",
     "@failedToDownloadFileStatusCode" :{
         "placeholders": {
@@ -212,13 +212,13 @@
     "add": "Добавить",
     "ok": "Ок",
     "cancel": "Отмена",
-    "addTag": "Добавить Тэг",
-    "tag": "Тэг",
-    "deleteTag": "Удалить Тэг",
+    "addTag": "Добавить Тег",
+    "tag": "Тег",
+    "deleteTag": "Удалить Тег",
     "deleteTagWarning": "Вы уверены, что хотите удалить этот тег?",
     "deleteSection": "Удалить Секцию",
     "deleteSectionWarning": "Вы уверены, что хотите удалить эту секцию?",
-    "editTag": "Редактирование Тэга",
+    "editTag": "Редактирование Тега",
     "editItemSection": "Редактирование Секции",
     "addSection": "Добавить Секцию",
     "editItemField": "Редактирование Поля",
@@ -278,7 +278,7 @@
         }
     },
     "copy": "Копировать",
-    "valueCopiedToClipboard": "Значение, скопированно в буфер обмена",
+    "valueCopiedToClipboard": "Значение скопировано в буфер обмена",
     "editItem": "Редактировать Запись",
     "settings": "Настройки",
     "languageChangeConfirmation": "Подтверждение изменения языка",

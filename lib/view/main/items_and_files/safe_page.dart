@@ -222,6 +222,7 @@ class _SafePageState extends State<SafePage> {
           _showAddSafeModal(context); // Call a function to show the modal when the plus button is pressed
         },
         child: Icon(Icons.add),
+        foregroundColor: Colors.black,
         backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

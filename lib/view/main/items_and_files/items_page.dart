@@ -192,6 +192,7 @@ Future<void> _deleteItem(String itemId) async {
           child: FloatingActionButton(
             onPressed: isButtonDisabled ? null : _navigateToItemsCreatePage,
             child: Icon(Icons.add),
+            foregroundColor: Colors.black,
             backgroundColor: isButtonDisabled ? Colors.grey : Colors.blue,
           ),
         ),

@@ -309,6 +309,7 @@ class _FilesPageState extends State<FilesPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _selectAndUploadFiles,
         child: Icon(Icons.add),
+        foregroundColor: Colors.black,
         backgroundColor: Colors.blue,
       ),
       // Upload progress bar

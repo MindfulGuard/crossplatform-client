@@ -8,12 +8,10 @@ import 'package:drift/drift.dart' as drift;
 import 'package:mindfulguard/restart_widget.dart';
 
 class LanguageSettingsPage extends StatefulWidget {
-  final Map<String, dynamic> userInfoApi;
   final String apiUrl;
   final String token;
 
   const LanguageSettingsPage({
-    required this.userInfoApi,
     required this.apiUrl,
     required this.token,
     Key? key,
