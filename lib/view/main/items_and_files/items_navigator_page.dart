@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/view/main/items_and_files/files_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/items_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemsNavigator extends StatefulWidget {
   final String apiUrl;
@@ -42,12 +43,12 @@ class _ItemsNavigatorPageState extends State<ItemsNavigator> with SingleTickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Safe: ${widget.selectedSafeName}'),
+        title: Text(AppLocalizations.of(context)!.safeWithValue(widget.selectedSafeName)),
         bottom: TabBar(
           controller: _tabController,
           tabs: [
-            Tab(text: 'Items'), // Replace with your section names
-            Tab(text: 'Files'), // Replace with your section names
+            Tab(text: AppLocalizations.of(context)!.items),
+            Tab(text: AppLocalizations.of(context)!.files),
             // Add more Tab widgets for additional sections
           ],
         ),

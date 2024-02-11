@@ -9,6 +9,7 @@ import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/safe_page.dart';
 import 'package:mindfulguard/view/user/information.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -153,11 +154,11 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.source),
-            label: "Data",
+            label: AppLocalizations.of(context)!.data,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
-            label: "Profile",
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
       ),

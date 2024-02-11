@@ -5,6 +5,7 @@ import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/net/api/items/item/create.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemsCreatePage extends StatefulWidget {
   final String apiUrl;
@@ -76,7 +77,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Item'),
+        title: Text(AppLocalizations.of(context)!.createItem),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,7 +87,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             children: [
               TextFormField(
                 controller: titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.title),
               ),
               SizedBox(height: 16),
               Container(
@@ -107,7 +108,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                       },
                     ).toList(),
                   decoration: InputDecoration(
-                    labelText: 'Category',
+                    labelText: AppLocalizations.of(context)!.category,
                   ),
                 ),
               ),
@@ -115,7 +116,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
               TextFormField(
                 controller: notesController,
                 maxLines: 3,
-                decoration: InputDecoration(labelText: 'Notes'),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.notes),
               ),
               SizedBox(height: 16),
               Wrap(
@@ -133,7 +134,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _showAddTagDialog,
-                    child: Text('Add Tag'),
+                    child: Text(AppLocalizations.of(context)!.addTag),
                   ),
                 ],
               ),
@@ -142,7 +143,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _showAddSectionDialog,
-                child: Text('Add Section'),
+                child: Text(AppLocalizations.of(context)!.addSection),
               ),
               SizedBox(height: 16),
               ElevatedButton(
@@ -151,14 +152,14 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                     // Display a message indicating that both type and category are required
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Please select category.'),
+                        content: Text(AppLocalizations.of(context)!.categorySelectWarning),
                       ),
                     );
                   } else {
                     saveFormData();
                   }
                 },
-                child: Text('Save'),
+                child: Text(AppLocalizations.of(context)!.save),
               ),
             ],
           ),
@@ -209,7 +210,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                     onPressed: () {
                       _showAddFieldDialog(index);
                     },
-                    child: Text('Add Field'),
+                    child: Text(AppLocalizations.of(context)!.addField),
                   ),
                 ],
               ),
@@ -227,8 +228,8 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Cannot Delete'),
-            content: Text('The "INIT" section cannot be deleted.'),
+            title: Text(AppLocalizations.of(context)!.cannotDeleteItemSection),
+            content: Text(AppLocalizations.of(context)!.sectionCannotBeDeleted("INIT")),
             actions: [
               TextButton(
                 onPressed: () {
@@ -246,8 +247,8 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Delete Section'),
-            content: Text('Are you sure you want to delete this section?'),
+            title: Text(AppLocalizations.of(context)!.deleteSection),
+            content: Text(AppLocalizations.of(context)!.deleteSectionWarning),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -256,13 +257,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text('Delete'),
+                child: Text(AppLocalizations.of(context)!.delete),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
             ],
           );
@@ -328,10 +329,10 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add Section'),
+          title: Text(AppLocalizations.of(context)!.addSection),
           content: TextField(
             controller: sectionController,
-            decoration: InputDecoration(labelText: 'Section Name'),
+            decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
           ),
           actions: [
             ElevatedButton(
@@ -344,13 +345,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Add'),
+              child: Text(AppLocalizations.of(context)!.add),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -369,18 +370,18 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add Field'),
+          title: Text(AppLocalizations.of(context)!.addField),
           content: SizedBox(
             height: dialogHeight,
             child: Column(
               children: [
                 TextField(
                   controller: labelController,
-                  decoration: InputDecoration(labelText: 'Field Label'),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.fieldLabel),
                 ),
                 TextField(
                   controller: valueController,
-                  decoration: InputDecoration(labelText: 'Field Value'),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.fieldValue),
                 ),
                 SizedBox(height: 16),
                 Container(
@@ -401,7 +402,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                         },
                       ).toList(),
                     decoration: InputDecoration(
-                      labelText: 'Field Type',
+                      labelText: AppLocalizations.of(context)!.fieldType,
                     ),
                   ),
                 ),
@@ -424,18 +425,18 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   // Display a message indicating that type is required
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Please select a type for the field.'),
+                      content: Text(AppLocalizations.of(context)!.typeSelectWarning),
                     ),
                   );
                 }
               },
-              child: Text('Add'),
+              child: Text(AppLocalizations.of(context)!.add),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -451,14 +452,14 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Cannot Edit'),
-            content: Text('The "INIT" section cannot be edited.'),
+            title: Text(AppLocalizations.of(context)!.cannotEditItemSection),
+            content: Text(AppLocalizations.of(context)!.sectionCannotBeEdited("INIT")),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
             ],
           );
@@ -469,10 +470,10 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Edit Section'),
+            title: Text(AppLocalizations.of(context)!.editItemSection),
             content: TextField(
               controller: sectionController,
-              decoration: InputDecoration(labelText: 'Section Name'),
+              decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
             ),
             actions: [
               ElevatedButton(
@@ -483,13 +484,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text('Save'),
+                child: Text(AppLocalizations.of(context)!.save),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
             ],
           );
@@ -512,18 +513,18 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Field'),
+          title: Text(AppLocalizations.of(context)!.editItemField),
           content: SizedBox(
             height: dialogHeight,
             child: Column(
               children: [
                 TextField(
                   controller: labelController,
-                  decoration: InputDecoration(labelText: 'Field Label'),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.fieldLabel),
                 ),
                 TextField(
                   controller: valueController,
-                  decoration: InputDecoration(labelText: 'Field Value'),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.fieldValue),
                 ),
                 SizedBox(height: 16),
                 Container(
@@ -544,7 +545,7 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                         },
                       ).toList(),
                     decoration: InputDecoration(
-                      labelText: 'Field Type',
+                      labelText: AppLocalizations.of(context)!.fieldType,
                     ),
                   ),
                 ),
@@ -563,13 +564,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Save'),
+              child: Text(AppLocalizations.of(context)!.save),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -582,10 +583,10 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add Tag'),
+          title: Text(AppLocalizations.of(context)!.addTag),
           content: TextField(
             controller: tagController,
-            decoration: InputDecoration(labelText: 'Tag'),
+            decoration: InputDecoration(labelText: AppLocalizations.of(context)!.tag),
           ),
           actions: [
             ElevatedButton(
@@ -596,13 +597,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Add'),
+              child: Text(AppLocalizations.of(context)!.add),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -741,10 +742,10 @@ class TagChip extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Tag'),
+          title: Text(AppLocalizations.of(context)!.editTag),
           content: TextField(
             controller: editedTagController,
-            decoration: InputDecoration(labelText: 'Tag'),
+            decoration: InputDecoration(labelText: AppLocalizations.of(context)!.tag),
             maxLength: 20,
           ),
           actions: [
@@ -753,13 +754,13 @@ class TagChip extends StatelessWidget {
                 onEdit(editedTagController.text);
                 Navigator.pop(context);
               },
-              child: Text('Save'),
+              child: Text(AppLocalizations.of(context)!.save),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -772,21 +773,21 @@ class TagChip extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Tag'),
-          content: Text('Are you sure you want to delete this tag?'),
+          title: Text(AppLocalizations.of(context)!.deleteTag),
+          content: Text(AppLocalizations.of(context)!.deleteTagWarning),
           actions: [
             ElevatedButton(
               onPressed: () {
                 onDelete();
                 Navigator.pop(context);
               },
-              child: Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );

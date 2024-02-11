@@ -9,6 +9,7 @@ import 'package:mindfulguard/view/components/buttons.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:mindfulguard/view/main/main_page.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -30,14 +31,9 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Sign in';
-
     return MaterialApp(
-      title: appTitle,
+      title: AppLocalizations.of(context)!.signIn,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -70,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(height: 10),
                 ListTile(
                   title: Text(
-                    "Token expiration (max 90 days)",
+                    AppLocalizations.of(context)!.tokenExpirationDays(90),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
@@ -112,11 +108,12 @@ class _SignInPageState extends State<SignInPage> {
                     final signInApi = await _signInApi();
                     if (signInApi == null || signInApi?.statusCode != 200) {
                       setState(() {
-                        errorMessage = json.decode(signInApi!.body)['msg']['en'];
+                        errorMessage = json.decode(utf8.decode(signInApi!.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
+
                       });
                     } else {
                       setState(() {
-                        errorMessage = json.decode(signInApi.body)['msg']['en'];
+                        errorMessage = json.decode(utf8.decode(signInApi.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
                       });
                       Navigator.pushReplacement(
                         context,
@@ -124,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
                       );
                     }
                   },
-                  child: const Text('Next'),
+                  child: Text(AppLocalizations.of(context)!.next),
                 ),
                 // Add a container to display the error message
                 Container(
@@ -199,7 +196,6 @@ class _SignInPageState extends State<SignInPage> {
     }
 
     String token = json.decode(signInApi.body)['token'];
-    print(signInApi.request);
 
     final modelUser = ModelUserCompanion(
       login: drift.Value(login.text),

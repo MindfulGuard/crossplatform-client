@@ -1,0 +1,287 @@
+{
+    "languageCode": "en",
+    "originalLanguageName": "English",
+    "englishLanguageName": "English",
+    "language": "Language",
+    "signIn": "Sign in",
+    "next": "Next",
+    "tokenExpirationDays": "Token expiration (max {days} days)",
+    "@tokenExpirationDays": {
+        "description": "Message to display the maximum number of days the token expires.",
+        "placeholders": {
+            "days": {
+                "type": "int",
+                "example": "90"
+            }
+        }
+    },
+    "data": "Data",
+    "profile": "Profile",
+    "name": "Name",
+    "nameWithValue": "Name: {value}",
+    "@nameWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "description": "Description",
+    "descriptionWithValue": "Description: {value}",
+    "@descriptionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "createSafe": "Create Safe",
+    "delete": "Delete",
+    "edit": "Edit",
+    "safe": "Safe",
+    "safeWithValue": "Safe: {value}",
+    "@safeWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "files": "Files",
+    "items": "Items",
+    "item": "Item",
+    "userInformation": "User Information",
+    "apiServer": "Api Server{value}",
+    "@apiServer" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "username": "Username: {value}",
+    "@username" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "createdAt": "Created At: {value}",
+    "@createdAt" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "updatedAt": "Updated At: {value}",
+    "@updatedAt" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "ipAddress": "Ip Address: {value}",
+    "@ipAddress" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "device": "Device: {value}",
+    "@device" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "devices": "Devices",
+    "application": "Application: {value}",
+    "@application" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "system": "System: {value}",
+    "@system" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "expirationTime": "Expiration Time: {value}",
+    "@expirationTime" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "terminateSession": "Terminate Session",
+    "totalDiskSpace": "Total Space: {value}",
+    "@totalDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "filledDiskSpace": "Filled: {value}",
+    "@filledDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "availableDiskSpace": "Available: {value}",
+    "@availableDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "itemCount": "Item Count: {value}",
+    "@itemCount" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "fileCount": "File count: {value}",
+    "@fileCount" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "save": "Save",
+    "download": "Download",
+    "open": "Open",
+    "fileName": "File Name: {value}",
+    "@fileName" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "size": "Size: {value}",
+    "@size" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "tags": "Tags: {value}",
+    "@tags" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "permissionDeniedUnableToSaveFile": "Permission denied. Unable to save the file.",
+    "failedToDownloadFileStatusCode": "Failed to download file. Status code: {value}",
+    "@failedToDownloadFileStatusCode" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "failedToDownloadFileNoDataReceived": "Failed to download file. No data received.",
+    "fileDownloadedSuccessfully": "File downloaded successfully",
+    "fileDoesNotExist": "File does not exist",
+    "createItem": "Create Item",
+    "title": "Title",
+    "category": "Category",
+    "categorySelectWarning": "Please select category.",
+    "notes": "Notes",
+    "add": "Add",
+    "ok": "Ok",
+    "cancel": "Cancel",
+    "addTag": "Add Tag",
+    "tag": "Tag",
+    "deleteTag": "Delete Tag",
+    "deleteTagWarning": "Are you sure you want to delete this tag?",
+    "deleteSection": "Delete Section",
+    "deleteSectionWarning": "Are you sure you want to delete this section?",
+    "editTag": "Edit Tag",
+    "editItemSection": "Edit Section",
+    "addSection": "Add Section",
+    "editItemField": "Edit Field",
+    "cannotEditItemSection": "Cannot Edit",
+    "cannotDeleteItemSection": "Cannot Delete",
+    "sectionCannotBeDeleted": "The '{value}' section cannot be deleted.",
+    "@sectionCannotBeDeleted" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCannotBeEdited": "The '{value}' section cannot be edited.",
+    "@sectionCannotBeEdited" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "addField": "Add Field",
+    "fieldLabel": "Label",
+    "fieldValue": "Value",
+    "fieldType": "Type",
+    "typeSelectWarning": "Please select a type for the field.",
+    "fieldValueWithValue": "Value: {value}",
+    "@fieldValueWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldValueTypeLinkWithValue": "Value: {value} (Click to open)",
+    "@fieldValueTypeLinkWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldLabelWithValue": "Label: {value}",
+    "@fieldLabelWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldTypeWithValue": "Type: {value}",
+    "@fieldTypeWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "copy": "Copy",
+    "valueCopiedToClipboard": "Value copied to clipboard",
+    "editItem": "Edit Item",
+    "settings": "Settings",
+    "languageChangeConfirmation": "Language Change Confirmation",
+    "languageChangeRequest": "Changing the language requires reloading the application.",
+    "failedToChangeLanguage": "Failed to change language."
+}

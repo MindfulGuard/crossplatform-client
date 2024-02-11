@@ -1,0 +1,287 @@
+{
+    "languageCode": "ru",
+    "originalLanguageName": "Русский",
+    "englishLanguageName": "Russian",
+    "language": "Язык",
+    "signIn": "Вход",
+    "next": "Далее",
+    "tokenExpirationDays": "Срок действия токена (максимум {days} дней)",
+    "@tokenExpirationDays": {
+      "description": "Сообщение для отображения максимального количества дней действия токена",
+      "placeholders": {
+        "days": {
+          "type": "int",
+          "example": "90"
+        }
+      }
+    },
+    "data": "Данные",
+    "profile": "Профиль",
+    "name": "Название",
+    "nameWithValue": "Название: {value}",
+    "@nameWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "description": "Описание",
+    "descriptionWithValue": "Описание: {value}",
+    "@descriptionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "createSafe": "Создать Сейф",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "safe": "Сейф",
+    "safeWithValue": "Сейф: {value}",
+    "@safeWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "files": "Файлы",
+    "items": "Записи",
+    "item": "Запись",
+    "userInformation": "Информация о пользователе",
+    "apiServer": "Api Сервер{value}",
+    "@apiServer" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "username": "Имя пользователя: {value}",
+    "@username" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "createdAt": "Создан в: {value}",
+    "@createdAt" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "updatedAt": "Обновлен в: {value}",
+    "@updatedAt" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "ipAddress": "Ip Адрес: {value}",
+    "@ipAddress" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "device": "Устройство: {value}",
+    "@device" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "devices": "Устройства",
+    "application": "Приложение: {value}",
+    "@application" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "system": "Система: {value}",
+    "@system" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "expirationTime": "Срок действия: {value}",
+    "@expirationTime" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "terminateSession": "Завершить Сеанс",
+    "totalDiskSpace": "Емкость: {value}",
+    "@totalDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "filledDiskSpace": "Занято: {value}",
+    "@filledDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "availableDiskSpace": "Доступно: {value}",
+    "@availableDiskSpace" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "itemCount": "Кол-во Записей: {value}",
+    "@itemCount" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "fileCount": "Кол-во Файлов: {value}",
+    "@fileCount" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "save": "Сохранить",
+    "download": "Скачать",
+    "open": "Открыть",
+    "fileName": "Имя Файла: {value}",
+    "@fileName" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "size": "Размер: {value}",
+    "@size" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "tags": "Тэги: {value}",
+    "@tags" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "permissionDeniedUnableToSaveFile": "Отказано в разрешении. Невозможно сохранить файл.",
+    "failedToDownloadFileStatusCode": "Не удалось загрузить файл. Код состояния: {value}",
+    "@failedToDownloadFileStatusCode" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "failedToDownloadFileNoDataReceived": "Не удалось загрузить файл. Данные не получены.",
+    "fileDownloadedSuccessfully": "Файл успешно загружен",
+    "fileDoesNotExist": "Файл не существует",
+    "createItem": "Создать Запись",
+    "title": "Заголовок",
+    "category": "Категория",
+    "categorySelectWarning": "Пожалуйста, выберите категорию.",
+    "notes": "Примечания",
+    "add": "Добавить",
+    "ok": "Ок",
+    "cancel": "Отмена",
+    "addTag": "Добавить Тэг",
+    "tag": "Тэг",
+    "deleteTag": "Удалить Тэг",
+    "deleteTagWarning": "Вы уверены, что хотите удалить этот тег?",
+    "deleteSection": "Удалить Секцию",
+    "deleteSectionWarning": "Вы уверены, что хотите удалить эту секцию?",
+    "editTag": "Редактирование Тэга",
+    "editItemSection": "Редактирование Секции",
+    "addSection": "Добавить Секцию",
+    "editItemField": "Редактирование Поля",
+    "cannotEditItemSection": "Невозможно редактировать",
+    "cannotDeleteItemSection": "Невозможно удалить",
+    "sectionCannotBeDeleted": "Секция '{value}' не может быть удалена.",
+    "@sectionCannotBeDeleted" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCannotBeEdited": "Секция '{value}' не может быть отредактирована.",
+    "@sectionCannotBeEdited" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "addField": "Добавить Поле",
+    "fieldLabel": "Надпись",
+    "fieldValue": "Значение",
+    "fieldType": "Тип",
+    "typeSelectWarning": "Пожалуйста, выберите тип поля.",
+    "fieldValueWithValue": "Значение: {value}",
+    "@fieldValueWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldValueTypeLinkWithValue": "Значение: {value} (Нажмите, чтобы открыть)",
+    "@fieldValueTypeLinkWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldLabelWithValue": "Надпись: {value}",
+    "@fieldLabelWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fieldTypeWithValue": "Тип: {value}",
+    "@fieldTypeWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "copy": "Копировать",
+    "valueCopiedToClipboard": "Значение, скопированно в буфер обмена",
+    "editItem": "Редактировать Запись",
+    "settings": "Настройки",
+    "languageChangeConfirmation": "Подтверждение изменения языка",
+    "languageChangeRequest": "Для смены языка требуется перезагрузка приложения.",
+    "failedToChangeLanguage": "Не удалось изменить язык."
+}

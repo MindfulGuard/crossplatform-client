@@ -28,7 +28,7 @@ abstract class BaseApi<T> {
     } else if (Platform.isIOS) {
       deviceName.write('iOS');
     } else if (Platform.isMacOS) {
-      deviceName.write('macOS');
+      deviceName.write('MacOS');
     } else if (Platform.isWindows) {
       deviceName.write('Windows');
     } else if (Platform.isLinux) {

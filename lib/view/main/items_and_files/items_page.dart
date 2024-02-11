@@ -8,6 +8,7 @@ import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemsPage extends StatefulWidget {
   final String apiUrl;
@@ -154,7 +155,7 @@ Future<void> _deleteItem(String itemId) async {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(selectedSafeItems[index]['items'][i]['category']),
-                          Text('Tags: ${selectedSafeItems[index]['items'][i]['tags'].join(', ')}'),
+                          Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', '))),
                           // Add more details as per your requirement
                         ],
                       ),
@@ -165,21 +166,16 @@ Future<void> _deleteItem(String itemId) async {
                         icon: Icon(Icons.more_vert),
                         itemBuilder: (BuildContext context) => [
                           PopupMenuItem(
-                            child: GestureDetector(
-                              onTap: () {
-                                _navigateToItemsUpdatePage(index, i);
-                              },
-                              child: Text('Edit'),
-                            ),
+                            onTap: () {
+                              _navigateToItemsUpdatePage(index, i);
+                            },
+                            child: Text(AppLocalizations.of(context)!.edit),
                           ),
                           PopupMenuItem(
-                            child: GestureDetector(
-                              onTap: () {
-                                // Handle the menu item click
-                                _deleteItem(selectedSafeItems[index]['items'][i]['id']);
-                              },
-                              child: Text('Delete'),
-                            ),
+                            onTap: () {
+                              _deleteItem(selectedSafeItems[index]['items'][i]['id']);
+                            },
+                            child: Text(AppLocalizations.of(context)!.delete),
                           ),
                         ],
                       ),

@@ -9,6 +9,7 @@ import 'package:mindfulguard/net/api/items/safe/delete.dart';
 import 'package:mindfulguard/net/api/items/safe/update.dart';
 import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/main/items_and_files/items_navigator_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SafePage extends StatefulWidget {
   final String apiUrl;
@@ -81,7 +82,7 @@ class _SafePageState extends State<SafePage> {
       await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
     ).execute();
     if (api?.statusCode != 200){
-      errorMessage = jsonDecode(api!.body)['msg']['en'];
+      errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
         await _getItems();
         Navigator.pop(ctx); // Close the modal
@@ -97,7 +98,7 @@ class _SafePageState extends State<SafePage> {
       await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
     ).execute();
     if (api?.statusCode != 200){
-      errorMessage = jsonDecode(api!.body)['msg']['en'];
+      errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
         await _getItems();
         Navigator.pop(ctx); // Close the modal
@@ -164,8 +165,8 @@ class _SafePageState extends State<SafePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
-                      title: Text('Name: ${safe["name"]}'),
-                      subtitle: Text('Description: ${safe["description"]}'),
+                      title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
+                      subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"])),
                       trailing: PopupMenuButton<String>(
                         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                           PopupMenuItem<String>(
@@ -178,32 +179,32 @@ class _SafePageState extends State<SafePage> {
                               );
                             },
                             value: 'safeEdit',
-                            child: Text('Edit'),
+                            child: Text(AppLocalizations.of(context)!.edit),
                           ),
                           PopupMenuItem<String>(
                             onTap: () async {
                               await _deleteSafe(safe["id"]);
                             },
                             value: 'safeDelete',
-                            child: Text('Delete'),
+                            child: Text(AppLocalizations.of(context)!.delete),
                           ),
                         ],
                       ),
                     ),
                     ListTile(
-                      title: Text('Updated At: ${formatUnixTimestamp(safe["updated_at"] as int)}'),
-                      subtitle: Text('Created At: ${formatUnixTimestamp(safe["created_at"] as int)}'),
+                      title: Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(safe["updated_at"] as int))),
+                      subtitle: Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(safe["created_at"] as int))),
                     ),
                     Row(
                       children: [
                         Expanded(
                           child: ListTile(
-                            title: Text('Item Count: ${safe["count_items"]}'),
+                            title: Text(AppLocalizations.of(context)!.itemCount(safe["count_items"])),
                           ),
                         ),
                         Expanded(
                           child: ListTile(
-                            title: Text('File Count: $fileCount'), // Отображение количества файлов
+                            title: Text(AppLocalizations.of(context)!.fileCount(fileCount)), // Display the number of files
                           ),
                         ),
                       ],
@@ -248,19 +249,19 @@ class _SafePageState extends State<SafePage> {
                 children: <Widget>[
                   TextField(
                     controller: _nameController,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
                   ),
                   SizedBox(height: 12.0),
                   TextField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context)!.description),
                   ),
                   SizedBox(height: 24.0),
                   ElevatedButton(
                     onPressed: () async {
                       await _createSafe(context, _nameController.text, _descriptionController.text);
                     },
-                    child: Text('Create Safe'),
+                    child: Text(AppLocalizations.of(context)!.createSafe),
                   ),
                   Text(
                     errorMessage, // Replace with your desired message
@@ -300,12 +301,12 @@ class _SafePageState extends State<SafePage> {
                 children: <Widget>[
                   TextField(
                     controller: name,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
                   ),
                   SizedBox(height: 12.0),
                   TextField(
                     controller: description,
-                    decoration: InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context)!.description),
                   ),
                   SizedBox(height: 24.0),
                   ElevatedButton(
@@ -318,7 +319,7 @@ class _SafePageState extends State<SafePage> {
                         description.text,
                       );
                     },
-                    child: Text('Save'),
+                    child: Text(AppLocalizations.of(context)!.save),
                   ),
                   Text(
                     errorMessage, // Replace with your desired message

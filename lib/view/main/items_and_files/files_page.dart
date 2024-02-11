@@ -1,7 +1,6 @@
 // Importing necessary Dart packages and dependencies
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,11 +8,13 @@ import 'package:mindfulguard/net/api/items/files/delete.dart';
 import 'package:mindfulguard/net/api/items/files/download.dart';
 import 'package:mindfulguard/net/api/items/files/upload.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
+import 'package:mindfulguard/utils/disk.dart';
 import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Defining a StatefulWidget for the FilesPage
 class FilesPage extends StatefulWidget {
@@ -108,7 +109,7 @@ class _FilesPageState extends State<FilesPage> {
       if (!permissionStatus.isGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Permission denied. Unable to save the file.'),
+            content: Text(AppLocalizations.of(context)!.permissionDeniedUnableToSaveFile),
           ),
         );
         return;
@@ -124,7 +125,7 @@ class _FilesPageState extends State<FilesPage> {
     if (api?.statusCode != 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to download file. Status code: ${api?.statusCode}'),
+          content: Text(AppLocalizations.of(context)!.failedToDownloadFileStatusCode(api?.statusCode??0)),
         ),
       );
       return;
@@ -135,7 +136,7 @@ class _FilesPageState extends State<FilesPage> {
     if (fileBytes == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to download file. No data received.'),
+          content: Text(AppLocalizations.of(context)!.failedToDownloadFileNoDataReceived),
         ),
       );
       return;
@@ -147,7 +148,7 @@ class _FilesPageState extends State<FilesPage> {
       await File(filePath).writeAsBytes(fileBytes);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('File downloaded successfully'),
+          content: Text(AppLocalizations.of(context)!.fileDownloadedSuccessfully),
         ),
       );
       setState(() {
@@ -172,7 +173,7 @@ class _FilesPageState extends State<FilesPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('File does not exist'),
+          content: Text(AppLocalizations.of(context)!.fileDoesNotExist),
         ),
       );
     }
@@ -258,9 +259,9 @@ class _FilesPageState extends State<FilesPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('File Name: ${file['name']}'),
-                          Text('Size: ${(file['size'] / pow(1024, 2)).toStringAsFixed(2)} MB'),
-                          Text('Updated At: ${formatUnixTimestamp(file['updated_at'])}'),
+                          Text(AppLocalizations.of(context)!.fileName(file['name'])),
+                          Text(AppLocalizations.of(context)!.size('${formatBytes(file['size'])}')),
+                          Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(file['updated_at']))),
                           SizedBox(height: 16.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -269,7 +270,7 @@ class _FilesPageState extends State<FilesPage> {
                                 onPressed: () async {
                                   await _downloadFile(file['content_path'], file['name'], context);
                                 },
-                                child: Text('Download'),
+                                child: Text(AppLocalizations.of(context)!.download),
                               ),
                               FutureBuilder<bool>(
                                 future: _checkFile(file['name']), // Check if the file exists in the directory
@@ -283,7 +284,7 @@ class _FilesPageState extends State<FilesPage> {
                                             onPressed: () async{
                                               await _openFile(file['name'], context);
                                             },
-                                            child: Text('Open'),
+                                            child: Text(AppLocalizations.of(context)!.open),
                                           )
                                         : SizedBox(); // Return empty SizedBox if file doesn't exist
                                   }
@@ -294,7 +295,7 @@ class _FilesPageState extends State<FilesPage> {
                                   await _deleteFile(file['id']);
                                   await _getItems();
                                 },
-                                child: Text('Delete'),
+                                child: Text(AppLocalizations.of(context)!.delete),
                               ),
                             ],
                           ),

@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
+import 'package:mindfulguard/utils/disk.dart';
 import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/user/settings/settings_list_page.dart';
 
 class UserInfoPage extends StatefulWidget {
   Map<String, dynamic> userInfoApi;
@@ -122,21 +125,19 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
                           );
                         },
                       ),
-                      SizedBox(height: 20),
-                      Text('Token Information', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                       SizedBox(height: 10),
-                      Text('Application: ${deviceApplication}', style: TextStyle(fontSize: 20)),
-                      Text('System: ${deviceSystem}', style: TextStyle(fontSize: 20)),
-                      Text('Created At: ${formatUnixTimestamp(tokenInfo['created_at'])}', style: TextStyle(fontSize: 20)),
-                      Text('Updated At: ${formatUnixTimestamp(tokenInfo['updated_at'])}', style: TextStyle(fontSize: 20)),
-                      Text('Expiration Time: ${formatUnixTimestamp(tokenInfo['expiration'])}', style: TextStyle(fontSize: 20)),
-                      Text('Ip Address: ${tokenInfo['last_ip']}', style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.application(deviceApplication), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.system(deviceSystem), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(tokenInfo['created_at'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(tokenInfo['updated_at'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.expirationTime(formatUnixTimestamp(tokenInfo['expiration'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.ipAddress(tokenInfo['last_ip']), style: TextStyle(fontSize: 20)),
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async{
                           await _deleteToken(tokenInfo['id']);
                         },
-                        child: Text('Terminate Session'),
+                        child: Text(AppLocalizations.of(context)!.terminateSession),
                       ),
                     ],
                   ),
@@ -163,17 +164,17 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'User Information',
+              AppLocalizations.of(context)!.userInformation,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // Increased font size to 24
             ),
             SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Api Server: ${widget.apiUrl}', style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text('Username: ${information['username']}', style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text('Created At: ${formatUnixTimestamp(information['created_at'])}', style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text('IP Address: ${information['ip']}', style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.apiServer(': ${widget.apiUrl}'), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.username(information['username']), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(information['created_at'])), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.ipAddress(information['ip']), style: TextStyle(fontSize: 16)), // Set font size to 16
               ],
             ),
             Divider(thickness: 1, color: Colors.black),
@@ -184,7 +185,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
             ),
             SizedBox(height: 10),
             Text(
-              'Devices',
+              AppLocalizations.of(context)!.devices,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
@@ -192,16 +193,16 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
               Card(
                 margin: EdgeInsets.only(bottom: 8),
                 child: ListTile(
-                  title: Text('Device: ${token['device']}'),
+                  title: Text(AppLocalizations.of(context)!.device(token['device'])),
                   onTap: () {
                     _showTokenInformation(context, token);
                   },
                   subtitle: Column( // Using a Column to display multiple pieces of information vertically
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Created At: ${formatUnixTimestamp(token['created_at'])}'), // Formatted created at date and time
-                      Text('Updated At: ${formatUnixTimestamp(token['updated_at'])}'),
-                      Text('IP Address: ${token['last_ip']}'),
+                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
+                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(token['updated_at']))),
+                      Text(AppLocalizations.of(context)!.ipAddress(token['last_ip'])),
                     ],
                   ),
                 ),
@@ -210,6 +211,21 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
         ),
       ),
     ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingsListPage(
+            userInfoApi: information,
+            apiUrl: widget.apiUrl,
+            token: widget.token,
+          )),
+        );
+        },
+        child: Icon(Icons.settings),
+        backgroundColor: Colors.blue,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -242,11 +258,15 @@ class DiskSpaceBarWidget extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Total Space: ${_formatBytes(totalSpace)}',
+              AppLocalizations.of(context)!.totalDiskSpace(formatBytes(totalSpace)),
               style: TextStyle(fontSize: 16)
             ),
             Text(
-              'Filled: ${_formatBytes(filledSpace)}',
+              AppLocalizations.of(context)!.availableDiskSpace(formatBytes(totalSpace-filledSpace)),
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              AppLocalizations.of(context)!.filledDiskSpace(formatBytes(filledSpace)),
               style: TextStyle(fontSize: 16),
             ),
           ],
@@ -263,17 +283,5 @@ class DiskSpaceBarWidget extends StatelessWidget {
     } else {
       return Colors.red;
     }
-  }
-
-  String _formatBytes(int bytes) {
-    if (bytes <= 0) return '0 B';
-    const List<String> units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    int i = 0;
-    double val = bytes.toDouble();
-    while (val >= 1024 && i < units.length - 1) {
-      val /= 1024;
-      i++;
-    }
-    return '${val.toStringAsFixed(2)} ${units[i]}';
   }
 }

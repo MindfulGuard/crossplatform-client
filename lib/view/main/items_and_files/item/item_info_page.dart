@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added to use Clipboard
 import 'package:url_launcher/url_launcher.dart'; // Added to open links
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemsInfoPage extends StatefulWidget {
   final String apiUrl;
@@ -156,7 +157,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Label: ${field['label']}',
+                        AppLocalizations.of(context)!.fieldLabelWithValue(field['label']),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -166,7 +167,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                       SizedBox(height: 4.0),
                       if (field['type'] != 'PASSWORD' && field['type'] != 'URL')
                         Text(
-                          'Value: ${field['value']}',
+                          AppLocalizations.of(context)!.fieldValueWithValue(field['value']),
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Colors.grey[800],
@@ -177,7 +178,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Value: ${_isPasswordVisible ? field['value'] : '********'}',
+                              AppLocalizations.of(context)!.fieldValueWithValue('${_isPasswordVisible ? field['value'] : '********'}'),
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.grey[800],
@@ -205,7 +206,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                             _launchURL(field['value']);
                           },
                           child: Text(
-                            'Value: ${field['value']} (Click to open)',
+                            AppLocalizations.of(context)!.fieldValueTypeLinkWithValue(field['value']),
                             style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.blue,
@@ -214,7 +215,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                         ),
                       SizedBox(height: 4.0),
                       Text(
-                        'Type: ${field['type']}',
+                         AppLocalizations.of(context)!.fieldTypeWithValue(field['type']),
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.grey[800],
@@ -226,12 +227,12 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                           Clipboard.setData(ClipboardData(text: field['value']));
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Value copied to clipboard'),
+                              content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),
                             ),
                           );
                         },
                         icon: Icon(Icons.copy),
-                        label: Text('Copy'),
+                        label: Text(AppLocalizations.of(context)!.copy),
                       ),
                     ],
                   ),
