@@ -22,7 +22,7 @@ class FileDeleteApi extends BaseApi<http.Response> {
       
       Map<String, String> body = <String, String>{};
       body['files'] = fileId;
-      var response = await http.delete(
+      var response = await httpClient.delete(
         Uri.parse("$apiUrl/v1/safe/$safeId/content"),
         headers: headers,
         body: body

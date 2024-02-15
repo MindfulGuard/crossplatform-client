@@ -16,7 +16,7 @@ class ItemsApi extends BaseApi<http.Response> {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await http.get(
+      var response = await httpClient.get(
         Uri.parse("$apiUrl/v1/safe/all/item"),
         headers: headers,
       );

@@ -12,7 +12,7 @@ class ConfigurationApi extends BaseApi<http.Response> {
   Future<http.Response?> execute() async {
     try {
       await init();
-      var response = await http.get(
+      var response = await httpClient.get(
         Uri.parse("$apiUrl/v1/public/configuration"),
       );
       return response;

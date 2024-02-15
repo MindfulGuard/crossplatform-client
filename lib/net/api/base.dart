@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:http/io_client.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ContentType {
@@ -12,8 +13,12 @@ abstract class BaseApi<T> {
   late StringBuffer deviceName = StringBuffer();
   late Map<String, String> headers = {};
   late String contentType;
+  late IOClient httpClient;
 
-  BaseApi(this.contentType);
+  BaseApi(this.contentType){
+      HttpClient client = HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+      httpClient = IOClient(client);
+  }
 
   /// Initializes the API settings including device information and headers.
   /// Retrieves the application information (version, platform) and sets the device name accordingly.

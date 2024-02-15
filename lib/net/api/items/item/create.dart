@@ -21,7 +21,7 @@ class ItemCreateApi extends BaseApi<http.Response> {
       await init();
       this.setAuthTokenHeader(token);
       
-      var response = await http.post(
+      var response = await httpClient.post(
         Uri.parse("$apiUrl/v1/safe/$safeId/item"),
         headers: headers,
         body: jsonEncode(body),

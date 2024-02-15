@@ -16,7 +16,7 @@ class SafeDeleteApi extends BaseApi<http.Response> {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await http.delete(Uri.parse("$apiUrl/v1/safe/$safeId"), headers: headers);
+      var response = await httpClient.delete(Uri.parse("$apiUrl/v1/safe/$safeId"), headers: headers);
       return response;
     } catch (e) {
       print(e);

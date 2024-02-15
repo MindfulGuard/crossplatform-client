@@ -20,7 +20,7 @@ class UserInfoApi extends BaseApi<http.Response> {
       setAuthTokenHeader(token);
 
       print("$apiUrl/v1/user");
-      var response = await http.get(
+      var response = await httpClient.get(
         Uri.parse("$apiUrl/v1/user"),
         headers: headers,
       ).timeout(const Duration(seconds: 20), onTimeout: () {

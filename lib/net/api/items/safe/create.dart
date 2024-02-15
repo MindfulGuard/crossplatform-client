@@ -33,7 +33,7 @@ class SafeCreateApi extends BaseApi<http.Response> {
   }
 
   Future<http.Response> _postWithRedirect(Uri url, {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    var response = await http.post(url, headers: headers, body: body, encoding: encoding);
+    var response = await httpClient.post(url, headers: headers, body: body, encoding: encoding);
     if (response.statusCode == 307) {
       var redirectUrl = response.headers['location'];
       if (redirectUrl != null) {

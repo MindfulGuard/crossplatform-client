@@ -30,7 +30,7 @@ class SignInApi extends BaseApi<http.Response> {
       body['expiration'] = tokenExpiration.toString();
       body['code'] = totp;
 
-      var response = await http.post(
+      var response = await httpClient.post(
         Uri.parse("$apiUrl/v1/auth/sign_in?type=$codeType"),
         headers: headers,
         body: body,

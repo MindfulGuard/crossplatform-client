@@ -27,7 +27,6 @@ class ItemUpdateApi extends BaseApi<http.Response> {
         headers: headers,
         body: jsonEncode(data)
       );
-      print("$apiUrl/v1/safe/$safeId");
       print(response.statusCode);
       return response;
     } catch (e) {
@@ -37,7 +36,7 @@ class ItemUpdateApi extends BaseApi<http.Response> {
   }
 
   Future<http.Response> _putWithRedirect(Uri url, {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    var response = await http.put(url, headers: headers, body: body, encoding: encoding);
+    var response = await httpClient.put(url, headers: headers, body: body, encoding: encoding);
     if (response.statusCode == 307) {
       var redirectUrl = response.headers['location'];
       if (redirectUrl != null) {

@@ -17,7 +17,7 @@ class SignOutApi extends BaseApi<http.Response> {
     try {
       await init();
       setAuthTokenHeader(token);
-      var response = await http.delete(
+      var response = await httpClient.delete(
         Uri.parse("$apiUrl/v1/auth/sign_out/$tokenId"),
         headers: headers,
       );
