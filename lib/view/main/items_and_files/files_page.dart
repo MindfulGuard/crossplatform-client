@@ -260,7 +260,7 @@ class _FilesPageState extends State<FilesPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(AppLocalizations.of(context)!.fileName(file['name'])),
-                          Text(AppLocalizations.of(context)!.size('${formatBytes(file['size'])}')),
+                          Text(AppLocalizations.of(context)!.size('${formatBytes(file['size'], context)}')),
                           Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(file['updated_at']))),
                           SizedBox(height: 16.0),
                           Row(

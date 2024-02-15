@@ -207,6 +207,14 @@
     "createItem": "Создать Запись",
     "title": "Заголовок",
     "category": "Категория",
+    "categoryWithValue": "Категория: {value}",
+    "@categoryWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
     "categorySelectWarning": "Пожалуйста, выберите категорию.",
     "notes": "Примечания",
     "add": "Добавить",
@@ -283,5 +291,6 @@
     "settings": "Настройки",
     "languageChangeConfirmation": "Подтверждение изменения языка",
     "languageChangeRequest": "Для смены языка требуется перезагрузка приложения.",
-    "failedToChangeLanguage": "Не удалось изменить язык."
+    "failedToChangeLanguage": "Не удалось изменить язык.",
+    "dataSizes": "[Б, КБ, МБ, ГБ, ТБ, ПБ, ЭБ, ЗБ, ЙБ]"
 }

@@ -207,6 +207,14 @@
     "createItem": "Create Item",
     "title": "Title",
     "category": "Category",
+    "categoryWithValue": "Category: {value}",
+    "@categoryWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
     "categorySelectWarning": "Please select category.",
     "notes": "Notes",
     "add": "Add",
@@ -283,5 +291,6 @@
     "settings": "Settings",
     "languageChangeConfirmation": "Language Change Confirmation",
     "languageChangeRequest": "Changing the language requires reloading the application.",
-    "failedToChangeLanguage": "Failed to change language."
+    "failedToChangeLanguage": "Failed to change language.",
+    "dataSizes": "[B, KB, MB, GB, TB, PB, EB, ZB, YB]"
 }

@@ -182,15 +182,15 @@ class DiskSpaceBarWidget extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)!.totalDiskSpace(formatBytes(totalSpace)),
+              AppLocalizations.of(context)!.totalDiskSpace(formatBytes(totalSpace, context)),
               style: TextStyle(fontSize: 16)
             ),
             Text(
-              AppLocalizations.of(context)!.availableDiskSpace(formatBytes(totalSpace-filledSpace)),
+              AppLocalizations.of(context)!.availableDiskSpace(formatBytes(totalSpace-filledSpace, context)),
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              AppLocalizations.of(context)!.filledDiskSpace(formatBytes(filledSpace)),
+              AppLocalizations.of(context)!.filledDiskSpace(formatBytes(filledSpace, context)),
               style: TextStyle(fontSize: 16),
             ),
           ],

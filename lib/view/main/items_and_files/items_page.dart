@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
+import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
@@ -154,8 +155,14 @@ Future<void> _deleteItem(String itemId) async {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(selectedSafeItems[index]['items'][i]['category']),
+                          Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
                           Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', '))),
+                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Supports only API version 0.5.0 and higher
+                              ? Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
+                              : Container(),
+                          selectedSafeItems[index]['items'][i]['created_at'] != null // Supports only API version 0.5.0 and higher
+                              ? Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
+                              : Container(),
                           // Add more details as per your requirement
                         ],
                       ),
