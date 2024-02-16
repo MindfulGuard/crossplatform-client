@@ -3,11 +3,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
+import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/safe/create.dart';
 import 'package:mindfulguard/net/api/items/safe/delete.dart';
 import 'package:mindfulguard/net/api/items/safe/update.dart';
-import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/main/items_and_files/items_navigator_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -192,8 +192,8 @@ class _SafePageState extends State<SafePage> {
                       ),
                     ),
                     ListTile(
-                      title: Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(safe["updated_at"] as int))),
-                      subtitle: Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(safe["created_at"] as int))),
+                      title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
+                      subtitle: Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(safe["created_at"] as int))),
                     ),
                     Row(
                       children: [

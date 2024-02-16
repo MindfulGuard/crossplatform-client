@@ -4,12 +4,12 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/items/files/delete.dart';
 import 'package:mindfulguard/net/api/items/files/download.dart';
 import 'package:mindfulguard/net/api/items/files/upload.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/utils/disk.dart';
-import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -261,7 +261,7 @@ class _FilesPageState extends State<FilesPage> {
                         children: [
                           Text(AppLocalizations.of(context)!.fileName(file['name'])),
                           Text(AppLocalizations.of(context)!.size('${formatBytes(file['size'], context)}')),
-                          Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(file['updated_at']))),
+                          Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(file['updated_at']))),
                           SizedBox(height: 16.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

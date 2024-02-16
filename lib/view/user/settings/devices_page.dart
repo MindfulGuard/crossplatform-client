@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
-import 'package:mindfulguard/utils/time.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mindfulguard/view/user/settings/settings_list_page.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -141,9 +140,9 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                       SizedBox(height: 10),
                       Text(AppLocalizations.of(context)!.application(deviceApplication), style: TextStyle(fontSize: 20)),
                       Text(AppLocalizations.of(context)!.system(deviceSystem), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(tokenInfo['created_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(tokenInfo['updated_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.expirationTime(formatUnixTimestamp(tokenInfo['expiration'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(tokenInfo['created_at'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(tokenInfo['updated_at'])), style: TextStyle(fontSize: 20)),
+                      Text(AppLocalizations.of(context)!.expirationTime(Localization.formatUnixTimestamp(tokenInfo['expiration'])), style: TextStyle(fontSize: 20)),
                       Text(AppLocalizations.of(context)!.ipAddress(tokenInfo['last_ip']), style: TextStyle(fontSize: 20)),
                       SizedBox(height: 20),
                       ElevatedButton(
@@ -190,8 +189,8 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                   subtitle: Column( // Using a Column to display multiple pieces of information vertically
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppLocalizations.of(context)!.createdAt(formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
-                      Text(AppLocalizations.of(context)!.updatedAt(formatUnixTimestamp(token['updated_at']))),
+                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
+                      Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(token['updated_at']))),
                       Text(AppLocalizations.of(context)!.ipAddress(token['last_ip'])),
                     ],
                   ),

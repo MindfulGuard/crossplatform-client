@@ -3,14 +3,16 @@ import 'dart:ui';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:flutter/material.dart';
 
 class Localization{
   static const defaultLanguage = "en";
   static const dbSettingsKeyName = "language";
+  static String currentCountryCodeSystem = PlatformDispatcher.instance.locale.languageCode.toLowerCase();
   static final _db = AppDb();
-
   static String get currentSystemLocale => Platform.localeName.substring(0,2);
 
   /// Returns a list of supported locales based on the specified type parameter.
@@ -78,5 +80,11 @@ class Localization{
 
       return locale;
     }
+  }
+
+  static String formatUnixTimestamp(int unixTimestamp) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+    String dateTimeFormat = DateFormat.yMd(currentCountryCodeSystem).add_Hms().format(dateTime);
+    return dateTimeFormat;
   }
 }
