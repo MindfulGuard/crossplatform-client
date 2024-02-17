@@ -292,5 +292,7 @@
     "languageChangeConfirmation": "Language Change Confirmation",
     "languageChangeRequest": "Changing the language requires reloading the application.",
     "failedToChangeLanguage": "Failed to change language.",
-    "dataSizes": "[B, KB, MB, GB, TB, PB, EB, ZB, YB]"
+    "dataSizes": "[B, KB, MB, GB, TB, PB, EB, ZB, YB]",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites"
 }

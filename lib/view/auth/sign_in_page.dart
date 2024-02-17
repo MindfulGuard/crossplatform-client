@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
@@ -28,6 +30,12 @@ class _SignInPageState extends State<SignInPage> {
   DateTime selectedDateTime = DateTime.now();
   TextEditingController oneTimeOrBackupCode = TextEditingController();
   String? _selectedOption = "";
+
+  String _formatTime(int year, int month, int day, int hour, int minute) {
+    DateTime dateTime = DateTime(year, month, day, hour, minute);
+    String dateTimeFormat = DateFormat.yMd(Localization.currentlanguageCodeSystem).add_Hms().format(dateTime);
+    return dateTimeFormat;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +78,13 @@ class _SignInPageState extends State<SignInPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                    "${selectedDateTime.year}-${selectedDateTime.month}-${selectedDateTime.day} ${selectedDateTime.hour}:${selectedDateTime.minute}",
+                    _formatTime(
+                      selectedDateTime.year,
+                      selectedDateTime.month,
+                      selectedDateTime.day,
+                      selectedDateTime.hour,
+                      selectedDateTime.minute
+                    ),
                   ),
                   onTap: () {
                     _selectDateTime(context);

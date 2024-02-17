@@ -5,7 +5,9 @@ import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
+import 'package:mindfulguard/net/api/items/item/favorite.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
+import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
@@ -169,7 +171,13 @@ Future<void> _deleteItem(String itemId) async {
                         ],
                       ),
                       onLongPress: (){
-                        _showItemActionsDialog(context, index, i, selectedSafeItems[index]['items'][i]['id']);
+                        _showItemActionsDialog(
+                          context,
+                          index,
+                          i,
+                          selectedSafeItems[index]['items'][i]['id'],
+                          selectedSafeItems[index]['items'][i]['favorite']
+                        );
                       },
                       onTap: () {
                         _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
@@ -195,43 +203,73 @@ Future<void> _deleteItem(String itemId) async {
     );
   }
 
-  void _showItemActionsDialog(BuildContext context, int indexSafe, int indexItem, String itemId) {
+  void _addOrRemoveFavorite(String itemId) async{
+    try {
+      var api = await ItemFavoriteApi(
+        widget.apiUrl,
+        widget.token,
+        widget.selectedSafeId,
+        itemId,
+      ).execute();
+
+      if (api?.statusCode != 200) {
+        print('Favorite request failed with status code: ${api?.statusCode}');
+        return;
+      }
+      await _getItems();
+    } catch (error) {
+      print('Cannot perform an operation on a favorite: $error');
+    }
+  }
+
+  void _showItemActionsDialog(
+    BuildContext context,
+    int indexSafe,
+    int indexItem,
+    String itemId,
+    bool isFavorite
+  ) {
+    String favoriteLabel = AppLocalizations.of(context)!.addToFavorites;
+    IconData favoriteIcon = Icons.star_border;
+    if (isFavorite){
+      favoriteLabel = AppLocalizations.of(context)!.removeFromFavorites;
+      favoriteIcon = Icons.star;
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Center(
-          child: Container(
-            constraints: BoxConstraints(maxHeight: 250),
-            child: AlertDialog(
-              contentPadding: EdgeInsets.zero,
-              content: SingleChildScrollView(
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildActionRow(Icons.edit, AppLocalizations.of(context)!.edit, () {
-                          Navigator.pop(context);
-                          _navigateToItemsUpdatePage(indexSafe, indexItem);
-                        }),
-                        SizedBox(height: 8),
-                        _buildActionRow(Icons.delete, AppLocalizations.of(context)!.delete, () async {
-                          Navigator.pop(context);
-                          await _deleteItem(itemId);
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+        return GlassMorphismItemActionsWidget(
+          functions: [
+            GlassMorphismActionRow(
+              icon: Icons.edit,
+              label: AppLocalizations.of(context)!.edit,
+              onTap: () {
+                Navigator.pop(context);
+                _navigateToItemsUpdatePage(indexSafe, indexItem);
+              }
             ),
-          ),
+            GlassMorphismActionRow(
+              icon: favoriteIcon,
+              label: favoriteLabel,
+              onTap: () async{
+                Navigator.pop(context);
+                _addOrRemoveFavorite(itemId);
+              }
+            ),
+            GlassMorphismActionRow(
+              icon: Icons.delete,
+              label: AppLocalizations.of(context)!.delete,
+              onTap: () async{
+                Navigator.pop(context);
+                await _deleteItem(itemId);
+              }
+            ),
+          ],
         );
       },
     );
   }
-
 
   Widget _buildActionRow(IconData icon, String label, void Function()? onTap) {
     return InkWell(

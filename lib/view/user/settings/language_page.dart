@@ -49,17 +49,23 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
       body: ListView.builder(
         itemCount: languagesInfo.length,
         itemBuilder: (context, index) {
-          return ListTile(
+        return InkWell(
+          onTap: () {
+            if (_selectedLanguage != languagesInfo[index]['englishLanguageName']) {
+              _showConfirmationDialog(languagesInfo[index]['englishLanguageName']!);
+            }
+          },
+          child: ListTile(
             title: Text(languagesInfo[index]['originalLanguageName']!),
             subtitle: Text(languagesInfo[index]['englishLanguageName']!),
-            trailing: Radio<String>(
-              value: languagesInfo[index]['englishLanguageName']!,
-              groupValue: _selectedLanguage,
-              onChanged: (String? value) {
-                _showConfirmationDialog(value!);
-              },
-            ),
-          );
+            trailing: (){
+              if (_selectedLanguage == languagesInfo[index]['englishLanguageName']){
+                return Icon(Icons.done);
+              }
+              return null;
+            }()
+          ),
+        );
         },
       ),
     );

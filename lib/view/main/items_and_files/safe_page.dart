@@ -9,6 +9,7 @@ import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/safe/create.dart';
 import 'package:mindfulguard/net/api/items/safe/delete.dart';
 import 'package:mindfulguard/net/api/items/safe/update.dart';
+import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/main/items_and_files/items_navigator_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -146,7 +147,36 @@ class _SafePageState extends State<SafePage> {
             child: Card(
               child: InkWell(
                 onLongPress: () {
-                  _showItemActionsDialog(context, safe["id"], safe["name"], safe["description"]);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GlassMorphismItemActionsWidget(
+                        functions: [
+                          GlassMorphismActionRow(
+                            icon: Icons.edit,
+                            label: AppLocalizations.of(context)!.edit,
+                            onTap: () {
+                              Navigator.pop(context);
+                              _showEditSafeModal(
+                                context,
+                                safe["id"],
+                                TextEditingController(text: safe["name"]),
+                                TextEditingController(text: safe["description"])
+                                );
+                            }
+                          ),
+                          GlassMorphismActionRow(
+                            icon: Icons.delete,
+                            label: AppLocalizations.of(context)!.delete,
+                            onTap: () async{
+                              Navigator.pop(context);
+                              await _deleteSafe(safe["id"]);
+                            }
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 onTap: () {
                   Navigator.push(
@@ -207,66 +237,6 @@ class _SafePageState extends State<SafePage> {
         backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
-  }
-
-  void _showItemActionsDialog(BuildContext context, String safeId, String name, String description) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Center(
-          child: Container(
-            constraints: BoxConstraints(maxHeight: 250),
-            child: AlertDialog(
-              contentPadding: EdgeInsets.zero,
-              content: SingleChildScrollView(
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildActionRow(Icons.edit, AppLocalizations.of(context)!.edit, () {
-                          Navigator.pop(context);
-                          _showEditSafeModal(context, safeId, TextEditingController(text: name), TextEditingController(text: description));
-                        }),
-                        SizedBox(height: 8),
-                        _buildActionRow(Icons.delete, AppLocalizations.of(context)!.delete, () async {
-                          Navigator.pop(context);
-                          await _deleteSafe(safeId);
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildActionRow(IconData icon, String label, void Function()? onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            Icon(icon, color: Colors.black),
-            SizedBox(width: 12),
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

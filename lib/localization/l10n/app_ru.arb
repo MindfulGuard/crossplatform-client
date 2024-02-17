@@ -292,5 +292,7 @@
     "languageChangeConfirmation": "Подтверждение изменения языка",
     "languageChangeRequest": "Для смены языка требуется перезагрузка приложения.",
     "failedToChangeLanguage": "Не удалось изменить язык.",
-    "dataSizes": "[Б, КБ, МБ, ГБ, ТБ, ПБ, ЭБ, ЗБ, ЙБ]"
+    "dataSizes": "[Б, КБ, МБ, ГБ, ТБ, ПБ, ЭБ, ЗБ, ЙБ]",
+    "addToFavorites": "Добавить в избранное",
+    "removeFromFavorites": "Удалить из избранного"
 }
