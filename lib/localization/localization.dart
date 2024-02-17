@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class Localization{
   static const defaultLanguage = "en";
   static const dbSettingsKeyName = "language";
-  static String currentCountryCodeSystem = PlatformDispatcher.instance.locale.languageCode.toLowerCase();
+  static String currentlanguageCodeSystem = PlatformDispatcher.instance.locale.languageCode.toLowerCase();
   static final _db = AppDb();
   static String get currentSystemLocale => Platform.localeName.substring(0,2);
 
@@ -82,9 +82,10 @@ class Localization{
     }
   }
 
+  /// Formats the time from unix time to the time date format that matches the regional parameter
   static String formatUnixTimestamp(int unixTimestamp) {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
-    String dateTimeFormat = DateFormat.yMd(currentCountryCodeSystem).add_Hms().format(dateTime);
+    String dateTimeFormat = DateFormat.yMd(currentlanguageCodeSystem).add_Hms().format(dateTime);
     return dateTimeFormat;
   }
 }

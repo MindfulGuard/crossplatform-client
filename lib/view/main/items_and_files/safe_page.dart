@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
@@ -63,9 +64,9 @@ class _SafePageState extends State<SafePage> {
     } else {
       var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
       var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-        decodedApiResponse,
-        widget.password,
-        widget.privateKeyBytes
+          decodedApiResponse,
+          widget.password,
+          widget.privateKeyBytes
       );
       setState(() {
         widget.itemsApiResponse = decryptedApiResponse; // Update itemsApiResponse
@@ -84,8 +85,8 @@ class _SafePageState extends State<SafePage> {
     if (api?.statusCode != 200){
       errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
-        await _getItems();
-        Navigator.pop(ctx); // Close the modal
+      await _getItems();
+      Navigator.pop(ctx); // Close the modal
     }
   }
 
@@ -100,20 +101,20 @@ class _SafePageState extends State<SafePage> {
     if (api?.statusCode != 200){
       errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
-        await _getItems();
-        Navigator.pop(ctx); // Close the modal
+      await _getItems();
+      Navigator.pop(ctx); // Close the modal
     }
   }
 
   Future<void> _deleteSafe(String safeId) async{
     var api = await SafeDeleteApi(
-      widget.apiUrl,
-      widget.token,
-      safeId
+        widget.apiUrl,
+        widget.token,
+        safeId
     ).execute();
     if (api?.statusCode != 200){
     } else{
-        await _getItems();
+      await _getItems();
     }
   }
 
@@ -144,6 +145,9 @@ class _SafePageState extends State<SafePage> {
           return Material(
             child: Card(
               child: InkWell(
+                onLongPress: () {
+                  _showItemActionsDialog(context, safe["id"], safe["name"], safe["description"]);
+                },
                 onTap: () {
                   Navigator.push(
                     context,
@@ -167,29 +171,6 @@ class _SafePageState extends State<SafePage> {
                     ListTile(
                       title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
                       subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"])),
-                      trailing: PopupMenuButton<String>(
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            onTap: () {
-                              _showEditSafeModal(
-                                context,
-                                safe["id"],
-                                TextEditingController(text: safe["name"]),
-                                TextEditingController(text: safe["description"]),
-                              );
-                            },
-                            value: 'safeEdit',
-                            child: Text(AppLocalizations.of(context)!.edit),
-                          ),
-                          PopupMenuItem<String>(
-                            onTap: () async {
-                              await _deleteSafe(safe["id"]);
-                            },
-                            value: 'safeDelete',
-                            child: Text(AppLocalizations.of(context)!.delete),
-                          ),
-                        ],
-                      ),
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
@@ -229,9 +210,66 @@ class _SafePageState extends State<SafePage> {
     );
   }
 
-  // Opens a modal for adding or editing a safe.
-  // Parameters:
-  //   context: The BuildContext for the modal.
+  void _showItemActionsDialog(BuildContext context, String safeId, String name, String description) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            constraints: BoxConstraints(maxHeight: 250),
+            child: AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              content: SingleChildScrollView(
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildActionRow(Icons.edit, AppLocalizations.of(context)!.edit, () {
+                          Navigator.pop(context);
+                          _showEditSafeModal(context, safeId, TextEditingController(text: name), TextEditingController(text: description));
+                        }),
+                        SizedBox(height: 8),
+                        _buildActionRow(Icons.delete, AppLocalizations.of(context)!.delete, () async {
+                          Navigator.pop(context);
+                          await _deleteSafe(safeId);
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildActionRow(IconData icon, String label, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.black),
+            SizedBox(width: 12),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _showAddSafeModal(BuildContext context) {
     _nameController.clear();
     _descriptionController.clear();
@@ -265,7 +303,7 @@ class _SafePageState extends State<SafePage> {
                     child: Text(AppLocalizations.of(context)!.createSafe),
                   ),
                   Text(
-                    errorMessage, // Replace with your desired message
+                    errorMessage,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.red,
@@ -323,7 +361,7 @@ class _SafePageState extends State<SafePage> {
                     child: Text(AppLocalizations.of(context)!.save),
                   ),
                   Text(
-                    errorMessage, // Replace with your desired message
+                    errorMessage,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.red,

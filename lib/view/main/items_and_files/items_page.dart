@@ -156,36 +156,24 @@ Future<void> _deleteItem(String itemId) async {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
-                          Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', '))),
-                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Supports only API version 0.5.0 and higher
+                          selectedSafeItems[index]['items'][i]['tags'].length > 0
+                              ?Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
+                              : Container(),
+                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Supports only API server version 0.5.0 and higher
                               ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
                               : Container(),
-                          selectedSafeItems[index]['items'][i]['created_at'] != null // Supports only API version 0.5.0 and higher
+                          selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
                               ? Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
                               : Container(),
                           // Add more details as per your requirement
                         ],
                       ),
+                      onLongPress: (){
+                        _showItemActionsDialog(context, index, i, selectedSafeItems[index]['items'][i]['id']);
+                      },
                       onTap: () {
                         _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
                       },
-                      trailing: PopupMenuButton(
-                        icon: Icon(Icons.more_vert),
-                        itemBuilder: (BuildContext context) => [
-                          PopupMenuItem(
-                            onTap: () {
-                              _navigateToItemsUpdatePage(index, i);
-                            },
-                            child: Text(AppLocalizations.of(context)!.edit),
-                          ),
-                          PopupMenuItem(
-                            onTap: () {
-                              _deleteItem(selectedSafeItems[index]['items'][i]['id']);
-                            },
-                            child: Text(AppLocalizations.of(context)!.delete),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
               ],
@@ -204,6 +192,67 @@ Future<void> _deleteItem(String itemId) async {
           ),
         ),
       ],
+    );
+  }
+
+  void _showItemActionsDialog(BuildContext context, int indexSafe, int indexItem, String itemId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            constraints: BoxConstraints(maxHeight: 250),
+            child: AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              content: SingleChildScrollView(
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildActionRow(Icons.edit, AppLocalizations.of(context)!.edit, () {
+                          Navigator.pop(context);
+                          _navigateToItemsUpdatePage(indexSafe, indexItem);
+                        }),
+                        SizedBox(height: 8),
+                        _buildActionRow(Icons.delete, AppLocalizations.of(context)!.delete, () async {
+                          Navigator.pop(context);
+                          await _deleteItem(itemId);
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  Widget _buildActionRow(IconData icon, String label, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.black),
+            SizedBox(width: 12),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
