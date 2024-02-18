@@ -117,10 +117,10 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppLocalizations.of(context)!.apiServer(': ${widget.apiUrl}'), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.apiServer(widget.apiUrl), style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text(AppLocalizations.of(context)!.username(information['username']), style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(information['created_at'])), style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text(AppLocalizations.of(context)!.ipAddress(information['ip']), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.ipAddressWithValue(information['ip']), style: TextStyle(fontSize: 16)), // Set font size to 16
               ],
             ),
             Divider(thickness: 1, color: Colors.black),

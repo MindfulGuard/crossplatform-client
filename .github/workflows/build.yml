@@ -9,7 +9,8 @@ on:
       - '*'
 
 jobs:
-  Android:
+  android:
+    name: Android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -50,7 +51,8 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.ACTIONS }}
 
-  Windows_x64:
+  windows_x64:
+    name: Windows x64
     runs-on: windows-latest
     steps:
       - name: Checkout code

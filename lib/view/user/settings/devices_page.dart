@@ -6,6 +6,7 @@ import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/components/icons.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -27,21 +28,22 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
   Map<String, dynamic> userInfoApi = {};
   List<dynamic> devicesInfoApi = [];
 
-  IconData _defineDeviceIconByName(String device) {
-    IconData responseIcon = Icons.devices;
+  Icon _defineDeviceIconByName(String device) {
+    const double iconSize = 70;
+    Icon responseIcon = Icon(Icons.devices, size: iconSize, color: Colors.black);
 
     device = device.toLowerCase();
 
     if (device.contains('android')) {
-      responseIcon = Icons.android;
+      responseIcon = Icon(Icons.android, size: iconSize, color: Colors.green[800]);
     } else if (device.contains('ios')) {
-      responseIcon = Icons.apple;
+      responseIcon = Icon(Icons.apple, size: iconSize, color: Colors.black);
     } else if (device.contains('macos') || device.contains('mac os')) {
-      responseIcon = Icons.apple;
+      responseIcon = Icon(Icons.apple, size: iconSize, color: Colors.black);
     } else if (device.contains('windows')) {
-      responseIcon = Icons.window;
+      responseIcon = Icon(Icons.window, size: iconSize, color: Colors.blue[600]);
     } else if (device.contains('linux')) {
-      responseIcon = Icons.laptop_chromebook;
+      responseIcon = Icon(CustomIcons.linux, size: iconSize, color: Colors.orange[800]);
     } else if (
         device.contains('chrome') ||
         device.contains('firefox') ||
@@ -49,7 +51,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
         device.contains('edge') ||
         device.contains('opera')
     ) {
-      responseIcon = Icons.web;
+      responseIcon = Icon(Icons.web, size: iconSize, color: Colors.blue[800]);
     }
 
     return responseIcon;
@@ -126,31 +128,156 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                   padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AnimatedBuilder(
                         animation: _animation,
                         builder: (context, child) {
                           return Transform.scale(
                             scale: 0.5 + (_animation.value * 0.7),
-                            child: Icon(_defineDeviceIconByName(tokenInfo['device']), size: 70, color: Colors.blue),
+                            child: Center(
+                              child: _defineDeviceIconByName(tokenInfo['device']),
+                            )
                           );
                         },
                       ),
                       SizedBox(height: 10),
-                      Text(AppLocalizations.of(context)!.application(deviceApplication), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.system(deviceSystem), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(tokenInfo['created_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(tokenInfo['updated_at'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.expirationTime(Localization.formatUnixTimestamp(tokenInfo['expiration'])), style: TextStyle(fontSize: 20)),
-                      Text(AppLocalizations.of(context)!.ipAddress(tokenInfo['last_ip']), style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () async{
-                          await _deleteToken(tokenInfo['id']);
-                        },
-                        child: Text(AppLocalizations.of(context)!.terminateSession),
+                      Row(
+                        children: [
+                          Icon(Icons.devices),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                deviceApplication,
+                                style: TextStyle(fontSize: 17),
+                              ), // Title
+                              Text(
+                                AppLocalizations.of(context)!.application,
+                                style: TextStyle(fontSize: 13),
+                              ), // Subtitle
+                            ],
+                          ),
+                        ],
                       ),
+                      Divider(color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(Icons.info_outline),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                deviceSystem,
+                                style:  TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.system,
+                                style:  TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Divider(color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(Icons.access_time),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Localization.formatUnixTimestamp(tokenInfo['updated_at']),
+                                style:  TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.dateAndTimeOfLastActivity,
+                                style:  TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Divider(color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(Icons.access_time),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Localization.formatUnixTimestamp(tokenInfo['created_at']),
+                                style:  TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.dateAndTimeOfTheFirstLogin,
+                                style:  TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Divider(color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(Icons.language),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                tokenInfo['last_ip'],
+                                style:  TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.ipAddress,
+                                style:  TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Divider(color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(Icons.event_busy),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Localization.formatUnixTimestamp(tokenInfo['expiration']),
+                                style:  TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.dateAndTimeOfSessionEnd,
+                                style:  TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                        Center(
+                          child: ElevatedButton(
+                          onPressed: () async {
+                            await _deleteToken(tokenInfo['id']);
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(Size(150, 50)), // Укажите желаемый размер
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.terminateSession,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -189,9 +316,9 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                   subtitle: Column( // Using a Column to display multiple pieces of information vertically
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
                       Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(token['updated_at']))),
-                      Text(AppLocalizations.of(context)!.ipAddress(token['last_ip'])),
+                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
+                      Text(AppLocalizations.of(context)!.ipAddressWithValue(token['last_ip'])),
                     ],
                   ),
                 ),

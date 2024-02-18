@@ -51,7 +51,7 @@
     "items": "Записи",
     "item": "Запись",
     "userInformation": "Информация о пользователе",
-    "apiServer": "Api Сервер{value}",
+    "apiServer": "Api Сервер: {value}",
     "@apiServer" :{
         "placeholders": {
             "value": {
@@ -83,8 +83,9 @@
             }
         }
     },
-    "ipAddress": "Ip Адрес: {value}",
-    "@ipAddress" :{
+    "ipAddress": "Ip Адрес",
+    "ipAddressWithValue": "Ip Адрес: {value}",
+    "@ipAddressWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
@@ -100,22 +101,8 @@
         }
     },
     "devices": "Устройства",
-    "application": "Приложение: {value}",
-    "@application" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
-    "system": "Система: {value}",
-    "@system" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
+    "application": "Приложение",
+    "system": "Система",
     "expirationTime": "Срок действия: {value}",
     "@expirationTime" :{
         "placeholders": {
@@ -294,5 +281,8 @@
     "failedToChangeLanguage": "Не удалось изменить язык.",
     "dataSizes": "[Б, КБ, МБ, ГБ, ТБ, ПБ, ЭБ, ЗБ, ЙБ]",
     "addToFavorites": "Добавить в избранное",
-    "removeFromFavorites": "Удалить из избранного"
+    "removeFromFavorites": "Удалить из избранного",
+    "dateAndTimeOfLastActivity": "Дата и время поcледней активности",
+    "dateAndTimeOfTheFirstLogin": "Дата и время первого входа",
+    "dateAndTimeOfSessionEnd": "Дата и время окончания сеанса"
 }

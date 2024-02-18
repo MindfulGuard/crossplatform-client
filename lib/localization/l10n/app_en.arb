@@ -51,7 +51,7 @@
     "items": "Items",
     "item": "Item",
     "userInformation": "User Information",
-    "apiServer": "Api Server{value}",
+    "apiServer": "Api Server: {value}",
     "@apiServer" :{
         "placeholders": {
             "value": {
@@ -83,8 +83,9 @@
             }
         }
     },
-    "ipAddress": "Ip Address: {value}",
-    "@ipAddress" :{
+    "ipAddress": "Ip Address",
+    "ipAddressWithValue": "Ip Address: {value}",
+    "@ipAddressWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
@@ -100,22 +101,8 @@
         }
     },
     "devices": "Devices",
-    "application": "Application: {value}",
-    "@application" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
-    "system": "System: {value}",
-    "@system" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
+    "application": "Application",
+    "system": "System",
     "expirationTime": "Expiration Time: {value}",
     "@expirationTime" :{
         "placeholders": {
@@ -294,5 +281,8 @@
     "failedToChangeLanguage": "Failed to change language.",
     "dataSizes": "[B, KB, MB, GB, TB, PB, EB, ZB, YB]",
     "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites"
+    "removeFromFavorites": "Remove from favorites",
+    "dateAndTimeOfLastActivity": "Date & Time of last activity",
+    "dateAndTimeOfTheFirstLogin": "Date & Time of the first login",
+    "dateAndTimeOfSessionEnd": "Date & Time of session end"
 }

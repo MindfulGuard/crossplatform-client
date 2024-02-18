@@ -250,7 +250,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             title: Text(AppLocalizations.of(context)!.deleteSection),
             content: Text(AppLocalizations.of(context)!.deleteSectionWarning),
             actions: [
-              ElevatedButton(
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(AppLocalizations.of(context)!.cancel),
+              ),
+              TextButton(
                 onPressed: () {
                   setState(() {
                     sections.removeAt(index);
@@ -258,12 +264,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   Navigator.pop(context);
                 },
                 child: Text(AppLocalizations.of(context)!.delete),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(AppLocalizations.of(context)!.cancel),
               ),
             ],
           );
@@ -335,7 +335,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
           ),
           actions: [
-            ElevatedButton(
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
               onPressed: () {
                 setState(() {
                   sections.add({
@@ -346,12 +352,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.add),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -410,7 +410,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             ),
           ),
           actions: [
-            ElevatedButton(
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
               onPressed: () {
                 if (selectedFieldType != null) {
                   setState(() {
@@ -431,12 +437,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 }
               },
               child: Text(AppLocalizations.of(context)!.add),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -476,7 +476,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
               decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
             ),
             actions: [
-              ElevatedButton(
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(AppLocalizations.of(context)!.cancel),
+              ),
+              TextButton(
                 onPressed: () {
                   setState(() {
                     sections[sectionIndex]['section'] =
@@ -485,12 +491,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                   Navigator.pop(context);
                 },
                 child: Text(AppLocalizations.of(context)!.save),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(AppLocalizations.of(context)!.cancel),
               ),
             ],
           );
@@ -553,7 +553,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             ),
           ),
           actions: [
-            ElevatedButton(
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
               onPressed: () {
                 setState(() {
                   sections[sectionIndex]['fields'][fieldIndex] = {
@@ -565,12 +571,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.save),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -589,7 +589,13 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.tag),
           ),
           actions: [
-            ElevatedButton(
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
               onPressed: () {
                 setState(() {
                   tags.add(tagController.text);
@@ -598,12 +604,6 @@ class _ItemsCreatePageState extends State<ItemsCreatePage> {
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.add),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -749,18 +749,18 @@ class TagChip extends StatelessWidget {
             maxLength: 20,
           ),
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                onEdit(editedTagController.text);
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.save),
-            ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                onEdit(editedTagController.text);
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.save),
             ),
           ],
         );
@@ -776,18 +776,18 @@ class TagChip extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.deleteTag),
           content: Text(AppLocalizations.of(context)!.deleteTagWarning),
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                onDelete();
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.delete),
-            ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete();
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );
