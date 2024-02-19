@@ -219,22 +219,6 @@
     "editItemField": "Редактирование Поля",
     "cannotEditItemSection": "Невозможно редактировать",
     "cannotDeleteItemSection": "Невозможно удалить",
-    "sectionCannotBeDeleted": "Секция '{value}' не может быть удалена.",
-    "@sectionCannotBeDeleted" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
-    "sectionCannotBeEdited": "Секция '{value}' не может быть отредактирована.",
-    "@sectionCannotBeEdited" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
     "addField": "Добавить Поле",
     "fieldLabel": "Надпись",
     "fieldValue": "Значение",

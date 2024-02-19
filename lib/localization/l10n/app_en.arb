@@ -219,22 +219,6 @@
     "editItemField": "Edit Field",
     "cannotEditItemSection": "Cannot Edit",
     "cannotDeleteItemSection": "Cannot Delete",
-    "sectionCannotBeDeleted": "The '{value}' section cannot be deleted.",
-    "@sectionCannotBeDeleted" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
-    "sectionCannotBeEdited": "The '{value}' section cannot be edited.",
-    "@sectionCannotBeEdited" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
     "addField": "Add Field",
     "fieldLabel": "Label",
     "fieldValue": "Value",

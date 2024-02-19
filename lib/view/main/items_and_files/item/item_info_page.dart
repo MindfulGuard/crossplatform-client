@@ -28,7 +28,7 @@ class ItemsInfoPage extends StatefulWidget {
 }
 
 class _ItemsInfoPageState extends State<ItemsInfoPage> {
-  bool _isPasswordVisible = false; // Добавлено состояние для отслеживания видимости пароля
+  bool _isPasswordVisible = false; // State to track password visibility
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                   : Container(),
             ),
             SizedBox(height: 11.0),
-            // Вывод тэгов в отдельных мини-контейнерах
+            // Display tags in separate mini-containers
           if (widget.selectedSafeItems['tags'] != null &&
               widget.selectedSafeItems['tags'].isNotEmpty)
             Wrap(
@@ -91,7 +91,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
               runSpacing: 8.0,
               children: widget.selectedSafeItems['tags']
                   .map<Widget>((tag) => _buildTagCard(tag))
-                  .toList(), // Преобразование в List<Widget>
+                  .toList(), // Conversion to List<Widget>
             ),
             SizedBox(height: 11.0),
             for (var section in widget.selectedSafeItems['sections'])
@@ -120,7 +120,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
   }
 
   Widget _buildSectionCard(Map<String, dynamic> section) {
-    return Card(
+    return section['fields'].length == 0? Container() : Card( // Checks for filled fields, if the length of fields is 0, the card is not output.
       margin: EdgeInsets.only(bottom: 16.0),
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -129,7 +129,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          section['section'] == 'INIT'? Container() : Container( // No output if the section 'INIT' so as not to confuse the user.
             padding: EdgeInsets.all(12.0),
             decoration: BoxDecoration(
               color: Colors.blue,
