@@ -126,8 +126,9 @@ jobs:
         run: |
           cp -r build/linux/x64/release/bundle/ .
           mv bundle mindfulguard_linux_x64
-          tar -czvf mindfulguard_linux_x64.tar.gz mindfulguard_linux_x64
-  
+          cp LICENSE mindfulguard_linux_x64/
+          tar -czvf mindfulguard_linux_x64.tar.gz mindfulguard_linux_x64/
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
