@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class CustomIcons {
+  // Location of icons .icons/
   // Note that all icons are labeled with numbers in the order they were added to the font!
   CustomIcons._();
 
