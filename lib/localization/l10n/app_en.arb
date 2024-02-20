@@ -268,5 +268,8 @@
     "removeFromFavorites": "Remove from favorites",
     "dateAndTimeOfLastActivity": "Date & Time of last activity",
     "dateAndTimeOfTheFirstLogin": "Date & Time of the first login",
-    "dateAndTimeOfSessionEnd": "Date & Time of session end"
+    "dateAndTimeOfSessionEnd": "Date & Time of session end",
+    "sorting": "Sorting",
+    "apply": "Apply",
+    "inDescendingOrder": "In descending order"
 }

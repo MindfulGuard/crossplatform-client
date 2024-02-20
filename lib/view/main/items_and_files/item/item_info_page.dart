@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added to use Clipboard
 import 'package:url_launcher/url_launcher.dart'; // Added to open links
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:otp/otp.dart';
 
 class ItemsInfoPage extends StatefulWidget {
   final String apiUrl;
@@ -119,6 +120,17 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
     );
   }
 
+  String _generateTotpString(String secretCode){
+    return OTP.generateTOTPCodeString(
+      secretCode, 
+      DateTime.now().millisecondsSinceEpoch,
+      interval: 30,
+      length: 6,
+      algorithm: Algorithm.SHA1,
+      isGoogle: true
+    );
+  }
+
   Widget _buildSectionCard(Map<String, dynamic> section) {
     return section['fields'].length == 0? Container() : Card( // Checks for filled fields, if the length of fields is 0, the card is not output.
       margin: EdgeInsets.only(bottom: 16.0),
@@ -165,7 +177,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                         ),
                       ),
                       SizedBox(height: 4.0),
-                      if (field['type'] != 'PASSWORD' && field['type'] != 'URL')
+                      if (field['type'] != 'PASSWORD' && field['type'] != 'URL' && field['type'] != 'OTP')
                         Text(
                           AppLocalizations.of(context)!.fieldValueWithValue(field['value']),
                           style: TextStyle(
@@ -213,6 +225,16 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                             ),
                           ),
                         ),
+                      if (field['type'] == 'OTP')
+                        Text(
+                          AppLocalizations.of(context)!.fieldValueWithValue(
+                            _generateTotpString(field['value'])
+                          ),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.grey[800],
+                          ),
+                        ),
                       SizedBox(height: 4.0),
                       Text(
                          AppLocalizations.of(context)!.fieldTypeWithValue(field['type']),
@@ -224,7 +246,12 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                       SizedBox(height: 8.0),
                       ElevatedButton.icon(
                         onPressed: () {
-                          Clipboard.setData(ClipboardData(text: field['value']));
+                          Clipboard.setData(ClipboardData(text: (){
+                            if (field['type'] == 'OTP'){
+                              return _generateTotpString(field['value']);
+                            }
+                            return field['value'];
+                          }()));
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),

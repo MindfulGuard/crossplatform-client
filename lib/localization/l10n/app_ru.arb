@@ -268,5 +268,8 @@
     "removeFromFavorites": "Удалить из избранного",
     "dateAndTimeOfLastActivity": "Дата и время поcледней активности",
     "dateAndTimeOfTheFirstLogin": "Дата и время первого входа",
-    "dateAndTimeOfSessionEnd": "Дата и время окончания сеанса"
+    "dateAndTimeOfSessionEnd": "Дата и время окончания сеанса",
+    "sorting": "Сортировка",
+    "apply": "Применить",
+    "inDescendingOrder": "По убыванию"
 }

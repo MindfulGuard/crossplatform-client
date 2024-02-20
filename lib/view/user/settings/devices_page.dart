@@ -7,6 +7,7 @@ import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/icons.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -28,8 +29,11 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
   Map<String, dynamic> userInfoApi = {};
   List<dynamic> devicesInfoApi = [];
 
+  bool _sortByUpdatedAt = true; // default sorting by updatedAt
+  bool _ascending = false; // default sorting in descending order
+
   Icon _defineDeviceIconByName(String device) {
-    const double iconSize = 70;
+    const double iconSize = 60;
     Icon responseIcon = Icon(Icons.devices, size: iconSize, color: Colors.black);
 
     device = device.toLowerCase();
@@ -41,7 +45,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
     } else if (device.contains('macos') || device.contains('mac os')) {
       responseIcon = Icon(Icons.apple, size: iconSize, color: Colors.black);
     } else if (device.contains('windows')) {
-      responseIcon = Icon(Icons.window, size: iconSize, color: Colors.blue[600]);
+      responseIcon = Icon(Icons.window, size: iconSize, color: Colors.blue[400]);
     } else if (device.contains('linux')) {
       responseIcon = Icon(CustomIcons.linux, size: iconSize, color: Colors.orange[800]);
     } else if (
@@ -290,13 +294,54 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
     _controller.forward();
   }
 
+  void _showSortDialog(BuildContext context) async {
+    final result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SortDialog(
+          sortByUpdatedAt: _sortByUpdatedAt,
+          ascending: _ascending,
+        );
+      },
+    );
+
+    if (result != null) {
+      bool sortByUpdatedAt = result['sortByUpdatedAt'];
+      bool ascending = result['ascending'];
+
+      // Apply the selected sorting parameters
+      setState(() {
+        _sortByUpdatedAt = sortByUpdatedAt;
+        _ascending = ascending;
+        if (sortByUpdatedAt) {
+          devicesInfoApi.sort((a, b) {
+            int comparison = a['updated_at'].compareTo(b['updated_at']);
+            return ascending ? comparison : -comparison;
+          });
+        } else {
+          devicesInfoApi.sort((a, b) {
+            int comparison = a['created_at'].compareTo(b['created_at']);
+            return ascending ? comparison : -comparison;
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<dynamic> tokens = (devicesInfoApi).cast<Map<String, dynamic>>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.devices),
+    appBar: AppBar(
+      title: Text(AppLocalizations.of(context)!.devices),
+      actions: [
+        IconButton(
+          iconSize: 30,
+          onPressed: (){_showSortDialog(context);},
+          icon: Icon(Icons.filter_list),
+        ),
+        ],
       ),
       body: SingleChildScrollView(
       child: Padding(
@@ -327,6 +372,95 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
         ),
       ),
     ),
+    );
+  }
+}
+
+class SortDialog extends StatefulWidget {
+  final bool sortByUpdatedAt;
+  final bool ascending;
+
+  SortDialog({
+    this.sortByUpdatedAt = true,
+    this.ascending = false,
+  });
+
+  @override
+  _SortDialogState createState() => _SortDialogState();
+}
+
+class _SortDialogState extends State<SortDialog> {
+  late bool _sortByUpdatedAt;
+  late bool _ascending;
+
+  @override
+  void initState() {
+    super.initState();
+    _sortByUpdatedAt = widget.sortByUpdatedAt;
+    _ascending = widget.ascending;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(AppLocalizations.of(context)!.sorting),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.dateAndTimeOfLastActivity),
+            leading: Radio(
+              value: true,
+              groupValue: _sortByUpdatedAt,
+              onChanged: (value) {
+                setState(() {
+                  _sortByUpdatedAt = value!;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.dateAndTimeOfTheFirstLogin),
+            leading: Radio(
+              value: false,
+              groupValue: _sortByUpdatedAt,
+              onChanged: (value) {
+                setState(() {
+                  _sortByUpdatedAt = value!;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.inDescendingOrder),
+            leading: Checkbox(
+              value: _ascending,
+              onChanged: (value) {
+                setState(() {
+                  _ascending = value!;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog box without applying changes
+          },
+          child: Text(AppLocalizations.of(context)!.cancel),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop({
+              'sortByUpdatedAt': _sortByUpdatedAt,
+              'ascending': _ascending,
+            }); // Pass the selected sorting parameters back to the calling widget
+          },
+          child: Text(AppLocalizations.of(context)!.apply),
+        ),
+      ],
     );
   }
 }
