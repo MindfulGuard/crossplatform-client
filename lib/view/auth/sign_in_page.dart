@@ -224,11 +224,11 @@ class _SignInPageState extends State<SignInPage> {
     );
 
     final db = AppDb();
+
+    await db.delete(db.modelUser).go(); // Deletes all rows in the Users table, since there should only be one record.
     await db.into(db.modelUser)
-      .insert(
-        modelUser,
-        onConflict: drift.DoUpdate((_)=>modelUser, target: [db.modelUser.login]), 
-      );
+      .insert(modelUser);
+
     await db.into(db.modelSettings)
       .insert(
         modelSettings,
