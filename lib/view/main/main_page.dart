@@ -60,6 +60,7 @@ class _MainPageState extends State<MainPage> {
       var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
       var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
         decodedApiResponse,
+        ['description'], // Decodes the description of the safe.
         password,
         Crypto.fromPrivateKeyToBytes(privateKey),
       );

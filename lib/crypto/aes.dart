@@ -74,20 +74,20 @@ class CryptoHelper {
     return buffer;
   }
 
-
   Future<Map<String, dynamic>> decryptMapValues(
     Map<String, dynamic> originalMap,
-    password,
-    privateKey
+    List<String> keys,
+    String password,
+    Uint8List privateKey,
   ) async {
     Map<String, dynamic> decryptedMap = {};
     for (var entry in originalMap.entries) {
-      if (entry.value is String && (entry.key == "description" || entry.key == "value" || entry.key == "notes")) {
+      if (entry.value is String && (keys.contains(entry.key))) {
         // Add decryption logic based on your requirements here
         decryptedMap[entry.key] = await decrypt(entry.value, password, privateKey);
       } else if (entry.value is Map<String, dynamic>) {
         try {
-          decryptedMap[entry.key] = await decryptMapValues(entry.value, password, privateKey); // Recursively decrypt nested maps
+          decryptedMap[entry.key] = await decryptMapValues(entry.value, keys, password, privateKey); // Recursively decrypt nested maps
         } catch (e) {
           decryptedMap[entry.key] = ''; // Set default value for failed decryption
         }
@@ -96,7 +96,7 @@ class CryptoHelper {
         for (var listItem in entry.value) {
           if (listItem is Map<String, dynamic>) {
             try {
-              decryptedList.add(await decryptMapValues(listItem, password, privateKey)); // Recursively decrypt elements within lists
+              decryptedList.add(await decryptMapValues(listItem, keys, password, privateKey)); // Recursively decrypt elements within lists
             } catch (e) {
               decryptedList.add(listItem); // Set default value for failed decryption
             }
