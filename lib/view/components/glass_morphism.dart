@@ -83,11 +83,16 @@ class GlassMorphismItemActionsWidget extends StatelessWidget {
 }
 
 class GlassMorphismActionRow extends StatelessWidget {
-  final IconData icon;
+  IconData? icon;
   final String label;
   final void Function()? onTap;
 
-  const GlassMorphismActionRow({Key? key, required this.icon, required this.label, required this.onTap}) : super(key: key);
+  GlassMorphismActionRow({
+    Key? key,
+    this.icon,
+    required this.label,
+    required this.onTap
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +102,7 @@ class GlassMorphismActionRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
-            Icon(icon, color: Colors.black),
+            Icon(icon, color: Colors.black) ?? Container(),
             SizedBox(width: 12),
             Text(
               label,

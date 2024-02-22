@@ -12,6 +12,7 @@ class ItemsNavigator extends StatefulWidget {
   final Uint8List privateKeyBytes;
   String selectedSafeId;
   String selectedSafeName;
+  List<dynamic> safesApiResponse;
   Map<String, dynamic> itemsApiResponse;
 
   ItemsNavigator({
@@ -22,6 +23,7 @@ class ItemsNavigator extends StatefulWidget {
     required this.privateKeyBytes,
     required this.selectedSafeId,
     required this.selectedSafeName,
+    required this.safesApiResponse,
     required this.itemsApiResponse,
     Key? key,
   }) : super(key: key);
@@ -63,6 +65,7 @@ class _ItemsNavigatorPageState extends State<ItemsNavigator> with SingleTickerPr
             password: widget.password,
             privateKey: widget.privateKey,
             privateKeyBytes: widget.privateKeyBytes,
+            safesApiResponse: widget.safesApiResponse,
             selectedSafeId: widget.selectedSafeId,
           ),
           // Replace with the content/widgets for Section 2

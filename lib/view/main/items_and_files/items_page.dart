@@ -6,6 +6,7 @@ import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
 import 'package:mindfulguard/net/api/items/item/favorite.dart';
+import 'package:mindfulguard/net/api/items/item/move.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
@@ -20,6 +21,7 @@ class ItemsPage extends StatefulWidget {
   final String privateKey;
   final Uint8List privateKeyBytes;
   String selectedSafeId;
+  List<dynamic> safesApiResponse;
 
   ItemsPage({
     required this.apiUrl,
@@ -28,6 +30,7 @@ class ItemsPage extends StatefulWidget {
     required this.privateKey,
     required this.privateKeyBytes,
     required this.selectedSafeId,
+    required this.safesApiResponse,
     Key? key,
   }) : super(key: key);
 
@@ -162,7 +165,7 @@ Future<void> _deleteItem(String itemId) async {
                           selectedSafeItems[index]['items'][i]['tags'].length > 0
                               ?Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
                               : Container(),
-                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Supports only API server version 0.5.0 and higher
+                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Only server API version 0.5.0 and higher is supported
                               ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
                               : Container(),
                           selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
@@ -175,6 +178,7 @@ Future<void> _deleteItem(String itemId) async {
                         _showItemActionsDialog(
                           context,
                           index,
+                          widget.safesApiResponse,
                           i,
                           selectedSafeItems[index]['items'][i]['id'],
                           selectedSafeItems[index]['items'][i]['favorite']
@@ -226,13 +230,14 @@ Future<void> _deleteItem(String itemId) async {
   void _showItemActionsDialog(
     BuildContext context,
     int indexSafe,
+    List<dynamic> safes,
     int indexItem,
     String itemId,
-    bool isFavorite
+    bool isFavorite,
   ) {
     String favoriteLabel = AppLocalizations.of(context)!.addToFavorites;
     IconData favoriteIcon = Icons.star_border;
-    if (isFavorite){
+    if (isFavorite) {
       favoriteLabel = AppLocalizations.of(context)!.removeFromFavorites;
       favoriteIcon = Icons.star;
     }
@@ -248,23 +253,35 @@ Future<void> _deleteItem(String itemId) async {
               onTap: () {
                 Navigator.pop(context);
                 _navigateToItemsUpdatePage(indexSafe, indexItem);
-              }
+              },
             ),
             GlassMorphismActionRow(
               icon: favoriteIcon,
               label: favoriteLabel,
-              onTap: () async{
+              onTap: () async {
                 Navigator.pop(context);
                 _addOrRemoveFavorite(itemId);
-              }
+              },
+            ),
+            GlassMorphismActionRow(
+              icon: Icons.move_to_inbox,
+              label: AppLocalizations.of(context)!.move,
+              onTap: () {
+                Navigator.pop(context);
+                _showSafesList(
+                  context,
+                  safes,
+                  itemId
+                );
+              },
             ),
             GlassMorphismActionRow(
               icon: Icons.delete,
               label: AppLocalizations.of(context)!.delete,
-              onTap: () async{
+              onTap: () async {
                 Navigator.pop(context);
                 await _deleteItem(itemId);
-              }
+              },
             ),
           ],
         );
@@ -272,27 +289,78 @@ Future<void> _deleteItem(String itemId) async {
     );
   }
 
-  Widget _buildActionRow(IconData icon, String label, void Function()? onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            Icon(icon, color: Colors.black),
-            SizedBox(width: 12),
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
+  void _showSafesList(
+    BuildContext context,
+    List<dynamic> safes,
+    String itemId
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GlassMorphismItemActionsWidget(
+          functions: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var val in safes)
+                  GlassMorphismActionRow(
+                    icon: val['id'] == widget.selectedSafeId? Icons.done: null,
+                    label: val['name'],
+                    onTap: () async {
+                      _moveItemToNewSafe(
+                        val['id'],
+                        val['name'],
+                        itemId
+                      );
+                      Navigator.pop(context);
+                    },
+                  ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ]
+        );
+      },
     );
+  }
+
+  void _moveItemToNewSafe(
+    String newSafeId,
+    String newSafeName,
+    String itemId
+  ) async{
+    try {
+      var api = await ItemMoveToNewSafeApi(
+        widget.apiUrl,
+        widget.token,
+        widget.selectedSafeId,
+        newSafeId,
+        itemId
+      ).execute();
+      if (api?.statusCode != 200 && api != null) {
+        Map<String, dynamic> body = json.decode(utf8.decode(api.body.runes.toList()));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(body[Localization.getLocale()]?? body[Localization.defaultLanguage]),
+          ),
+        );
+        return;
+      }
+      await _getItems();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.itemWasSuccessfullyMovedToSafe(newSafeName)
+          ),
+        ),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.errorFailedToMoveItemToSafe),
+        ),
+      );
+      print('Error during item move: $error');
+    }
   }
 
   Future<void> _navigateToItemsUpdatePage(int indexSafe, int indexItem) async {

@@ -271,5 +271,15 @@
     "dateAndTimeOfSessionEnd": "Дата и время окончания сеанса",
     "sorting": "Сортировка",
     "apply": "Применить",
-    "inDescendingOrder": "По убыванию"
+    "inDescendingOrder": "По убыванию",
+    "move": "Переместить",
+    "itemWasSuccessfullyMovedToSafe": "Запись была успешно перемещена в сейф: {value}.",
+    "@itemWasSuccessfullyMovedToSafe" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "errorFailedToMoveItemToSafe": "Ошибка, не удалось переместить запись в сейф."
 }

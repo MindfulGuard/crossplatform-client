@@ -271,5 +271,15 @@
     "dateAndTimeOfSessionEnd": "Date & Time of session end",
     "sorting": "Sorting",
     "apply": "Apply",
-    "inDescendingOrder": "In descending order"
+    "inDescendingOrder": "In descending order",
+    "move": "Move",
+    "itemWasSuccessfullyMovedToSafe": "Item was successfully moved to safe: {value}.",
+    "@itemWasSuccessfullyMovedToSafe" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "errorFailedToMoveItemToSafe": "Error, failed to move item to safe."
 }

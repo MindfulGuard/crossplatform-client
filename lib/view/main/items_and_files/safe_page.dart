@@ -191,6 +191,7 @@ class _SafePageState extends State<SafePage> {
                         password: widget.password,
                         privateKey: widget.privateKey,
                         privateKeyBytes: widget.privateKeyBytes,
+                        safesApiResponse: widget.itemsApiResponse["safes"],
                         itemsApiResponse: widget.itemsApiResponse,
                       ),
                     ),

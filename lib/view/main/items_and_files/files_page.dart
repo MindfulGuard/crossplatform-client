@@ -316,7 +316,7 @@ class _FilesPageState extends State<FilesPage> {
       bottomNavigationBar: _uploadProgress > 0.0
           ? LinearProgressIndicator(
               value: _uploadProgress,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.grey,
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             )
           : null,
