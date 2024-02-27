@@ -66,7 +66,7 @@ class _SafePageState extends State<SafePage> {
       var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
       var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
           decodedApiResponse,
-          ['value', 'notes'],
+          ['description'],
           widget.password,
           widget.privateKeyBytes
       );
