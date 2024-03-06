@@ -206,7 +206,7 @@ class _SafePageState extends State<SafePage> {
                     ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
-                      subtitle: Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(safe["created_at"] as int))),
+                      subtitle: Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(safe["created_at"] as int))),
                     ),
                     Row(
                       children: [

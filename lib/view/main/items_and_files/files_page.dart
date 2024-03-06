@@ -198,6 +198,11 @@ class _FilesPageState extends State<FilesPage> {
     return selectedFiles;
   }
 
+  bool _isAscii(String str) {
+    RegExp asciiRegex = RegExp(r'^[ -~]+$');
+    return asciiRegex.hasMatch(str);
+  }
+
   // Method to select and upload files
   Future<void> _selectAndUploadFiles() async {
     List<Map<String, dynamic>> selectedFiles = await _selectFiles();
@@ -212,30 +217,38 @@ class _FilesPageState extends State<FilesPage> {
     int filesUploaded = 0;
 
     for (var fileData in selectedFiles) {
-      File file = fileData['file'];
       String fileName = fileData['name'];
-      List<int> bytes = await file.readAsBytes();
-      
-      // Upload each file
-      await FileUploadApi(
-        widget.apiUrl,
-        widget.token,
-        widget.selectedSafeId,
-        bytes,
-        fileName,
-      ).execute();
+      if (!_isAscii(fileName)){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.fileNameMustContainOnlyASCIICharactersWarning),
+            ),
+          );
+      } else{
+          File file = fileData['file'];
+          List<int> bytes = await file.readAsBytes();
+          
+          // Upload each file
+          await FileUploadApi(
+            widget.apiUrl,
+            widget.token,
+            widget.selectedSafeId,
+            bytes,
+            fileName,
+          ).execute();
 
-      // Update upload progress after each file upload
-      filesUploaded++;
-      double progress = filesUploaded / totalFiles;
-      setState(() {
-        _uploadProgress = progress;
-      });
-    }
-    await _getItems();
-    setState(() {
-      _uploadProgress = 0.0;
-    });
+          // Update upload progress after each file upload
+          filesUploaded++;
+          double progress = filesUploaded / totalFiles;
+          setState(() {
+            _uploadProgress = progress;
+          });
+        }
+        await _getItems();
+        setState(() {
+          _uploadProgress = 0.0;
+        });
+      }
   }
 
   // Build method to create the UI

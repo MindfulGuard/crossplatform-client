@@ -67,8 +67,8 @@
             }
         }
     },
-    "createdAt": "Created At: {value}",
-    "@createdAt" :{
+    "createdAtWithValue": "Created At: {value}",
+    "@createdAtWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
@@ -281,5 +281,41 @@
             }
         }
     },
-    "errorFailedToMoveItemToSafe": "Error, failed to move item to safe."
+    "errorFailedToMoveItemToSafe": "Error, failed to move item to safe.",
+    "auditLog": "Audit log",
+    "object": "Object",
+    "action": "Action",
+    "dateAndTimeOfCreation": "Date & Time of Creation",
+    "identifier": "Identifier",
+    "pageValueOfPages": "Page {value} of {pages}",
+    "@pageValueOfPages" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            },
+            "pages": {
+                "type": "int"
+            }
+        }
+    },
+    "noAuditItemsFound": "No audit items found.",
+    "aboutApp": "About the app",
+    "aboutAppDescription": "Cross-platform client for {value} password manager.",
+    "@aboutAppDescription" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutAppLicense": "Licensed under GPL-3.0",
+    "aboutAppVersionWithValue": "Version: {value}",
+    "@aboutAppVersionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fileNameMustContainOnlyASCIICharactersWarning": "The file name must contain only ASCII characters."
 }

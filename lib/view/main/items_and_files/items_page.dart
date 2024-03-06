@@ -169,7 +169,7 @@ Future<void> _deleteItem(String itemId) async {
                               ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
                               : Container(),
                           selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
-                              ? Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
+                              ? Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
                               : Container(),
                           // Add more details as per your requirement
                         ],

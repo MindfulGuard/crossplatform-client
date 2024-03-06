@@ -67,8 +67,8 @@
             }
         }
     },
-    "createdAt": "Создан в: {value}",
-    "@createdAt" :{
+    "createdAtWithValue": "Создан в: {value}",
+    "@createdAtWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
@@ -281,5 +281,41 @@
             }
         }
     },
-    "errorFailedToMoveItemToSafe": "Ошибка, не удалось переместить запись в сейф."
+    "errorFailedToMoveItemToSafe": "Ошибка, не удалось переместить запись в сейф.",
+    "auditLog": "Журнал аудита",
+    "object": "Объект",
+    "action": "Действие",
+    "dateAndTimeOfCreation": "Дата и Время создания",
+    "identifier": "Идентификатор",
+    "pageValueOfPages": "Страница {value} из {pages}",
+    "@pageValueOfPages" :{
+        "placeholders": {
+            "value": {
+                "type": "int"
+            },
+            "pages": {
+                "type": "int"
+            }
+        }
+    },
+    "noAuditItemsFound": "Объекты аудита не найдены.",
+    "aboutApp": "О приложении",
+    "aboutAppDescription": "Кроссплатформенный клиент для менеджера паролей {value}.",
+    "@aboutAppDescription" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutAppLicense": "Лицензия GPL-3.0",
+    "aboutAppVersionWithValue": "Версия: {value}",
+    "@aboutAppVersionWithValue" :{
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "fileNameMustContainOnlyASCIICharactersWarning": "Имя файла должно содержать только символы ASCII."
 }

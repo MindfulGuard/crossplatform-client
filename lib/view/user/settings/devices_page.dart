@@ -6,8 +6,8 @@ import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/components/deviceIcon.dart';
 import 'package:mindfulguard/view/components/icons.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -31,35 +31,6 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
 
   bool _sortByUpdatedAt = true; // default sorting by updatedAt
   bool _ascending = false; // default sorting in descending order
-
-  Icon _defineDeviceIconByName(String device) {
-    const double iconSize = 60;
-    Icon responseIcon = Icon(Icons.devices, size: iconSize, color: Colors.black);
-
-    device = device.toLowerCase();
-
-    if (device.contains('android')) {
-      responseIcon = Icon(Icons.android, size: iconSize, color: Colors.green[800]);
-    } else if (device.contains('ios')) {
-      responseIcon = Icon(Icons.apple, size: iconSize, color: Colors.black);
-    } else if (device.contains('macos') || device.contains('mac os')) {
-      responseIcon = Icon(Icons.apple, size: iconSize, color: Colors.black);
-    } else if (device.contains('windows')) {
-      responseIcon = Icon(Icons.window, size: iconSize, color: Colors.blue[400]);
-    } else if (device.contains('linux')) {
-      responseIcon = Icon(CustomIcons.linux, size: iconSize, color: Colors.orange[800]);
-    } else if (
-        device.contains('chrome') ||
-        device.contains('firefox') ||
-        device.contains('safari') ||
-        device.contains('edge') ||
-        device.contains('opera')
-    ) {
-      responseIcon = Icon(Icons.web, size: iconSize, color: Colors.blue[800]);
-    }
-
-    return responseIcon;
-  }
 
   @override
   void initState() {
@@ -140,7 +111,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                           return Transform.scale(
                             scale: 0.5 + (_animation.value * 0.7),
                             child: Center(
-                              child: _defineDeviceIconByName(tokenInfo['device']),
+                              child: defineDeviceIconByName(tokenInfo['device']),
                             )
                           );
                         },
@@ -362,7 +333,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(token['updated_at']))),
-                      Text(AppLocalizations.of(context)!.createdAt(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
+                      Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
                       Text(AppLocalizations.of(context)!.ipAddressWithValue(token['last_ip'])),
                     ],
                   ),

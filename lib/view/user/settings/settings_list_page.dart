@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/user/settings/application_info_page.dart';
+import 'package:mindfulguard/view/user/settings/audit_page.dart';
 import 'package:mindfulguard/view/user/settings/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
 
@@ -31,6 +33,8 @@ class _SettingsListPageState extends State<SettingsListPage>{
       settings = [
         {'name': AppLocalizations.of(context)!.language, 'icon': Icons.translate},
         {'name': AppLocalizations.of(context)!.devices, 'icon': Icons.devices},
+        {'name': AppLocalizations.of(context)!.auditLog, 'icon': Icons.auto_stories},
+        {'name': AppLocalizations.of(context)!.aboutApp, 'icon': Icons.info_outline},
       ];
     });
   }
@@ -66,6 +70,19 @@ class _SettingsListPageState extends State<SettingsListPage>{
                       token: widget.token,
                       apiUrl: widget.apiUrl,
                     )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.auditLog) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AuditSettingsPage(
+                      token: widget.token,
+                      apiUrl: widget.apiUrl,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.aboutApp) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ApplicationInfoSettingsPage()),
                   );
               }
             },
