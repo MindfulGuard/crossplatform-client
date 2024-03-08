@@ -33,6 +33,20 @@
       "search": [
         "github_icon"
       ]
+    },
+    {
+      "uid": "5c3855dcac9f801767b1888f6ede09cd",
+      "css": "windows",
+      "code": 59394,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M23.4 251.3V477.8H476.4V24.7H23.4V251.3ZM526.2 251.3V477.8H979.2V24.7H526.2V251.3ZM23.4 754V980.5H476.4V527.5H23.4V754ZM526.2 754V980.5H979.2V527.5H526.2V754Z",
+        "width": 1000
+      },
+      "search": [
+        "windows_icon"
+      ]
     }
   ]
 }

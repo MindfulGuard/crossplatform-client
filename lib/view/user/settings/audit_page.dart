@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/user/audit.dart';
@@ -125,7 +126,7 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return SingleChildScrollView( // Добавляем SingleChildScrollView
+        return SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -211,7 +212,7 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
                         ],
                       ),
                     ),
-                    defineDeviceIconByName(deviceSystem, iconSize: 28),
+                    defineDeviceIconByName(deviceSystem, iconSize: 28).animate().shimmer(duration: 618.67.ms),
                   ],
                 ),
                 Divider(color: Colors.black),

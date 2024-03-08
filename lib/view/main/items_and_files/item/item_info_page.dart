@@ -29,7 +29,13 @@ class ItemsInfoPage extends StatefulWidget {
 }
 
 class _ItemsInfoPageState extends State<ItemsInfoPage> {
-  bool _isPasswordVisible = false; // State to track password visibility
+  late List<bool> _isPasswordVisibleList;
+
+  @override
+  void initState() {
+    super.initState();
+    _isPasswordVisibleList = List.filled(widget.selectedSafeItems['sections'].length, false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +101,8 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                   .toList(), // Conversion to List<Widget>
             ),
             SizedBox(height: 11.0),
-            for (var section in widget.selectedSafeItems['sections'])
-              _buildSectionCard(section),
+            for (var index = 0; index < widget.selectedSafeItems['sections'].length; index++)
+              _buildSectionCard(widget.selectedSafeItems['sections'][index], index),
           ],
         ),
       ),
@@ -139,8 +145,8 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
     }
   }
 
-  Widget _buildSectionCard(Map<String, dynamic> section) {
-    return section['fields'].length == 0? Container() : Card( // Checks for filled fields, if the length of fields is 0, the card is not output.
+  Widget _buildSectionCard(Map<String, dynamic> section, int index) {
+    return section['fields'].length == 0 ? Container() : Card(
       margin: EdgeInsets.only(bottom: 16.0),
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -149,7 +155,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          section['section'] == 'INIT'? Container() : Container( // No output if the section 'INIT' so as not to confuse the user.
+          section['section'] == 'INIT' ? Container() : Container(
             padding: EdgeInsets.all(12.0),
             decoration: BoxDecoration(
               color: Colors.blue,
@@ -171,6 +177,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: (section['fields'] as List).map((field) {
+                int fieldIndex = section['fields'].indexOf(field);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Column(
@@ -198,7 +205,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.fieldValueWithValue('${_isPasswordVisible ? field['value'] : '********'}'),
+                              AppLocalizations.of(context)!.fieldValueWithValue(_isPasswordVisibleList[index] ? field['value'] : '********'),
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.grey[800],
@@ -208,77 +215,75 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
+                                  _isPasswordVisibleList[index] = !_isPasswordVisibleList[index];
                                 });
                               },
                               child: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                _isPasswordVisibleList[index] ? Icons.visibility : Icons.visibility_off,
                                 color: Colors.blue,
                               ),
                             ),
                           ],
                         ),
-                      if (field['type'] == 'URL')
-                        InkWell(
-                          onTap: () {
-                            _launchURL(field['value']);
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.fieldValueTypeLinkWithValue(field['value']),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.blue,
+                        if (field['type'] == 'URL')
+                          InkWell(
+                            onTap: () {
+                              _launchURL(field['value']);
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.fieldValueTypeLinkWithValue(field['value']),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.blue,
+                              ),
                             ),
                           ),
-                        ),
-                      if (field['type'] == 'OTP')
-                        Text(
-                          AppLocalizations.of(context)!.fieldValueWithValue(
-                            _generateTotpString(field['value'])
+                        if (field['type'] == 'OTP')
+                          Text(
+                            AppLocalizations.of(context)!.fieldValueWithValue(
+                              _generateTotpString(field['value'])
+                            ),
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey[800],
+                            ),
                           ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          AppLocalizations.of(context)!.fieldTypeWithValue(field['type']),
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Colors.grey[800],
                           ),
                         ),
-                      SizedBox(height: 4.0),
-                      Text(
-                         AppLocalizations.of(context)!.fieldTypeWithValue(field['type']),
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey[800],
+                        SizedBox(height: 8.0),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: (){
+                              if (field['type'] == 'OTP'){
+                                return _generateTotpString(field['value']);
+                              }
+                              return field['value'];
+                            }()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.copy),
+                          label: Text(AppLocalizations.of(context)!.copy),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(text: (){
-                            if (field['type'] == 'OTP'){
-                              return _generateTotpString(field['value']);
-                            }
-                            return field['value'];
-                          }()));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.copy),
-                        label: Text(AppLocalizations.of(context)!.copy),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
+    }
 
   Future<void> _launchURL(String url) async {
     try {

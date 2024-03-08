@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/view/components/icons.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,11 +35,11 @@ class _ApplicationInfoSettingsPageState extends State<ApplicationInfoSettingsPag
   }
 
   Future<void> _openGitHub() async {
-    const url = 'https://github.com/MindfulGuard/crossplatform-client';
-    if (await canLaunch(url)) {
+    try {
+      const url = 'https://github.com/MindfulGuard/crossplatform-client';
       await launch(url);
-    } else {
-      return;
+    } catch (e) {
+      print('Error launching URL: $e');
     }
   }
 
@@ -53,7 +54,8 @@ class _ApplicationInfoSettingsPageState extends State<ApplicationInfoSettingsPag
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
+        child: Center(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -78,12 +80,15 @@ class _ApplicationInfoSettingsPageState extends State<ApplicationInfoSettingsPag
             ),
             SizedBox(height: 20),
             IconButton(
-              icon: Icon(CustomIcons.github),
+              icon: Animate(
+                child: Icon(CustomIcons.github).animate().flipV(duration: 670.ms).scale(duration: 450.ms)
+              ),
               onPressed: _openGitHub,
               iconSize: 40,
             ),
           ],
         ),
+        )
       ),
     );
   }

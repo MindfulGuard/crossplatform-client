@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/deviceIcon.dart';
-import 'package:mindfulguard/view/components/icons.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -23,9 +23,7 @@ class DevicesSettingsPage extends StatefulWidget {
   _DevicesSettingsPageState createState() => _DevicesSettingsPageState();
 }
 
-class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerProviderStateMixin{
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
   Map<String, dynamic> userInfoApi = {};
   List<dynamic> devicesInfoApi = [];
 
@@ -36,17 +34,10 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
   void initState() {
     super.initState();
     _getItems();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 1),
-    );
-    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
-    _controller.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -87,7 +78,6 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
   }
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {
-    _controller.value = 0.0;
     List<String> partsDevice = tokenInfo['device'].split('/');
     String deviceApplication = partsDevice[0];
     String deviceSystem = partsDevice[1];
@@ -105,16 +95,10 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AnimatedBuilder(
-                        animation: _animation,
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: 0.5 + (_animation.value * 0.7),
-                            child: Center(
-                              child: defineDeviceIconByName(tokenInfo['device']),
-                            )
-                          );
-                        },
+                      Center(
+                        child: Animate(// defineDeviceIconByName(tokenInfo['device']).animate().shimmer(duration: 618.67.ms).flipV(duration: 618.67.ms).scale(duration: 450.ms).saturate()
+                          child: defineDeviceIconByName(tokenInfo['device']).animate().shimmer(duration: 618.67.ms).flipH().saturate()
+                        ),
                       ),
                       SizedBox(height: 10),
                       Row(
@@ -262,7 +246,6 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage> with TickerPr
         );
       },
     );
-    _controller.forward();
   }
 
   void _showSortDialog(BuildContext context) async {
