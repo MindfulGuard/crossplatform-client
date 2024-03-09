@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/crypto/crypto.dart';
+import 'package:mindfulguard/net/api/auth/sign_out.dart';
+import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
 import 'package:mindfulguard/view/user/settings/devices_page.dart';
@@ -39,11 +42,45 @@ class _SettingsListPageState extends State<SettingsListPage>{
     });
   }
 
+  void __signOut() async{
+    var tokenHash = Crypto.hash().sha(widget.token).toString().substring(0, 28); // Hashing the token and extracts the first 28 characters.
+
+    String tokenIdResult = "";
+  
+    for (var val in widget.userInfoApi['tokens']){
+      if (val['short_hash'] == null){ // Checks if the "short_hash" key exists.
+        return;
+      } else{
+        if (val['short_hash'] == tokenHash){ // Retrieves the token id if the token hash matches the one found.
+          tokenIdResult = val['id'];
+          break;
+        }
+      }
+    }
+
+    var api = await SignOutApi(widget.apiUrl, tokenIdResult, widget.token).execute();
+    if (api?.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignInPage()),
+        );
+    } else{
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
+        actions: [
+          IconButton(
+            color: Colors.red,
+            onPressed: __signOut,
+            icon: Icon(Icons.logout),
+          ),
+          ],
       ),
       body: ListView.builder(
         itemCount: settings.length,

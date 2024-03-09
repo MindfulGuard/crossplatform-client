@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/localization/localization.dart';
-import 'package:mindfulguard/net/api/auth/sign_out.dart';
-import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/utils/disk.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/user/settings/settings_list_page.dart';
 
@@ -71,7 +68,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
           context,
           MaterialPageRoute(builder: (context) => SettingsListPage(
             devicesInfoApi: tokens,
-            userInfoApi: information,
+            userInfoApi: widget.userInfoApi,
             apiUrl: widget.apiUrl,
             token: widget.token,
           )),

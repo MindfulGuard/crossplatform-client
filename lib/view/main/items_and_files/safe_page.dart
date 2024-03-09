@@ -40,7 +40,6 @@ class _SafePageState extends State<SafePage> {
 
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
-  String errorMessage = "";
 
   @override
   void initState() {
@@ -85,7 +84,6 @@ class _SafePageState extends State<SafePage> {
       await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
     ).execute();
     if (api?.statusCode != 200){
-      errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
       await _getItems();
       Navigator.pop(ctx); // Close the modal
@@ -101,7 +99,6 @@ class _SafePageState extends State<SafePage> {
       await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
     ).execute();
     if (api?.statusCode != 200){
-      errorMessage = jsonDecode(api!.body)['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(api!.body)['msg']['en'];
     } else{
       await _getItems();
       Navigator.pop(ctx); // Close the modal
@@ -273,14 +270,6 @@ class _SafePageState extends State<SafePage> {
                       await _createSafe(context, _nameController.text, _descriptionController.text);
                     },
                     child: Text(AppLocalizations.of(context)!.createSafe),
-                  ),
-                  Text(
-                    errorMessage,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontStyle: FontStyle.normal,
-                    )
                   )
                 ],
               ),
@@ -332,14 +321,6 @@ class _SafePageState extends State<SafePage> {
                     },
                     child: Text(AppLocalizations.of(context)!.save),
                   ),
-                  Text(
-                    errorMessage,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontStyle: FontStyle.normal,
-                    )
-                  )
                 ],
               ),
             ),
