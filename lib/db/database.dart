@@ -27,7 +27,7 @@ class AppDb extends _$AppDb {
 
   static LazyDatabase _openConnection() {
     return LazyDatabase(() async {
-      final dbFolder = await getApplicationDocumentsDirectory();
+      final dbFolder = await getApplicationSupportDirectory();
       final file = File(p.join(dbFolder.path, 'mindfulguard.db'));
       return NativeDatabase.createInBackground(file);
     });
