@@ -5,8 +5,9 @@ import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
-import 'package:mindfulguard/view/user/settings/devices_page.dart';
+import 'package:mindfulguard/view/user/settings/privacy/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
+import 'package:mindfulguard/view/user/settings/privacy/privacy_list_page.dart';
 
 class SettingsListPage extends StatefulWidget {
   Map<String, dynamic> userInfoApi;
@@ -35,7 +36,7 @@ class _SettingsListPageState extends State<SettingsListPage>{
     setState(() {
       settings = [
         {'name': AppLocalizations.of(context)!.language, 'icon': Icons.translate},
-        {'name': AppLocalizations.of(context)!.devices, 'icon': Icons.devices},
+        {'name': AppLocalizations.of(context)!.privacy, 'icon': Icons.lock_outline},
         {'name': AppLocalizations.of(context)!.auditLog, 'icon': Icons.auto_stories},
         {'name': AppLocalizations.of(context)!.aboutApp, 'icon': Icons.info_outline},
       ];
@@ -100,10 +101,10 @@ class _SettingsListPageState extends State<SettingsListPage>{
                     apiUrl: widget.apiUrl,
                   )),
                 );
-              } else if (settings[index]['name'] == AppLocalizations.of(context)!.devices) {
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.privacy) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DevicesSettingsPage(
+                    MaterialPageRoute(builder: (context) => PrivacyListPage(
                       token: widget.token,
                       apiUrl: widget.apiUrl,
                     )),

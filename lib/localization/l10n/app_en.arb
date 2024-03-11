@@ -317,5 +317,9 @@
             }
         }
     },
-    "fileNameMustContainOnlyASCIICharactersWarning": "The file name must contain only ASCII characters."
+    "fileNameMustContainOnlyASCIICharactersWarning": "The file name must contain only ASCII characters.",
+    "privacy": "Privacy",
+    "qrCodeLogin": "Qr code Login",
+    "qrCodeViewVisibleWarning": "Warning! This QR code contains sensitive data such as: API Server, Username, Password, Private Key. Do not distribute it anywhere.",
+    "scanQrCodeSignIn": "Scan QR code for sign in"
 }

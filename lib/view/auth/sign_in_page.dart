@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -8,10 +11,12 @@ import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
+import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:mindfulguard/view/main/main_page.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -31,10 +36,34 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController oneTimeOrBackupCode = TextEditingController();
   String? _selectedOption = "";
 
+  MobileScannerController cameraController = MobileScannerController();
+
   String _formatTime(int year, int month, int day, int hour, int minute) {
     DateTime dateTime = DateTime(year, month, day, hour, minute);
     String dateTimeFormat = DateFormat.yMd(Localization.currentlanguageCodeSystem).add_Hms().format(dateTime);
     return dateTimeFormat;
+  }
+
+  void _decodeData(String? jsonString) async{
+    Map<String, dynamic> data = json.decode(jsonString!);
+    if (data.isEmpty){
+      return;
+    } else{
+      setState(() {
+        apiUrl.text = data['apiServer']!;
+        login.text = data['userName']!;
+        password.text = data['password']!;
+        privateKey.text = data['privateKey']!;
+      });
+    }
+    cameraController.stop();
+    Navigator.pop(context);
+  }
+
+  @override
+  void dispose() {
+    cameraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,11 +152,10 @@ class _SignInPageState extends State<SignInPage> {
                     if (signInApi == null || signInApi?.statusCode != 200) {
                       setState(() {
                         errorMessage = json.decode(utf8.decode(signInApi!.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
-
                       });
                     } else {
                       setState(() {
-                        errorMessage = json.decode(utf8.decode(signInApi.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
+                        errorMessage = json.decode(utf8.decode(signInApi.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi.body)['msg']['en'];
                       });
                       Navigator.pushReplacement(
                         context,
@@ -137,14 +165,75 @@ class _SignInPageState extends State<SignInPage> {
                   },
                   child: Text(AppLocalizations.of(context)!.next),
                 ),
-                // Add a container to display the error message
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Center(
                     child: errorMessage != null ? Text(errorMessage, style: TextStyle(color: Colors.red)) : SizedBox() 
                   ),
                 ),
-                SizedBox(height: 50),
+                if (Platform.isAndroid)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.qr_code),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: SingleChildScrollView(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                                      child: GlassMorphism(
+                                        start: 0.1,
+                                        end: 0.2,
+                                        child: Container(
+                                          width: 400,
+                                          constraints: BoxConstraints(maxHeight: 250),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: SingleChildScrollView(
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  minHeight: 100
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Container(
+                                                        width: 225, // Camera width
+                                                        height: 225, // Camera height
+                                                        child: MobileScanner(
+                                                          controller: cameraController,
+                                                          onDetect: (capture) {
+                                                            final List<Barcode> barcodes = capture.barcodes;
+                                                            for (final barcode in barcodes) {
+                                                              _decodeData(barcode.rawValue);
+                                                            }
+                                                          },
+                                                        ),
+                                                      )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      Text(AppLocalizations.of(context)!.scanQrCodeSignIn),
+                    ],
+                  ),
               ],
             ),
           ),
