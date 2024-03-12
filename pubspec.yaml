@@ -100,8 +100,7 @@ flutter:
   generate: true
 
   assets:
-    - assets/
-    - assets/videos/sign_in_qr.webm
+    - assets/video/sign_in_qr.webm
 
   fonts:
     - family: CustomIcons

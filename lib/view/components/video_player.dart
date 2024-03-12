@@ -7,12 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';  
 
+abstract class AppPlayerMediaType{
+  static const String asset = "asset:///";
+  static const String file = "file:///";
+  static const String http = "http://";
+  static const String https = "https://";
+  static const String rtsp = "rtsp://";
+}
+
 class AppPlayer extends StatefulWidget {
   String source;
 
+  /// use ```
+  /// AppPlayerMediaType;
+  /// ```
+  String mediaType;
+
   AppPlayer({
     Key? key,
-    required this.source
+    required this.source,
+    required this.mediaType
   }) : super(key: key);
   @override
   State<AppPlayer> createState() => AppPlayerState();
@@ -29,7 +43,7 @@ class AppPlayerState extends State<AppPlayer> {
     super.initState();
     // Play a [Media] or [Playlist].
     player.setPlaylistMode(PlaylistMode.loop);
-    player.open(Media(widget.source));
+    player.open(Media('${widget.mediaType}${widget.source}'));
   }
 
   @override

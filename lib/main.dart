@@ -4,6 +4,7 @@ import 'package:mindfulguard/restart_widget.dart';
 import 'package:mindfulguard/view/router.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   runApp(
     RestartWidget(child: const App())

@@ -162,7 +162,8 @@ class _QrCodeLoginPrivacySettingsHelpPageState
             IgnorePointer(
                 ignoring: true,
                 child: AppPlayer(
-                source: 'assets/videos/sign_in_qr.webm',
+                  source: 'assets/video/sign_in_qr.webm',
+                  mediaType: AppPlayerMediaType.asset,
               ),
             ),
             Padding(
