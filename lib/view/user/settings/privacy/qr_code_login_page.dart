@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/view/components/qr.dart';
+import 'package:mindfulguard/view/components/video_player.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeLoginPrivacySettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -52,6 +54,17 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.qrCodeLogin),
+        actions: [
+          IconButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => QrCodeLoginPrivacySettingsHelpPage()),
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+          ],
       ),
       body: Center(
         child: Container(
@@ -121,6 +134,50 @@ class Qr extends StatelessWidget{
             errorCorrectionLevel: QrErrorCorrectLevel.L,
             eyeStyle: _eyeStyle,
             dataModuleStyle: _dataModuleStyle
+      ),
+    );
+  }
+}
+
+class QrCodeLoginPrivacySettingsHelpPage extends StatefulWidget {
+  QrCodeLoginPrivacySettingsHelpPage({Key? key}) : super(key: key);
+
+  @override
+  _QrCodeLoginPrivacySettingsHelpPageState createState() =>
+      _QrCodeLoginPrivacySettingsHelpPageState();
+}
+
+class _QrCodeLoginPrivacySettingsHelpPageState
+    extends State<QrCodeLoginPrivacySettingsHelpPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.helpReference),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IgnorePointer(
+                ignoring: true,
+                child: AppPlayer(
+                source: 'assets/videos/sign_in_qr.webm',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                AppLocalizations.of(context)!.thisFeatureIsSupportedOnDevices('Android'),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

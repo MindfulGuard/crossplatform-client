@@ -321,5 +321,14 @@
     "privacy": "Конфиденциальность",
     "qrCodeLogin": "Вход по Qr коду",
     "qrCodeViewVisibleWarning": "Внимание! Этот QR-код содержит конфиденциальные данные, такие как: API-сервер, Имя пользователя, Пароль, Приватный ключ. Не распространяйте его нигде.",
-    "scanQrCodeSignIn": "Сканирование QR-кода для входа"
+    "scanQrCodeSignIn": "Сканирование QR-кода для входа",
+    "thisFeatureIsSupportedOnDevices": "Эта функция поддерживается на устройствах {value}.",
+    "@thisFeatureIsSupportedOnDevices": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "helpReference": "Справка"
 }

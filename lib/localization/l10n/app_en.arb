@@ -321,5 +321,14 @@
     "privacy": "Privacy",
     "qrCodeLogin": "Qr code Login",
     "qrCodeViewVisibleWarning": "Warning! This QR code contains sensitive data such as: API Server, Username, Password, Private Key. Do not distribute it anywhere.",
-    "scanQrCodeSignIn": "Scan QR code for sign in"
+    "scanQrCodeSignIn": "Scan QR code for sign in",
+    "thisFeatureIsSupportedOnDevices": "This feature is supported on {value} devices.",
+    "@thisFeatureIsSupportedOnDevices": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "helpReference": "Help"
 }
