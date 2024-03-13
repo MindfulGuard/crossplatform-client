@@ -330,5 +330,8 @@
             }
         }
     },
-    "helpReference": "Help"
+    "helpReference": "Help",
+    "serviceNotAvailable": "Service not available",
+    "reload": "Reload",
+    "signOut": "Sign out"
 }

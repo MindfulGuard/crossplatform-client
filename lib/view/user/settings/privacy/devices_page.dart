@@ -5,7 +5,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/deviceIcon.dart';
 
@@ -42,39 +41,47 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
   }
 
   Future<void> _getItems() async {
-    var api = await UserInfoApi(widget.apiUrl, widget.token).execute();
+    var api = UserInfoApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
 
-    if (api?.statusCode != 200 || api?.body == null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignInPage()),
-        );
-    } else {
-      var apiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
-      setState(() {
-        devicesInfoApi = List<dynamic>.from(apiResponse['tokens']);
-      });
-    }
+    await api.execute();
+
+    var apiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
+    setState(() {
+      devicesInfoApi = List<dynamic>.from(apiResponse['tokens']);
+    });
   }
 
   Future<void> _deleteToken(String tokenId) async {
-    var api = await SignOutApi(widget.apiUrl, tokenId, widget.token).execute();
-    if (api?.statusCode == 200) {
-      var userInfo = await UserInfoApi(widget.apiUrl, widget.token).execute();
+    var api = SignOutApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      tokenId:  tokenId
+    );
 
-      if (userInfo?.statusCode != 200) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignInPage()),
-        );
-      } else {
-        setState(() {
-          devicesInfoApi = List<dynamic>.from(jsonDecode(userInfo!.body)['tokens']);
-        });
-        Navigator.pop(context); // Close the modal after successful token deletion
-      }
+    await api.execute();
+
+    if (api.response.statusCode == 200) {
+      var userInfo = UserInfoApi(
+        buildContext: context,
+        apiUrl: widget.apiUrl,
+        token: widget.token
+      );
+
+      await userInfo.execute();
+
+      setState(() {
+        devicesInfoApi = List<dynamic>.from(jsonDecode(userInfo.response.body)['tokens']);
+      });
+
+      Navigator.pop(context); // Close the modal after successful token deletion
+      
     }
-    print(api?.statusCode);
+    print(api.response.statusCode);
   }
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {

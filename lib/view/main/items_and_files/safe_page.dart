@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
@@ -57,64 +56,69 @@ class _SafePageState extends State<SafePage> {
   }
 
   Future<void> _getItems() async {
-    var api = await ItemsApi(widget.apiUrl, widget.token).execute();
+    var api = ItemsApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
 
-    if (api?.statusCode != 200 || api?.body == null) {
-      return;
-    } else {
-      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
-      var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-          decodedApiResponse,
-          ['description'],
-          widget.password,
-          widget.privateKeyBytes
-      );
-      setState(() {
-        widget.itemsApiResponse = decryptedApiResponse; // Update itemsApiResponse
-        fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
-      });
-    }
+    await api.execute();
+
+    var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
+    var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
+        decodedApiResponse,
+        ['description'],
+        widget.password,
+        widget.privateKeyBytes
+    );
+    setState(() {
+      widget.itemsApiResponse = decryptedApiResponse; // Update itemsApiResponse
+      fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
+    });
+
   }
 
   Future<void> _createSafe(BuildContext ctx, String name, String description) async{
-    var api = await SafeCreateApi(
-      widget.apiUrl,
-      widget.token,
-      name,
-      await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
-    ).execute();
-    if (api?.statusCode != 200){
-    } else{
-      await _getItems();
-      Navigator.pop(ctx); // Close the modal
-    }
+    var api = SafeCreateApi(
+      buildContext: ctx,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      name: name,
+      description: await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
+    );
+
+    await api.execute();
+
+    await _getItems();
+    Navigator.pop(ctx); // Close the modal
   }
 
   Future<void> _updateSafe(BuildContext ctx, String safeId, String name, String description) async{
-    var api = await SafeUpdateApi(
-      widget.apiUrl,
-      widget.token,
-      safeId,
-      name,
-      await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
-    ).execute();
-    if (api?.statusCode != 200){
-    } else{
-      await _getItems();
-      Navigator.pop(ctx); // Close the modal
-    }
+    var api = SafeUpdateApi(
+      buildContext: ctx,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      safeId: safeId,
+      name: name,
+      description: await Crypto.crypto().encrypt(description, widget.password, widget.privateKeyBytes),
+    );
+
+    await api.execute();
+
+    await _getItems();
+    Navigator.pop(ctx); // Close the modal
+   
   }
 
   Future<void> _deleteSafe(String safeId) async{
-    var api = await SafeDeleteApi(
-        widget.apiUrl,
-        widget.token,
-        safeId
+    await SafeDeleteApi(
+        buildContext: context,
+        apiUrl: widget.apiUrl,
+        token: widget.token,
+        safeId: safeId
     ).execute();
-    if (api?.statusCode != 200){
-    } else{
-      await _getItems();
-    }
+
+    await _getItems();
   }
 
   Map<String, int> _calculateFileCount(Map<String, dynamic> data) {

@@ -1,26 +1,29 @@
 import 'package:mindfulguard/net/api/base.dart';
-import 'package:http/http.dart' as http;
 
-class SafeDeleteApi extends BaseApi<http.Response> {
+class SafeDeleteApi extends BaseApi {
   String apiUrl;
   String token;
   String safeId;
 
-  SafeDeleteApi(
-    this.apiUrl,
-    this.token,
-    this.safeId,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  SafeDeleteApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.safeId,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
-  Future<http.Response?> execute() async {
+  @override
+  Future<void> execute() async {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await httpClient.delete(Uri.parse("$apiUrl/v1/safe/$safeId"), headers: headers);
-      return response;
+      response_ = await httpClient.delete(Uri.parse("$apiUrl/v1/safe/$safeId"), headers: headers);
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 

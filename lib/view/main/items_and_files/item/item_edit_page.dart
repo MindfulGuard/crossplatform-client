@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/net/api/items/item/update.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_write_abstract.dart';
 
 class ItemsEditPage extends AbstractItemsWritePage {
@@ -100,24 +99,15 @@ class _ItemsEditPageState extends AbstractItemsWritePageState {
 
     var _encryptFormData = await encryptFormData(formData);
 
-    var api = await ItemUpdateApi(
-      widget.apiUrl,
-      widget.token,
-      widget.selectedSafeId,
-      selectedItemId,
-      _encryptFormData,
+    await ItemUpdateApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      safeId: widget.selectedSafeId,
+      itemId: selectedItemId,
+      data: _encryptFormData,
     ).execute();
 
-    if (api != null && api.statusCode == 401) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
-    } else {
-      // Use Navigator.pop with a result
-      Navigator.pop(context, true); // Pass any result you want, e.g., true
-    }
-
-    print(api?.statusCode);
+    Navigator.pop(context, true); // Pass any result you want, e.g., true
   }
 }

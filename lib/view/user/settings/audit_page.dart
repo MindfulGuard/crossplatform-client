@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/user/audit.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/components/deviceIcon.dart';
 
 class AuditSettingsPage extends StatefulWidget {
@@ -47,19 +46,20 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
   }
 
   Future<void> _getItems() async {
-    var api =
-        await UserAuditGetApi(widget.apiUrl, widget.token, page).execute();
+    var api = UserAuditGetApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      page: page
+    );
 
-    if (api?.statusCode != 200) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
-    } else if(api?.body == null) {
+    await api.execute();
+
+    if(api.response.body == null) {
         Navigator.pop(context);
     } else {
       var apiResponse =
-          json.decode(utf8.decode(api!.body.runes.toList()));
+          json.decode(utf8.decode(api.response.body.runes.toList()));
       setState(() {
         auditApi = apiResponse;
       });

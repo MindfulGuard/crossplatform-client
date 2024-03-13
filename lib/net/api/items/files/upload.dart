@@ -4,23 +4,26 @@ import 'package:http/io_client.dart';
 
 import 'package:mindfulguard/net/api/base.dart';
 
-class FileUploadApi extends BaseApi<http.Response> {
+class FileUploadApi extends BaseApi {
   String apiUrl;
   String token;
   String safeId;
   List<int> body;
   String fileName;
 
-  FileUploadApi(
-    this.apiUrl,
-    this.token,
-    this.safeId,
-    this.body,
-    this.fileName,
-  ) : super(ContentType.multipartFormData);
+  FileUploadApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.safeId,
+    required this.body,
+    required this.fileName,
+  }) : super(
+    contentType: ContentType.multipartFormData
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       HttpClient client = HttpClient()
         ..badCertificateCallback =
@@ -30,7 +33,7 @@ class FileUploadApi extends BaseApi<http.Response> {
       await init();
       this.setAuthTokenHeader(token);
 
-      // Создаем объект MultipartRequest и добавляем в него файл
+      // Create a MultipartRequest object and add a file to it
       var request = http.MultipartRequest(
         'POST',
         Uri.parse("$apiUrl/v1/safe/$safeId/content"),
@@ -43,12 +46,12 @@ class FileUploadApi extends BaseApi<http.Response> {
       ));
 
       var streamedResponse = await httpClient.send(request);
-      var response = await http.Response.fromStream(streamedResponse);
+      response_ = await http.Response.fromStream(streamedResponse);
 
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

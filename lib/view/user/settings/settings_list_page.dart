@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
+import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
-import 'package:mindfulguard/view/user/settings/privacy/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/privacy_list_page.dart';
 
@@ -59,12 +59,25 @@ class _SettingsListPageState extends State<SettingsListPage>{
       }
     }
 
-    var api = await SignOutApi(widget.apiUrl, tokenIdResult, widget.token).execute();
-    if (api?.statusCode == 200) {
+    var api = SignOutApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      tokenId:  tokenIdResult,
+    );
+
+    await api.execute();
+
+    if (api.response.statusCode == 200) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => SignInPage()),
         );
+
+        final db = AppDb();
+        await db.delete(db.modelUser).go();
+        await db.delete(db.modelSettings).go();
+
     } else{
       return;
     }

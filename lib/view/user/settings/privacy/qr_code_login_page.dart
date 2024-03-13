@@ -4,10 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/components/qr.dart';
 import 'package:mindfulguard/view/components/video_player.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeLoginPrivacySettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -36,6 +36,17 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
   }
 
   Future<void> _getData() async{
+    var api = UserInfoApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
+
+    await api.execute();
+    if (api.response.statusCode != 200){
+      return;
+    }
+    
     final db = AppDb();
     var dataUser = await db.select(db.modelUser).getSingle();
     var dataSettings = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('api_url'))).getSingle();

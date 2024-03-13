@@ -1,30 +1,32 @@
 import 'package:mindfulguard/net/api/base.dart';
-import 'package:http/http.dart' as http;
 
-class SignOutApi extends BaseApi<http.Response> {
+class SignOutApi extends BaseApi {
   String apiUrl;
   String tokenId;
   String token;
 
-  SignOutApi(
-    this.apiUrl,
-    this.tokenId,
-    this.token,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  SignOutApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.tokenId,
+    required this.token,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       await init();
       setAuthTokenHeader(token);
-      var response = await httpClient.delete(
+      response_ = await httpClient.delete(
         Uri.parse("$apiUrl/v1/auth/sign_out/$tokenId"),
         headers: headers,
       );
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

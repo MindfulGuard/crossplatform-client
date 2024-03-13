@@ -1,32 +1,34 @@
 import 'package:mindfulguard/net/api/base.dart';
-import 'package:http/http.dart' as http;
 
-class ItemFavoriteApi extends BaseApi<http.Response> {
+class ItemFavoriteApi extends BaseApi {
   String apiUrl;
   String token;
   String safeId;
   String itemId;
 
-  ItemFavoriteApi(
-    this.apiUrl,
-    this.token,
-    this.safeId,
-    this.itemId,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  ItemFavoriteApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.safeId,
+    required this.itemId,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await httpClient.put(
+      response_ = await httpClient.put(
         Uri.parse("$apiUrl/v1/safe/$safeId/item/$itemId/favorite"),
         headers: headers
       );
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

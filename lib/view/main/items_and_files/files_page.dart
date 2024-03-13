@@ -10,7 +10,6 @@ import 'package:mindfulguard/net/api/items/files/download.dart';
 import 'package:mindfulguard/net/api/items/files/upload.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/utils/disk.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
@@ -56,33 +55,29 @@ class _FilesPageState extends State<FilesPage> {
 
   // Method to fetch items from the API
   Future<void> _getItems() async {
-    var api = await ItemsApi(widget.apiUrl, widget.token).execute();
+    var api = ItemsApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
 
-    if (api?.statusCode != 200 || api?.body == null) {
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
-      return;
-    } else {
-      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
+    await api.execute();
 
-      setState(() {
-        itemsApiResponse = decodedApiResponse;
-        selectedSafeFiles = (itemsApiResponse['files'] as List<dynamic>)
-            .where((file) => file['safe_id'] == widget.selectedSafeId)
-            .toList();
+    var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
 
-        if (selectedSafeFiles.isNotEmpty) {
-          selectedSafeFiles = selectedSafeFiles[0]['objects'];
-        }
+    setState(() {
+      itemsApiResponse = decodedApiResponse;
+      selectedSafeFiles = (itemsApiResponse['files'] as List<dynamic>)
+          .where((file) => file['safe_id'] == widget.selectedSafeId)
+          .toList();
 
-        isLoading = false;
-      });
-    }
+      if (selectedSafeFiles.isNotEmpty) {
+        selectedSafeFiles = selectedSafeFiles[0]['objects'];
+      }
+
+      isLoading = false;
+    });
+
   }
 
   // Method to handle refresh action
@@ -93,10 +88,11 @@ class _FilesPageState extends State<FilesPage> {
   // Method to delete a file
   Future<void> _deleteFile(String fileId) async {
     await FileDeleteApi(
-      widget.apiUrl,
-      widget.token,
-      widget.selectedSafeId,
-      fileId
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      safeId: widget.selectedSafeId,
+      fileId: fileId
     ).execute();
   }
 
@@ -116,22 +112,25 @@ class _FilesPageState extends State<FilesPage> {
       }
     }
 
-    var api = await FilesDownloadApi(
-      widget.apiUrl,
-      widget.token,
-      contentPath,
-    ).execute();
+    var api = FilesDownloadApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      pathToFile: contentPath,
+    );
 
-    if (api?.statusCode != 200) {
+    await api.execute();
+
+    if (api.response.statusCode != 200 && api.response.statusCode != 401) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.failedToDownloadFileStatusCode(api?.statusCode??0)),
+          content: Text(AppLocalizations.of(context)!.failedToDownloadFileStatusCode(api.response.statusCode??0)),
         ),
       );
       return;
     }
 
-    List<int>? fileBytes = api!.bodyBytes;
+    List<int>? fileBytes = api.response.bodyBytes;
 
     if (fileBytes == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -230,11 +229,12 @@ class _FilesPageState extends State<FilesPage> {
           
           // Upload each file
           await FileUploadApi(
-            widget.apiUrl,
-            widget.token,
-            widget.selectedSafeId,
-            bytes,
-            fileName,
+            buildContext: context,
+            apiUrl: widget.apiUrl,
+            token: widget.token,
+            safeId: widget.selectedSafeId,
+            body: bytes,
+            fileName: fileName,
           ).execute();
 
           // Update upload progress after each file upload

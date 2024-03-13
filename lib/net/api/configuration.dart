@@ -1,24 +1,32 @@
-import 'package:mindfulguard/net/api/base.dart';
 import 'package:http/http.dart' as http;
+import 'package:mindfulguard/net/api/base.dart';
 
-class ConfigurationApi extends BaseApi<http.Response> {
+class ConfigurationApi extends BaseApi {
   String apiUrl;
 
-  ConfigurationApi(
-    this.apiUrl,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  ConfigurationApi({
+    required this.apiUrl,
+  }) : super(
+    buildContext: null,
+    contentType: ContentType.xWwwFormUrlencoded,
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  http.Response get response{
+    return response_;
+  }
+
+  @override
+  Future<void> execute() async {
     try {
       await init();
-      var response = await httpClient.get(
+      response_ = await httpClient.get(
         Uri.parse("$apiUrl/v1/public/configuration"),
       );
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

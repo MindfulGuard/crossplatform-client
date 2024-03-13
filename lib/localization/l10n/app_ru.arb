@@ -330,5 +330,8 @@
             }
         }
     },
-    "helpReference": "Справка"
+    "helpReference": "Справка",
+    "serviceNotAvailable": "Сервис недоступен",
+    "reload": "Перезагрузить",
+    "signOut": "Выйти"
 }

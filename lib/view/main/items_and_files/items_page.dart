@@ -7,7 +7,6 @@ import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
 import 'package:mindfulguard/net/api/items/item/favorite.dart';
 import 'package:mindfulguard/net/api/items/item/move.dart';
-import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
@@ -61,36 +60,32 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
   Future<void> _getItems() async {
-    var api = await ItemsApi(widget.apiUrl, widget.token).execute();
+    var api = ItemsApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
 
-    if (api?.statusCode != 200 || api?.body == null) {
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
-      return;
-    } else {
-      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
-      var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-        decodedApiResponse,
-        ['value', 'notes'],
-        widget.password,
-        widget.privateKeyBytes,
-      );
+    await api.execute();
+    
+    var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
+    var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
+      decodedApiResponse,
+      ['value', 'notes'],
+      widget.password,
+      widget.privateKeyBytes,
+    );
 
-      setState(() {
-        itemsApiResponse = decryptedApiResponse;
-        // Filter items based on selectedSafeId and convert to List
-        selectedSafeItems = (itemsApiResponse['list'] as List<dynamic>)
-            .where((item) => item['safe_id'] == widget.selectedSafeId)
-            .toList();
-        isLoading = false;
-        isButtonDisabled = false; // Enable the button after loading
-      });
-    }
+    setState(() {
+      itemsApiResponse = decryptedApiResponse;
+      // Filter items based on selectedSafeId and convert to List
+      selectedSafeItems = (itemsApiResponse['list'] as List<dynamic>)
+          .where((item) => item['safe_id'] == widget.selectedSafeId)
+          .toList();
+      isLoading = false;
+      isButtonDisabled = false; // Enable the button after loading
+    });
+    
   }
 
   Future<void> _handleRefresh() async {
@@ -122,23 +117,17 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
 Future<void> _deleteItem(String itemId) async {
-  try {
-    var api = await ItemDeleteApi(
-      widget.apiUrl,
-      widget.token,
-      widget.selectedSafeId,
-      itemId,
-    ).execute();
+    var api = ItemDeleteApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token,
+      safeId: widget.selectedSafeId,
+      itemId: itemId,
+    );
 
-    if (api?.statusCode != 200) {
-      print('Delete request failed with status code: ${api?.statusCode}');
-      return;
-    }
+    await api.execute();
+
     await _getItems();
-    print('Item deleted successfully');
-  } catch (error) {
-    print('Error during item deletion: $error');
-  }
 }
 
   @override
@@ -209,22 +198,17 @@ Future<void> _deleteItem(String itemId) async {
   }
 
   void _addOrRemoveFavorite(String itemId) async{
-    try {
-      var api = await ItemFavoriteApi(
-        widget.apiUrl,
-        widget.token,
-        widget.selectedSafeId,
-        itemId,
-      ).execute();
+      var api = ItemFavoriteApi(
+        buildContext: context,
+        apiUrl: widget.apiUrl,
+        token: widget.token,
+        safeId: widget.selectedSafeId,
+        itemId: itemId,
+      );
 
-      if (api?.statusCode != 200) {
-        print('Favorite request failed with status code: ${api?.statusCode}');
-        return;
-      }
+      await api.execute();
+
       await _getItems();
-    } catch (error) {
-      print('Cannot perform an operation on a favorite: $error');
-    }
   }
 
   void _showItemActionsDialog(
@@ -303,18 +287,21 @@ Future<void> _deleteItem(String itemId) async {
               mainAxisSize: MainAxisSize.min,
               children: [
                 for (var val in safes)
-                  GlassMorphismActionRow(
-                    icon: val['id'] == widget.selectedSafeId? Icons.done: null,
-                    label: val['name'],
-                    onTap: () async {
-                      _moveItemToNewSafe(
-                        val['id'],
-                        val['name'],
-                        itemId
-                      );
-                      Navigator.pop(context);
-                    },
-                  ),
+                  IgnorePointer(
+                    ignoring: val['id'] == widget.selectedSafeId ? true : false,
+                    child: GlassMorphismActionRow(
+                      icon: val['id'] == widget.selectedSafeId? Icons.done: null,
+                      label: val['name'],
+                      onTap: () async {
+                        _moveItemToNewSafe(
+                          val['id'],
+                          val['name'],
+                          itemId
+                        );
+                        Navigator.pop(context);
+                      },
+                    ),
+                )
               ],
             ),
           ]
@@ -329,22 +316,15 @@ Future<void> _deleteItem(String itemId) async {
     String itemId
   ) async{
     try {
-      var api = await ItemMoveToNewSafeApi(
-        widget.apiUrl,
-        widget.token,
-        widget.selectedSafeId,
-        newSafeId,
-        itemId
+      await ItemMoveToNewSafeApi(
+        buildContext: context,
+        apiUrl: widget.apiUrl,
+        token: widget.token,
+        oldSafeId: widget.selectedSafeId,
+        newSafeId: newSafeId,
+        itemId: itemId
       ).execute();
-      if (api?.statusCode != 200 && api != null) {
-        Map<String, dynamic> body = json.decode(utf8.decode(api.body.runes.toList()));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(body[Localization.getLocale()]?? body[Localization.defaultLanguage]),
-          ),
-        );
-        return;
-      }
+  
       await _getItems();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

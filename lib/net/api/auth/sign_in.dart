@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:mindfulguard/net/api/base.dart';
 import 'package:http/http.dart' as http;
 
-class SignInApi extends BaseApi<http.Response> {
+class SignInApi extends BaseApi {
   String apiUrl;
   String login;
   String secretString;
@@ -11,17 +11,25 @@ class SignInApi extends BaseApi<http.Response> {
   String totp;
   String codeType;
 
-  SignInApi(
-    this.apiUrl,
-    this.login,
-    this.secretString,
-    this.tokenExpiration,
-    this.totp,
-    this.codeType,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  SignInApi({
+    required this.apiUrl,
+    required this.login,
+    required this.secretString,
+    required this.tokenExpiration,
+    required this.totp,
+    required this.codeType,
+  }) : super(
+    buildContext: null,
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  http.Response get response{
+    return response_;
+  }
+
+  @override
+  Future<void> execute() async {
     try {
       await init();
       Map<String, String> body = <String, String>{};
@@ -30,16 +38,16 @@ class SignInApi extends BaseApi<http.Response> {
       body['expiration'] = tokenExpiration.toString();
       body['code'] = totp;
 
-      var response = await httpClient.post(
+      response_ = await httpClient.post(
         Uri.parse("$apiUrl/v1/auth/sign_in?type=$codeType"),
         headers: headers,
         body: body,
         encoding: utf8
       );
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

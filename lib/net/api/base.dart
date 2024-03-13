@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
+import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/view/auth/service_not_available_page.dart';
+import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:http/http.dart' as http;
 
 class ContentType {
   static String xWwwFormUrlencoded = "application/x-www-form-urlencoded";
@@ -9,13 +14,20 @@ class ContentType {
   static String multipartFormData = "multipart/form-data";
 }
 
-abstract class BaseApi<T> {
+abstract class BaseApi {
   late StringBuffer deviceName = StringBuffer();
   late Map<String, String> headers = {};
   late String contentType;
   late IOClient httpClient;
 
-  BaseApi(this.contentType){
+  BuildContext? buildContext;
+
+  late http.Response response_;
+
+  BaseApi({
+    required this.contentType,
+    required this.buildContext
+  }){
       HttpClient client = HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
       httpClient = IOClient(client);
   }
@@ -54,5 +66,50 @@ abstract class BaseApi<T> {
     headers['Authorization'] = "Bearer $token";
   }
 
-  Future<T?> execute();
+  Future<void> execute();
+
+  http.Response get response {
+    final db = AppDb();
+    try{
+      if (response_.statusCode == 401) {
+        Navigator.pushReplacement(
+          buildContext!,
+          MaterialPageRoute(builder: (context) => SignInPage()),
+        );
+
+        db.delete(db.modelUser).go();
+        db.delete(db.modelSettings).go();
+
+        // Finish deleting data from the database. and exception handling if the server is not available!!!
+
+        return http.Response(response_.body, response_.statusCode);
+      } else {
+        return response_;
+      }
+    } catch (e){
+      print(e);
+
+      db.select(db.modelUser).get().then((settings) {
+        if (settings.length > 0) {
+          Navigator.pushReplacement(
+            buildContext!,
+            MaterialPageRoute(builder: (context) => ServiceNotAvailablePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            buildContext!,
+            MaterialPageRoute(builder: (context) => SignInPage()),
+          );
+        }
+      }).catchError((error) {
+        print("Error while getting settings: $error");
+        Navigator.pushReplacement(
+          buildContext!,
+          MaterialPageRoute(builder: (context) => SignInPage()),
+        );
+      });
+    }
+
+      return http.Response('', 500);
+    }
 }

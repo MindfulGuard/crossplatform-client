@@ -1,31 +1,33 @@
 import 'dart:async';
 import 'package:mindfulguard/net/api/base.dart';
-import 'package:http/http.dart' as http;
 
-class FilesDownloadApi extends BaseApi<http.Response> {
+class FilesDownloadApi extends BaseApi {
   String apiUrl;
   String token;
   String pathToFile;
 
-  FilesDownloadApi(
-    this.apiUrl,
-    this.token,
-    this.pathToFile,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  FilesDownloadApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.pathToFile,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await httpClient.get(
+      response_ = await httpClient.get(
         Uri.parse("$apiUrl/v1/$pathToFile"),
         headers: headers,
       );
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

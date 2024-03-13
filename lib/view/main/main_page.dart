@@ -52,23 +52,25 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _getItems() async {
-    var api = await ItemsApi(apiUrl, accessToken).execute();
+    var api = ItemsApi(
+      buildContext: context,
+      apiUrl: apiUrl,
+      token: accessToken 
+    );
 
-    if (api?.statusCode != 200 || api?.body == null) {
-      return;
-    } else {
-      var decodedApiResponse = json.decode(utf8.decode(api!.body.runes.toList()));
-      var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-        decodedApiResponse,
-        ['description'], // Decodes the description of the safe.
-        password,
-        Crypto.fromPrivateKeyToBytes(privateKey),
-      );
+    await api.execute();
 
-      setState(() {
-        itemsApiResponse = decryptedApiResponse;
-      });
-    }
+    var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
+    var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
+      decodedApiResponse,
+      ['description'], // Decodes the description of the safe.
+      password,
+      Crypto.fromPrivateKeyToBytes(privateKey),
+    );
+
+    setState(() {
+      itemsApiResponse = decryptedApiResponse;
+    });
   }
 
   Future<Response?> _checkUserAuthentication() async {
@@ -85,21 +87,20 @@ class _MainPageState extends State<MainPage> {
         MaterialPageRoute(builder: (context) => SignInPage()),
       );
     } else {
-      var userInfoApiResponse =
-          await UserInfoApi(dataSettings.value!, token).execute();
-      if (userInfoApiResponse?.statusCode != 200) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignInPage()),
-        );
-      } else {
-        print(dataSettings.value);
-        this.apiUrl = dataSettings.value!;
-        this.password = dataUser.firstOrNull!.password!;
-        this.privateKey = dataUser.firstOrNull!.privateKey!;
-        this.accessToken = token;
-        return userInfoApiResponse;
-      }
+      var userInfoApiResponse = UserInfoApi(
+        buildContext: context,
+        apiUrl: dataSettings.value!,
+        token: token,
+      );
+
+      await userInfoApiResponse.execute();
+
+      print(dataSettings.value);
+      this.apiUrl = dataSettings.value!;
+      this.password = dataUser.firstOrNull!.password!;
+      this.privateKey = dataUser.firstOrNull!.privateKey!;
+      this.accessToken = token;
+      return userInfoApiResponse.response;
     }
     return null;
   }

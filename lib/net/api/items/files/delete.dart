@@ -1,37 +1,39 @@
-import 'package:http/http.dart' as http;
 import 'package:mindfulguard/net/api/base.dart';
 
-class FileDeleteApi extends BaseApi<http.Response> {
+class FileDeleteApi extends BaseApi {
   String apiUrl;
   String token;
   String safeId;
   String fileId;
 
-  FileDeleteApi(
-    this.apiUrl,
-    this.token,
-    this.safeId,
-    this.fileId,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  FileDeleteApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.safeId,
+    required this.fileId,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded
+  );
 
   @override
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       await init();
       this.setAuthTokenHeader(token);
       
       Map<String, String> body = <String, String>{};
       body['files'] = fileId;
-      var response = await httpClient.delete(
+      response_ = await httpClient.delete(
         Uri.parse("$apiUrl/v1/safe/$safeId/content"),
         headers: headers,
         body: body
       );
 
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 }

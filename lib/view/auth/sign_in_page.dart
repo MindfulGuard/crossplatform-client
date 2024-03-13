@@ -271,13 +271,17 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<Response?> _signInApi() async {
-    var configApi = await ConfigurationApi(apiUrl.text).execute();
-    if (configApi!.statusCode != 200){
+    var configApi = ConfigurationApi(
+      apiUrl: apiUrl.text
+    );
+    await configApi.execute();
+
+    if (configApi.response.statusCode != 200){
       return null;
     }
-    Map<String, dynamic> configResponse = json.decode(configApi!.body);
-    print(configApi.body);
-    print(configApi.statusCode);
+    Map<String, dynamic> configResponse = json.decode(configApi.response.body);
+    print(configApi.response.body);
+    print(configApi.response.statusCode);
 
     RegExp regExp = RegExp(configResponse['password_rule']);
     if (!regExp.hasMatch(password.text)){
@@ -285,20 +289,22 @@ class _SignInPageState extends State<SignInPage> {
     }
 
     String secretString = Crypto.hash().sha(utf8.encode(login.text+password.text+privateKey.text)).toString();
-    var signInApi = await SignInApi(
-      apiUrl.text,
-      login.text,
-      secretString,
-      (selectedDateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) ~/ 60000, // From unixtime (milliseconds) to minutes.
-      oneTimeOrBackupCode.text,
-      _selectedOption!
-    ).execute();
+    var signInApi = SignInApi(
+      apiUrl: apiUrl.text,
+      login: login.text,
+      secretString: secretString,
+      tokenExpiration: (selectedDateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) ~/ 60000, // From unixtime (milliseconds) to minutes.
+      totp: oneTimeOrBackupCode.text,
+      codeType: _selectedOption!
+    );
 
-    if (signInApi!.statusCode != 200){
-      return signInApi;
+    await signInApi.execute();
+
+    if (signInApi.response.statusCode != 200){
+      return signInApi.response;
     }
 
-    String token = json.decode(signInApi.body)['token'];
+    String token = json.decode(signInApi.response.body)['token'];
 
     final modelUser = ModelUserCompanion(
       login: drift.Value(login.text),
@@ -323,6 +329,6 @@ class _SignInPageState extends State<SignInPage> {
         modelSettings,
         onConflict: drift.DoUpdate((_)=>modelSettings, target: [db.modelSettings.key]), 
       );
-    return signInApi;
+    return signInApi.response;
   }
 }

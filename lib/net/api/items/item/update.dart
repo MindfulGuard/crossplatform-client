@@ -3,35 +3,39 @@ import 'dart:convert';
 import 'package:mindfulguard/net/api/base.dart';
 import 'package:http/http.dart' as http;
 
-class ItemUpdateApi extends BaseApi<http.Response> {
+class ItemUpdateApi extends BaseApi {
   String apiUrl;
   String token;
   String safeId;
   String itemId;
   Map<String, dynamic> data;
 
-  ItemUpdateApi(
-    this.apiUrl,
-    this.token,
-    this.safeId,
-    this.itemId,
-    this.data,
-  ) : super(ContentType.applicationJson);
+  ItemUpdateApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.safeId,
+    required this.itemId,
+    required this.data,
+  }) : super(
+    contentType: ContentType.applicationJson
+  );
 
-  Future<http.Response?> execute() async {
+  @override
+  Future<void> execute() async {
     try {
       await init();
       this.setAuthTokenHeader(token);
-      var response = await _putWithRedirect(
+      response_ = await _putWithRedirect(
         Uri.parse("$apiUrl/v1/safe/$safeId/item/$itemId"),
         headers: headers,
         body: jsonEncode(data)
       );
       print(response.statusCode);
-      return response;
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 

@@ -3,20 +3,23 @@ import 'dart:convert';
 import 'package:mindfulguard/net/api/base.dart';
 import 'package:http/http.dart' as http;
 
-class SafeCreateApi extends BaseApi<http.Response> {
+class SafeCreateApi extends BaseApi {
   String apiUrl;
   String token;
-    String name;
+  String name;
   String description;
 
-  SafeCreateApi(
-    this.apiUrl,
-    this.token,
-    this.name,
-    this.description,
-  ) : super(ContentType.xWwwFormUrlencoded);
+  SafeCreateApi({
+    required super.buildContext,
+    required this.apiUrl,
+    required this.token,
+    required this.name,
+    required this.description,
+  }) : super(
+    contentType: ContentType.xWwwFormUrlencoded,
+  );
 
-  Future<http.Response?> execute() async {
+  Future<void> execute() async {
     try {
       await init();
       Map<String, String> body = <String, String>{};
@@ -24,11 +27,11 @@ class SafeCreateApi extends BaseApi<http.Response> {
       body['description'] = description;
 
       this.setAuthTokenHeader(token);
-      var response = await _postWithRedirect(Uri.parse("$apiUrl/v1/safe"), headers: headers, body: body);
-      return response;
+      response_ = await _postWithRedirect(Uri.parse("$apiUrl/v1/safe"), headers: headers, body: body);
+      return;
     } catch (e) {
       print(e);
-      return null;
+      return;
     }
   }
 

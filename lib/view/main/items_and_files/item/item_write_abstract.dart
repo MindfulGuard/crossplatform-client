@@ -44,11 +44,16 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
 
   // Asynchronous function for loading data from API
   Future<void> fetchApiData() async {
-    var api = await ConfigurationApi(widget.apiUrl).execute();
-    if (api?.statusCode != 200) {
+    var api = await ConfigurationApi(
+      apiUrl: widget.apiUrl
+    );
+
+    await api.execute();
+
+    if (api.response.statusCode != 200) {
       return;
     } else {
-      var json = jsonDecode(api!.body);
+      var json = jsonDecode(api.response.body);
       
       List<dynamic>? categoriesDynamic = json['item_categories'];
       List<dynamic>? typesDynamic = json['item_types'];
