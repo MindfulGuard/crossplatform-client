@@ -8,6 +8,9 @@ on:
     branches:
       - '*'
 
+env:
+  CHANGELOG_FILE: CHANGELOG.md
+
 jobs:
   android:
     name: Android
@@ -27,11 +30,21 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
             sudo chmod +x /usr/bin/yq
 
+      - name: Install git-cliff
+        run: |
+          sudo apt-get install curl -y
+          curl https://sh.rustup.rs -sSf | sh
+
       - name: Extract version from pubspec.yaml
         run: |
             version=$(yq eval '.version' pubspec.yaml)
             echo "version=${version}" >> $GITHUB_ENV
-        
+    
+      - name: Create ${{env.CHANGELOG_FILE}}
+        run: |
+          git cliff --output ${{env.CHANGELOG_FILE}}
+          cat ${{env.CHANGELOG_FILE}}
+
       - name: Sign Apk
         run: |
           echo '${{ secrets.KEYSTORE }}' | base64 --decode > android/upload-keystore.jks
@@ -41,11 +54,12 @@ jobs:
         run: |
           flutter build apk --release
           mv build/app/outputs/flutter-apk/app-release.apk MindfulGuard_android.apk
-  
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
+            body_path: ${{env.CHANGELOG_FILE}}
             files: MindfulGuard_android.apk
             tag_name: ${{ env.version }}
         env:
