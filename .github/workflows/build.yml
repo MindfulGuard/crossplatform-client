@@ -33,6 +33,8 @@ jobs:
       - name: Install git-cliff
         run: |
           curl https://sh.rustup.rs -sSf | sh -s -- -y
+          cargo install git-cliff
+          git cliff --version
 
       - name: Extract version from pubspec.yaml
         run: |
