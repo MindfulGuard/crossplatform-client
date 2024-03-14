@@ -24,7 +24,7 @@ class UserInfoApi extends BaseApi {
       response_ = await httpClient.get(
         Uri.parse("$apiUrl/v1/user"),
         headers: headers,
-      ).timeout(const Duration(seconds: 20), onTimeout: () {
+      ).timeout(const Duration(seconds: 7), onTimeout: () {
         throw TimeoutException('The connection timed out');
       });
       return;

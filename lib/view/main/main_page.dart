@@ -124,21 +124,6 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
-  Future<void> _refreshData() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    if (_currentIndex == 0) {
-      await _getItems();
-    } else {
-      await _initializeUserInfo();
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,10 +131,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('MindfulGuard'),
       ),
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        child: _buildPageContent(),
-      ),
+      body: _buildPageContent(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: isLoading ? null : onTabTapped,

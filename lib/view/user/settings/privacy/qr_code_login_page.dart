@@ -174,7 +174,7 @@ class _QrCodeLoginPrivacySettingsHelpPageState
                 ignoring: true,
                 child: AppPlayer(
                   source: 'assets/video/sign_in_qr.webm',
-                  mediaType: AppPlayerMediaType.asset,
+                  mediaType: AppPlayerResourceType.asset,
               ),
             ),
             Padding(

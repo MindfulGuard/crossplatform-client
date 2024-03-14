@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';  
 
-abstract class AppPlayerMediaType{
+abstract class AppPlayerResourceType{
   static const String asset = "asset:///";
   static const String file = "file:///";
   static const String http = "http://";
@@ -19,7 +19,7 @@ class AppPlayer extends StatefulWidget {
   String source;
 
   /// use ```
-  /// AppPlayerMediaType;
+  /// AppPlayerResourceType;
   /// ```
   String mediaType;
 

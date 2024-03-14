@@ -139,97 +139,100 @@ class _SafePageState extends State<SafePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: (widget.itemsApiResponse["safes"] as List<dynamic>).length,
-        itemBuilder: (context, index) {
-          var safe = widget.itemsApiResponse["safes"]![index] as Map<String, dynamic>;
-          String safeid = safe["id"];
-          int? fileCount = fileCounts[safeid] ?? 0;
-          return Material(
-            child: Card(
-              child: InkWell(
-                onLongPress: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return GlassMorphismItemActionsWidget(
-                        functions: [
-                          GlassMorphismActionRow(
-                            icon: Icons.edit,
-                            label: AppLocalizations.of(context)!.edit,
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showEditSafeModal(
-                                context,
-                                safe["id"],
-                                TextEditingController(text: safe["name"]),
-                                TextEditingController(text: safe["description"])
-                                );
-                            }
+      body:  RefreshIndicator(
+        onRefresh: _getItems,
+        child: ListView.builder(
+          itemCount: (widget.itemsApiResponse["safes"] as List<dynamic>).length,
+          itemBuilder: (context, index) {
+            var safe = widget.itemsApiResponse["safes"]![index] as Map<String, dynamic>;
+            String safeid = safe["id"];
+            int? fileCount = fileCounts[safeid] ?? 0;
+            return Material(
+              child: Card(
+                child: InkWell(
+                  onLongPress: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return GlassMorphismItemActionsWidget(
+                          functions: [
+                            GlassMorphismActionRow(
+                              icon: Icons.edit,
+                              label: AppLocalizations.of(context)!.edit,
+                              onTap: () {
+                                Navigator.pop(context);
+                                _showEditSafeModal(
+                                  context,
+                                  safe["id"],
+                                  TextEditingController(text: safe["name"]),
+                                  TextEditingController(text: safe["description"])
+                                  );
+                              }
+                            ),
+                            GlassMorphismActionRow(
+                              icon: Icons.delete,
+                              label: AppLocalizations.of(context)!.delete,
+                              onTap: () async{
+                                Navigator.pop(context);
+                                await _deleteSafe(safe["id"]);
+                              }
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ItemsNavigator(
+                          apiUrl: widget.apiUrl,
+                          token: widget.token,
+                          selectedSafeId: safeid,
+                          selectedSafeName: safe['name'],
+                          password: widget.password,
+                          privateKey: widget.privateKey,
+                          privateKeyBytes: widget.privateKeyBytes,
+                          safesApiResponse: widget.itemsApiResponse["safes"],
+                          itemsApiResponse: widget.itemsApiResponse,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
+                        subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"])),
+                      ),
+                      ListTile(
+                        title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
+                        subtitle: Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(safe["created_at"] as int))),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ListTile(
+                              title: Text(AppLocalizations.of(context)!.itemCount(safe["count_items"])),
+                            ),
                           ),
-                          GlassMorphismActionRow(
-                            icon: Icons.delete,
-                            label: AppLocalizations.of(context)!.delete,
-                            onTap: () async{
-                              Navigator.pop(context);
-                              await _deleteSafe(safe["id"]);
-                            }
+                          Expanded(
+                            child: ListTile(
+                              title: Text(AppLocalizations.of(context)!.fileCount(fileCount)), // Display the number of files
+                            ),
                           ),
                         ],
-                      );
-                    },
-                  );
-                },
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ItemsNavigator(
-                        apiUrl: widget.apiUrl,
-                        token: widget.token,
-                        selectedSafeId: safeid,
-                        selectedSafeName: safe['name'],
-                        password: widget.password,
-                        privateKey: widget.privateKey,
-                        privateKeyBytes: widget.privateKeyBytes,
-                        safesApiResponse: widget.itemsApiResponse["safes"],
-                        itemsApiResponse: widget.itemsApiResponse,
                       ),
-                    ),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
-                      subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"])),
-                    ),
-                    ListTile(
-                      title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
-                      subtitle: Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(safe["created_at"] as int))),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ListTile(
-                            title: Text(AppLocalizations.of(context)!.itemCount(safe["count_items"])),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            title: Text(AppLocalizations.of(context)!.fileCount(fileCount)), // Display the number of files
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Add more ListTile widgets here for other safe properties if needed
-                  ],
+                      // Add more ListTile widgets here for other safe properties if needed
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
