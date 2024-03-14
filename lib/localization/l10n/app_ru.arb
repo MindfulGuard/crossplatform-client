@@ -333,5 +333,13 @@
     "helpReference": "Справка",
     "serviceNotAvailable": "Сервис недоступен",
     "reload": "Перезагрузить",
-    "signOut": "Выйти"
+    "signOut": "Выйти",
+    "totalFileSizeWithValue": "Общий размер файлов: {value}",
+    "@totalFileSizeWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }

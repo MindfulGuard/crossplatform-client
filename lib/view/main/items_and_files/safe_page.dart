@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -39,6 +40,9 @@ class _SafePageState extends State<SafePage> {
 
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
+
+  void Function()? _cardInfoOnLongPress;
+  Function(TapDownDetails)? _cardInfoOnSecondaryTapDown;
 
   @override
   void initState() {
@@ -136,6 +140,76 @@ class _SafePageState extends State<SafePage> {
     return result;
   }
 
+  void _buildCard(Map<String, dynamic> safe){
+    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS){
+      _cardInfoOnSecondaryTapDown = (details){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return GlassMorphismItemActionsWidget(
+              functions: [
+                GlassMorphismActionRow(
+                  icon: Icons.edit,
+                  label: AppLocalizations.of(context)!.edit,
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showEditSafeModal(
+                      context,
+                      safe["id"],
+                      TextEditingController(text: safe["name"]),
+                      TextEditingController(text: safe["description"])
+                      );
+                  }
+                ),
+                GlassMorphismActionRow(
+                  icon: Icons.delete,
+                  label: AppLocalizations.of(context)!.delete,
+                  onTap: () async{
+                    Navigator.pop(context);
+                    await _deleteSafe(safe["id"]);
+                  }
+                ),
+              ],
+            );
+          },
+        );
+      };
+    } else {
+        _cardInfoOnLongPress = (){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return GlassMorphismItemActionsWidget(
+              functions: [
+                GlassMorphismActionRow(
+                  icon: Icons.edit,
+                  label: AppLocalizations.of(context)!.edit,
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showEditSafeModal(
+                      context,
+                      safe["id"],
+                      TextEditingController(text: safe["name"]),
+                      TextEditingController(text: safe["description"])
+                      );
+                  }
+                ),
+                GlassMorphismActionRow(
+                  icon: Icons.delete,
+                  label: AppLocalizations.of(context)!.delete,
+                  onTap: () async{
+                    Navigator.pop(context);
+                    await _deleteSafe(safe["id"]);
+                  }
+                ),
+              ],
+            );
+          },
+        );
+      };
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,43 +219,14 @@ class _SafePageState extends State<SafePage> {
           itemCount: (widget.itemsApiResponse["safes"] as List<dynamic>).length,
           itemBuilder: (context, index) {
             var safe = widget.itemsApiResponse["safes"]![index] as Map<String, dynamic>;
+            _buildCard(safe);
             String safeid = safe["id"];
             int? fileCount = fileCounts[safeid] ?? 0;
             return Material(
-              child: Card(
+              child:  Card(
                 child: InkWell(
-                  onLongPress: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return GlassMorphismItemActionsWidget(
-                          functions: [
-                            GlassMorphismActionRow(
-                              icon: Icons.edit,
-                              label: AppLocalizations.of(context)!.edit,
-                              onTap: () {
-                                Navigator.pop(context);
-                                _showEditSafeModal(
-                                  context,
-                                  safe["id"],
-                                  TextEditingController(text: safe["name"]),
-                                  TextEditingController(text: safe["description"])
-                                  );
-                              }
-                            ),
-                            GlassMorphismActionRow(
-                              icon: Icons.delete,
-                              label: AppLocalizations.of(context)!.delete,
-                              onTap: () async{
-                                Navigator.pop(context);
-                                await _deleteSafe(safe["id"]);
-                              }
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                  onSecondaryTapDown: _cardInfoOnSecondaryTapDown,
+                  onLongPress: _cardInfoOnLongPress,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -200,6 +245,9 @@ class _SafePageState extends State<SafePage> {
                       ),
                     );
                   },
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0), // Установите здесь радиус, соответствующий вашей карточке
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

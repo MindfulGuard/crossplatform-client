@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
@@ -43,6 +44,9 @@ class _ItemsPageState extends State<ItemsPage> {
   Map<String, dynamic> itemsApiResponse = {};
   bool isLoading = true;
   bool isButtonDisabled = true;
+
+  void Function()? _cardInfoOnLongPress;
+  Function(TapDownDetails)? _cardInfoOnSecondaryTapDown;
 
   @override
   void didUpdateWidget(ItemsPage oldWidget) {
@@ -116,19 +120,45 @@ class _ItemsPageState extends State<ItemsPage> {
     });
   }
 
-Future<void> _deleteItem(String itemId) async {
-    var api = ItemDeleteApi(
-      buildContext: context,
-      apiUrl: widget.apiUrl,
-      token: widget.token,
-      safeId: widget.selectedSafeId,
-      itemId: itemId,
-    );
+  Future<void> _deleteItem(String itemId) async {
+      var api = ItemDeleteApi(
+        buildContext: context,
+        apiUrl: widget.apiUrl,
+        token: widget.token,
+        safeId: widget.selectedSafeId,
+        itemId: itemId,
+      );
 
-    await api.execute();
+      await api.execute();
 
-    await _getItems();
-}
+      await _getItems();
+  }
+
+  void _pressOnActionDialog(int index, int i){
+    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS){
+      _cardInfoOnSecondaryTapDown = (details){
+        _showItemActionsDialog(
+          context,
+          index,
+          widget.safesApiResponse,
+          i,
+          selectedSafeItems[index]['items'][i]['id'],
+          selectedSafeItems[index]['items'][i]['favorite']
+        );
+      };
+    } else {
+      _cardInfoOnLongPress = (){
+        _showItemActionsDialog(
+          context,
+          index,
+          widget.safesApiResponse,
+          i,
+          selectedSafeItems[index]['items'][i]['id'],
+          selectedSafeItems[index]['items'][i]['favorite']
+        );
+      };
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,51 +167,50 @@ Future<void> _deleteItem(String itemId) async {
         RefreshIndicator(
           onRefresh: _handleRefresh,
           child: ListView.builder(
-          itemCount: selectedSafeItems.length,
-          itemBuilder: (context, index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
-                  Card(
-                    margin: EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(selectedSafeItems[index]['items'][i]['title']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
-                          selectedSafeItems[index]['items'][i]['tags'].length > 0
-                              ?Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
-                              : Container(),
-                          selectedSafeItems[index]['items'][i]['updated_at'] != null // Only server API version 0.5.0 and higher is supported
-                              ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
-                              : Container(),
-                          selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
-                              ? Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
-                              : Container(),
-                          // Add more details as per your requirement
-                        ],
+            itemCount: selectedSafeItems.length,
+            itemBuilder: (context, index) {
+              for (var i = 0; i < selectedSafeItems[index]['items'].length; i++) {
+                _pressOnActionDialog(index, i);
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
+                    Card(
+                      margin: EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
+                        },
+                        onLongPress: _cardInfoOnLongPress,
+                        onSecondaryTapDown: _cardInfoOnSecondaryTapDown,
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0), // Установите здесь радиус, соответствующий вашему карточному виджету
+                        ),
+                        child: ListTile(
+                          title: Text(selectedSafeItems[index]['items'][i]['title']),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
+                              selectedSafeItems[index]['items'][i]['tags'].length > 0
+                                ? Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
+                                : Container(),
+                              selectedSafeItems[index]['items'][i]['updated_at'] != null // Only server API version 0.5.0 and higher is supported
+                                ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
+                                : Container(),
+                              selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
+                                ? Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
+                                : Container(),
+                            ],
+                          ),
+                        ),
                       ),
-                      onLongPress: (){
-                        _showItemActionsDialog(
-                          context,
-                          index,
-                          widget.safesApiResponse,
-                          i,
-                          selectedSafeItems[index]['items'][i]['id'],
-                          selectedSafeItems[index]['items'][i]['favorite']
-                        );
-                      },
-                      onTap: () {
-                        _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
-                      },
                     ),
-                  ),
-              ],
-            );
-          },
-        ),
+                ],
+              );
+            },
+          ),
         ),
         Positioned(
           bottom: 16,

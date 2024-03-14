@@ -45,6 +45,7 @@ class _FilesPageState extends State<FilesPage> {
   Map<String, dynamic> itemsApiResponse = {};
   bool isLoading = true;
   double _uploadProgress = 0.0;
+  int safeSizeBytes = 0;
 
   // initState method to initialize the state of the widget
   @override
@@ -78,6 +79,15 @@ class _FilesPageState extends State<FilesPage> {
       isLoading = false;
     });
 
+    int resultSizeBytes = 0;
+
+    for (var size in selectedSafeFiles){
+      resultSizeBytes += size['size'] as int;
+    }
+
+    setState(() {
+      safeSizeBytes = resultSizeBytes;
+    });
   }
 
   // Method to handle refresh action
@@ -333,6 +343,19 @@ class _FilesPageState extends State<FilesPage> {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             )
           : null,
+      persistentFooterButtons: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Text(
+                AppLocalizations.of(context)!.totalFileSizeWithValue(formatBytes(safeSizeBytes, context)),
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

@@ -333,5 +333,13 @@
     "helpReference": "Help",
     "serviceNotAvailable": "Service not available",
     "reload": "Reload",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "totalFileSizeWithValue": "Total file size: {value}",
+    "@totalFileSizeWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }
