@@ -32,7 +32,7 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          sudo apt-get install curl -y
+          sudo apt-get install -y curl
           curl https://sh.rustup.rs -sSf | sh
 
       - name: Extract version from pubspec.yaml
@@ -40,7 +40,7 @@ jobs:
             version=$(yq eval '.version' pubspec.yaml)
             echo "version=${version}" >> $GITHUB_ENV
     
-      - name: Create ${{env.CHANGELOG_FILE}}
+      - name: Create CHANGELOG File
         run: |
           git cliff --output ${{env.CHANGELOG_FILE}}
           cat ${{env.CHANGELOG_FILE}}
