@@ -32,7 +32,7 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          curl https://sh.rustup.rs -sSf | sh -y
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
 
       - name: Extract version from pubspec.yaml
         run: |
