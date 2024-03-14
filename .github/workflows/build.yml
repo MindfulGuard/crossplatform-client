@@ -9,7 +9,7 @@ on:
       - '*'
 
 env:
-  CHANGELOG_FILE: CHANGELOG.md
+  CHANGELOG_FILE: changelog.txt
 
 jobs:
   android:
@@ -30,21 +30,10 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
             sudo chmod +x /usr/bin/yq
 
-      - name: Install git-cliff
-        run: |
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          cargo install git-cliff
-          git cliff --version
-
       - name: Extract version from pubspec.yaml
         run: |
             version=$(yq eval '.version' pubspec.yaml)
             echo "version=${version}" >> $GITHUB_ENV
-    
-      - name: Create CHANGELOG.md File
-        run: |
-          git cliff --output ${{env.CHANGELOG_FILE}}
-          cat ${{env.CHANGELOG_FILE}}
 
       - name: Sign Apk
         run: |
