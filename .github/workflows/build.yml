@@ -41,7 +41,7 @@ jobs:
             version=$(yq eval '.version' pubspec.yaml)
             echo "version=${version}" >> $GITHUB_ENV
     
-      - name: Create CHANGELOG File
+      - name: Create CHANGELOG.md File
         run: |
           git cliff --output ${{env.CHANGELOG_FILE}}
           cat ${{env.CHANGELOG_FILE}}
