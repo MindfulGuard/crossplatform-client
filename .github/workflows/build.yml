@@ -32,7 +32,6 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          sudo apt-get install -y curl
           curl https://sh.rustup.rs -sSf | sh
 
       - name: Extract version from pubspec.yaml
