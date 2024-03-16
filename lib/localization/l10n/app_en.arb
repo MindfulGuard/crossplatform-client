@@ -341,5 +341,23 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "dataImportExport": "Data Import/Export (dev)",
+    "import": "Import",
+    "export": "Export",
+    "format": "Format",
+    "decryptData": "Decrypt data.",
+    "errorSavingFile": "Error saving file.",
+    "fileHasBeenSuccessfullySavedInWithValue": "The file has been successfully saved in the {value}.",
+    "@fileHasBeenSuccessfullySavedInWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "documents": "Documents",
+    "deleteExistingDataBeforeImporting": "Delete existing data before importing.",
+    "replaceExistingData": "Replace existing data.",
+    "thisFeatureInDevelopment": "This feature is still in development."
 }

@@ -165,9 +165,10 @@ class _FilesPageState extends State<FilesPage> {
         selectedSafeFiles.firstWhere((file) => file['name'] == fileName)['isDownloaded'] = true;
       });
     } catch (e) {
+      print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error saving file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSavingFile),
         ),
       );
     }

@@ -1,2 +1,3 @@
-- Changed, now depending on the platform it will trigger, long press or right click on the card to open the menu. 
-- Added output of the size of files in the safe.
+- Added data import/export section in settings.
+- Added data export in json format, with encrypted or decrypted data.
+- Added a page for importing, under development.

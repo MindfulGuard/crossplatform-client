@@ -341,5 +341,23 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "dataImportExport": "Импорт/Экспорт Данных (dev)",
+    "import": "Импорт",
+    "export": "Экспорт",
+    "format": "Формат",
+    "decryptData": "Расшифровать данные.",
+    "errorSavingFile": "Ошибка при сохранении файла.",
+    "fileHasBeenSuccessfullySavedInWithValue": "Файл успешно сохранен в {value}.",
+    "@fileHasBeenSuccessfullySavedInWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "documents": "Документы",
+    "deleteExistingDataBeforeImporting": "Удалить существующие данные перед импортом.",
+    "replaceExistingData": "Заменить существующие данные.",
+    "thisFeatureInDevelopment": "Эта функция все еще находится в разработке."
 }
