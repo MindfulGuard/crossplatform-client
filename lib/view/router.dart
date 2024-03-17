@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/view/main/main_page.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';

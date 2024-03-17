@@ -342,7 +342,6 @@
             }
         }
     },
-    "dataImportExport": "Импорт/Экспорт Данных (dev)",
     "import": "Импорт",
     "export": "Экспорт",
     "format": "Формат",
@@ -359,5 +358,15 @@
     "documents": "Документы",
     "deleteExistingDataBeforeImporting": "Удалить существующие данные перед импортом.",
     "replaceExistingData": "Заменить существующие данные.",
-    "thisFeatureInDevelopment": "Эта функция все еще находится в разработке."
+    "thisFeatureInDevelopment": "Эта функция все еще находится в разработке.",
+    "localPasscode": "Код доступа",
+    "submitPasscode": "Подтвердить",
+    "enterPasscode": "Введите код доступа",
+    "reEnterPasscode": "Повторно введите код доступа",
+    "invalidPasscode": "Неверный код доступа.",
+    "invalidValue": "Недопустимое значение.",
+    "setNewPasscode": "Установить новый код доступа",
+    "disable": "Отключить",
+    "passcodeWasSuccessfullyChanged": "Код доступа был успешно изменен.",
+    "failedToChangePasscode": "Не удалось изменить код доступа."
 }

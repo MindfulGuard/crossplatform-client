@@ -1,3 +1,5 @@
-- Added data import/export section in settings.
-- Added data export in json format, with encrypted or decrypted data.
-- Added a page for importing, under development.
+- A Local passcode page has been added to the privacy section in settings.
+- Added support for local passcode.
+- Added function to add, remove local passcode.
+- A virtual keyboard for mobile devices has been added, for passcode input.
+- A lock icon has been added to the home screen to lock the app by tapping on it.

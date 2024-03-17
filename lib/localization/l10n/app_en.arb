@@ -342,7 +342,6 @@
             }
         }
     },
-    "dataImportExport": "Data Import/Export (dev)",
     "import": "Import",
     "export": "Export",
     "format": "Format",
@@ -359,5 +358,15 @@
     "documents": "Documents",
     "deleteExistingDataBeforeImporting": "Delete existing data before importing.",
     "replaceExistingData": "Replace existing data.",
-    "thisFeatureInDevelopment": "This feature is still in development."
+    "thisFeatureInDevelopment": "This feature is still in development.",
+    "localPasscode": "Local passcode",
+    "submitPasscode": "Submit",
+    "enterPasscode": "Enter Passcode",
+    "reEnterPasscode": "Re-enter Passcode",
+    "invalidPasscode": "Invalid passcode.",
+    "invalidValue": "Invalid value.",
+    "setNewPasscode": "Set a new Passcode",
+    "disable": "Disable",
+    "passcodeWasSuccessfullyChanged": "Passcode was successfully changed.",
+    "failedToChangePasscode": "Failed to change the Passcode."
 }

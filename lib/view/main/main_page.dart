@@ -4,15 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
+import 'package:mindfulguard/view/components/passcode_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/safe_page.dart';
 import 'package:mindfulguard/view/user/information.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key? key}) : super(key: key);
+  bool? passcodeSuccess = false;
+
+  MainPage({
+    this.passcodeSuccess,
+    Key? key
+  }) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -28,11 +35,117 @@ class _MainPageState extends State<MainPage> {
   late List<Widget> _pages;
   Map<String, dynamic> itemsApiResponse = {};
   bool isLoading = true; // Move _isLoading to the top level
+  bool passcodeExists = false;
 
   @override
   void initState() {
     super.initState();
+    _passcodeExists(context);
     _initializeUserInfo();
+  }
+
+  void __signOut(BuildContext context) async{
+    final db = AppDb();
+    var resultUser = await (db.select(db.modelUser)).getSingleOrNull();
+    var resultSettings = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('api_url'))).getSingleOrNull();
+
+    if (resultUser == null || resultSettings == null){
+      return;
+    }
+    
+    var tokenHash = Crypto.hash().sha(resultUser.accessToken!).toString().substring(0, 28); // Hashing the token and extracts the first 28 characters.
+
+    String tokenIdResult = "";
+  
+    var userInfoApiResponse = UserInfoApi(
+      buildContext: context,
+      apiUrl: resultSettings.value!,
+      token: resultUser.accessToken!,
+    );
+
+    await userInfoApiResponse.execute();
+
+    var userInfoApiResponseJson = json.decode(userInfoApiResponse.response.body);
+
+    for (var val in userInfoApiResponseJson['tokens']){
+      if (val['short_hash'] == null){ // Checks if the "short_hash" key exists.
+        return;
+      } else{
+        if (val['short_hash'] == tokenHash){ // Retrieves the token id if the token hash matches the one found.
+          tokenIdResult = val['id'];
+          break;
+        }
+      }
+    }
+
+    var api = SignOutApi(
+      buildContext: context,
+      apiUrl: resultSettings.value!,
+      token: resultUser.accessToken!,
+      tokenId:  tokenIdResult,
+    );
+
+    await api.execute();
+
+    if (api.response.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignInPage()),
+        );
+
+        final db = AppDb();
+        await db.delete(db.modelUser).go();
+        await db.delete(db.modelSettings).go();
+
+    } else{
+      return;
+    }
+  }
+
+  Future<void> _passcodeExists(BuildContext context) async{
+    final db = AppDb();
+    var result = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('passcode'))).getSingleOrNull();
+
+    if (result == null){
+      setState(() {
+        widget.passcodeSuccess = true;
+      });
+      return;
+    }
+
+    setState(() {
+      passcodeExists = true;
+    });
+
+    if (widget.passcodeSuccess == true){
+      return;
+    } else{
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => InsertPasscodePage(
+          appBar: AppBar(actions: [
+            IconButton(
+              onPressed: (){
+                __signOut(context);
+              },
+              icon: Icon(
+                color: Colors.red,
+                Icons.logout
+              )
+            )
+          ]),
+          passcode: result.value!,
+          passcodeSuccess: (){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainPage(
+                passcodeSuccess: true,
+              ))
+            );
+          }
+        )),
+      );
+    }
   }
 
   Future<void> _initializeUserInfo() async {
@@ -130,6 +243,42 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('MindfulGuard'),
+        actions: passcodeExists ?
+        [
+          IconButton(
+            onPressed: ()async{
+              var db = AppDb();
+              var result = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('passcode'))).getSingleOrNull();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => InsertPasscodePage(
+                  appBar: AppBar(actions: [
+                    IconButton(
+                      onPressed: (){
+                        __signOut(context);
+                      },
+                      icon: Icon(
+                        color: Colors.red,
+                        Icons.logout
+                      )
+                    )
+                  ]),
+                  passcode: result!.value!,
+                  passcodeSuccess: (){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage(
+                        passcodeSuccess: true,
+                      ))
+                    );
+                  }
+                )),
+              );
+            },
+            icon: Icon(Icons.lock_open)
+          )
+        ]
+        : null
       ),
       body: _buildPageContent(),
       bottomNavigationBar: BottomNavigationBar(
