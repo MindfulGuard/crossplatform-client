@@ -28,6 +28,7 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
   /// Data is presented in JSON format {"apiServer": "", "userName": "", "password": "", "privateKey": ""}
   String data = '{}';
   bool isVisible = false;
+  bool isLoaded = false;
 
   @override
   void initState() {
@@ -58,6 +59,10 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
     jsonData['privateKey'] = dataUser.privateKey!;
 
     data = json.encode(jsonData);
+
+    setState(() {
+      isLoaded = true;
+    });
   }
 
   @override
@@ -89,6 +94,7 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
                   });
                 },
                 child: Qr(
+                    isLoaded: isLoaded,
                     data: data,
                     isVisible: isVisible,
                   ),
@@ -114,6 +120,7 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
 }
 
 class Qr extends StatelessWidget{
+  bool isLoaded;
   bool isVisible;
   String data;
   final double _size = 270;
@@ -121,6 +128,7 @@ class Qr extends StatelessWidget{
   final QrDataModuleStyle _dataModuleStyle = const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black);
 
   Qr({
+    required this.isLoaded,
     this.isVisible = false,
     required this.data,
     Key? key,
@@ -128,25 +136,40 @@ class Qr extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return isVisible?
-    QrGenerator(
-      data: data,
-      size: _size,
-      errorCorrectionLevel: QrErrorCorrectLevel.M,
-      eyeStyle: _eyeStyle,
-      dataModuleStyle: _dataModuleStyle
-    )
-    :
-    ImageFiltered(
-          imageFilter: ImageFilter.blur(sigmaX: 9, sigmaY: 9),
-          child: QrGenerator(
-            data: 'Hello',
-            size: _size,
-            errorCorrectionLevel: QrErrorCorrectLevel.L,
-            eyeStyle: _eyeStyle,
-            dataModuleStyle: _dataModuleStyle
-      ),
-    );
+    return isVisible ?
+      QrGenerator(
+        data: data,
+        size: _size,
+        errorCorrectionLevel: QrErrorCorrectLevel.M,
+        eyeStyle: _eyeStyle,
+        dataModuleStyle: _dataModuleStyle
+      ) :
+      Stack(
+        children: [
+          IgnorePointer(
+            ignoring: isLoaded ? false : true,
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 9, sigmaY: 9),
+              child: QrGenerator(
+                data: 'Hello',
+                size: _size,
+                errorCorrectionLevel: QrErrorCorrectLevel.L,
+                eyeStyle: _eyeStyle,
+                dataModuleStyle: _dataModuleStyle,
+              ),
+          ),
+          ),
+          isLoaded 
+          ? SizedBox()
+          : Positioned.fill(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            ),
+          ),
+        ],
+      );
   }
 }
 
