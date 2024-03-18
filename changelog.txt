@@ -1,2 +1,1 @@
-- Added, an overlay has appeared on the login page of the QR code scanning camera.
 - On the QR code login page, clicking the QR code to expand will now be unavailable until the verification that the user is authenticated.

@@ -38,8 +38,6 @@ class _SignInPageState extends State<SignInPage> {
 
   MobileScannerController cameraController = MobileScannerController();
 
-  Color cameraOverlayColor = Colors.white54.withAlpha(230);
-
   String _formatTime(int year, int month, int day, int hour, int minute) {
     DateTime dateTime = DateTime(year, month, day, hour, minute);
     String dateTimeFormat = DateFormat.yMd(Localization.currentlanguageCodeSystem).add_Hms().format(dateTime);
@@ -195,42 +193,33 @@ class _SignInPageState extends State<SignInPage> {
                                         child: Container(
                                           width: 400,
                                           constraints: BoxConstraints(maxHeight: 250),
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(20.0),
-                                                child: SingleChildScrollView(
-                                                  child: ConstrainedBox(
-                                                    constraints: BoxConstraints(minHeight: 100),
-                                                    child: Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Container(
-                                                          width: 225, // Camera width
-                                                          height: 225, // Camera height
-                                                          child: MobileScanner(
-                                                            controller: cameraController,
-                                                            onDetect: (capture) {
-                                                              final List<Barcode> barcodes = capture.barcodes;
-                                                              for (final barcode in barcodes) {
-                                                                _decodeData(barcode.rawValue);
-                                                              }
-                                                            },
-                                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: SingleChildScrollView(
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  minHeight: 100
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Container(
+                                                        width: 225, // Camera width
+                                                        height: 225, // Camera height
+                                                        child: MobileScanner(
+                                                          controller: cameraController,
+                                                          onDetect: (capture) {
+                                                            final List<Barcode> barcodes = capture.barcodes;
+                                                            for (final barcode in barcodes) {
+                                                              _decodeData(barcode.rawValue);
+                                                            }
+                                                          },
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                      )
+                                                  ],
                                                 ),
                                               ),
-                                              CustomPaint(
-                                                size: Size(225, 210), // Same size as the camera
-                                                painter: CameraOverlayPainter(
-                                                  color: cameraOverlayColor,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -341,41 +330,5 @@ class _SignInPageState extends State<SignInPage> {
         onConflict: drift.DoUpdate((_)=>modelSettings, target: [db.modelSettings.key]), 
       );
     return signInApi.response;
-  }
-}
-
-class CameraOverlayPainter extends CustomPainter {
-  Color color;
-
-  CameraOverlayPainter({
-    required this.color
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.7;
-
-    final double cornerLength = 21.0; // Length of corners
-
-    // Draw corners around the camera area
-    canvas.drawLine(Offset(0, 0), Offset(cornerLength, 0), paint); // Upper left corner
-    canvas.drawLine(Offset(0, 0), Offset(0, cornerLength), paint);
-
-    canvas.drawLine(Offset(size.width, 0), Offset(size.width - cornerLength, 0), paint); // Upper right corner
-    canvas.drawLine(Offset(size.width, 0), Offset(size.width, cornerLength), paint);
-
-    canvas.drawLine(Offset(0, size.height), Offset(cornerLength, size.height), paint); // Bottom left corner
-    canvas.drawLine(Offset(0, size.height), Offset(0, size.height - cornerLength), paint);
-
-    canvas.drawLine(Offset(size.width, size.height), Offset(size.width - cornerLength, size.height), paint); // Bottom right corner
-    canvas.drawLine(Offset(size.width, size.height), Offset(size.width, size.height - cornerLength), paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
