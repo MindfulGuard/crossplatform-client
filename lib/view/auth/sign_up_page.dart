@@ -80,7 +80,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
+                isDesktop 
+                ? IconButton(
                   onPressed: (){
                     showDialog(
                       context: context,
@@ -96,6 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   icon: Icon(Icons.qr_code)
                 )
+                : Container()
               ],
             ),
             Text(base32TotpCode),
