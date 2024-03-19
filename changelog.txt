@@ -1,1 +1,2 @@
-- On the QR code login page, clicking the QR code to expand will now be unavailable until the verification that the user is authenticated.
+- A registration page has been added.
+- On the page of registration added data output if registration was successful, also they can be copied if you click on the copy button.

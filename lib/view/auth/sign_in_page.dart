@@ -10,6 +10,7 @@ import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
+import 'package:mindfulguard/view/auth/sign_up_page.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
 import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
@@ -38,6 +39,8 @@ class _SignInPageState extends State<SignInPage> {
 
   MobileScannerController cameraController = MobileScannerController();
 
+  bool _onHoverTextSignUp = false;
+
   String _formatTime(int year, int month, int day, int hour, int minute) {
     DateTime dateTime = DateTime(year, month, day, hour, minute);
     String dateTimeFormat = DateFormat.yMd(Localization.currentlanguageCodeSystem).add_Hms().format(dateTime);
@@ -62,8 +65,12 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void dispose() {
-    cameraController.dispose();
     super.dispose();
+    cameraController.dispose();
+    apiUrl.dispose();
+    login.dispose();
+    password.dispose();
+    privateKey.dispose();
   }
 
   @override
@@ -176,7 +183,7 @@ class _SignInPageState extends State<SignInPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.qr_code),
+                        icon: Icon(Icons.qr_code_scanner),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -234,6 +241,41 @@ class _SignInPageState extends State<SignInPage> {
                       Text(AppLocalizations.of(context)!.scanQrCodeSignIn),
                     ],
                   ),
+                SizedBox(height: 20,),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Redirect to sign up page ...");
+
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                    child: MouseRegion(
+                      onHover: (event){
+                        setState(() {
+                          _onHoverTextSignUp = true;
+                        });
+                      },
+                      onExit: (event){
+                        setState(() {
+                          _onHoverTextSignUp = false;
+                        });
+                      },
+                      cursor: SystemMouseCursors.click,
+                      child: Text(
+                        AppLocalizations.of(context)!.signUp,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.blue[800],
+                          decoration: _onHoverTextSignUp ? TextDecoration.underline : TextDecoration.none,
+                          decorationColor: Colors.blue[800],
+                        ),
+                      ),
+                    ),
+                  )
+                )
               ],
             ),
           ),

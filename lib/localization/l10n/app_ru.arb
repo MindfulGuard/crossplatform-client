@@ -368,5 +368,7 @@
     "setNewPasscode": "Установить новый код доступа",
     "disable": "Отключить",
     "passcodeWasSuccessfullyChanged": "Код доступа был успешно изменен.",
-    "failedToChangePasscode": "Не удалось изменить код доступа."
+    "failedToChangePasscode": "Не удалось изменить код доступа.",
+    "signUp": "Регистрация",
+    "send": "Отправить"
 }

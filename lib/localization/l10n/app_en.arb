@@ -368,5 +368,7 @@
     "setNewPasscode": "Set a new Passcode",
     "disable": "Disable",
     "passcodeWasSuccessfullyChanged": "Passcode was successfully changed.",
-    "failedToChangePasscode": "Failed to change the Passcode."
+    "failedToChangePasscode": "Failed to change the Passcode.",
+    "signUp": "Sign Up",
+    "send": "Send"
 }
