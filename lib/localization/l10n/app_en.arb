@@ -370,5 +370,22 @@
     "passcodeWasSuccessfullyChanged": "Passcode was successfully changed.",
     "failedToChangePasscode": "Failed to change the Passcode.",
     "signUp": "Sign Up",
-    "send": "Send"
+    "send": "Send",
+    "updateOneTimeCode": "Update one-time code",
+    "updatePasswordAndPrivateKey": "Update password & private key",
+    "update": "Update",
+    "newPassword": "New password",
+    "oneTimeCode": "One-time code",
+    "yes": "Yes",
+    "warning": "Warning",
+    "updatePasswordAndPrivateKeyWarning": "If the password and secret key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur. Do you want to continue?",
+    "failedUpdatePasswordAndPrivateKey": "Failed to update password and private key.",
+    "deleteAccount": "Delete account",
+    "failedDeleteAccount": "Failed to delete the account.",
+    "deleteAccountWarning": "Please note that deleting your account will result in the irreversible loss of all data associated with this account. This includes your safes, items, and files. Do you wish to proceed?",
+    "loginUser": "Login",
+    "password": "Password",
+    "privateKey": "Private key",
+    "totpCode": "TOTP code",
+    "backupCodes": "Backup Codes"
 }

@@ -1,2 +1,4 @@
-- A registration page has been added.
-- On the page of registration added data output if registration was successful, also they can be copied if you click on the copy button.
+- Added `Update one-time code` page, allowing for the refresh of TOTP code and backup codes.
+- The `Update password & private key` page has been added, which allows you to change your password and private key.
+- Added the `Delete Account` page, which allows users to delete their account.
+- The issue causing user data to remain undecipherable and the application to cease functioning after changing the password and private key has been corrected.

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -71,6 +70,7 @@ class _SignInPageState extends State<SignInPage> {
     login.dispose();
     password.dispose();
     privateKey.dispose();
+    _onHoverTextSignUp = false;
   }
 
   @override
@@ -90,12 +90,12 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SizedBox(height: 10),
                 AlignTextField(
-                  labelText: "Login",
+                  labelText: AppLocalizations.of(context)!.loginUser,
                   controller: login,
                 ),
                 SizedBox(height: 10),
                 AlignTextField(
-                  labelText: "Password",
+                  labelText: AppLocalizations.of(context)!.password,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   controller: password,
@@ -104,7 +104,7 @@ class _SignInPageState extends State<SignInPage> {
                 AlignTextField(
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
-                  labelText: "Private key",
+                  labelText: AppLocalizations.of(context)!.privateKey,
                   controller: privateKey,
                 ),
                 SizedBox(height: 10),
@@ -132,7 +132,8 @@ class _SignInPageState extends State<SignInPage> {
                   children: <Widget>[
                     Expanded(
                       child: AlignTextField(
-                        labelText: "Totp",
+                        maxLength: 6,
+                        labelText: AppLocalizations.of(context)!.oneTimeCode,
                         controller: oneTimeOrBackupCode,
                         keyboardType: TextInputType.number,
                       ),
@@ -152,11 +153,11 @@ class _SignInPageState extends State<SignInPage> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                   ),
                   onPressed: () async {
                     final signInApi = await _signInApi();
-                    if (signInApi == null || signInApi?.statusCode != 200) {
+                    if (signInApi == null || signInApi.statusCode != 200) {
                       setState(() {
                         errorMessage = json.decode(utf8.decode(signInApi!.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
                       });

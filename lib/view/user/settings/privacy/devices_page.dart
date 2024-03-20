@@ -104,7 +104,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
                     children: [
                       Center(
                         child: Animate(// defineDeviceIconByName(tokenInfo['device']).animate().shimmer(duration: 618.67.ms).flipV(duration: 618.67.ms).scale(duration: 450.ms).saturate()
-                          child: defineDeviceIconByName(tokenInfo['device']).animate().shimmer(duration: 618.67.ms).flipH().saturate()
+                          child: defineDeviceIconByName(tokenInfo['device']).animate(delay: 0.2.seconds).shimmer(duration: 618.67.ms).flipH().saturate()
                         ),
                       ),
                       SizedBox(height: 10),

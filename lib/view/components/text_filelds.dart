@@ -9,12 +9,14 @@ class AlignTextField extends StatefulWidget {
   final bool obscureText;
   final Color cursorColor;
   final Color textColor;
+  final int? maxLength;
 
   AlignTextField({
     this.labelText = "",
     this.inputBorder = const UnderlineInputBorder(),
     this.alignment = Alignment.topLeft,
     this.controller,
+    this.maxLength,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.cursorColor = Colors.black,
@@ -36,6 +38,7 @@ class _AlignTextFieldState extends State<AlignTextField> {
     return Align(
       alignment: widget.alignment,
       child: TextFormField(
+        maxLength: widget.maxLength,
         controller: widget.controller,
         decoration: InputDecoration(
           border: widget.inputBorder,

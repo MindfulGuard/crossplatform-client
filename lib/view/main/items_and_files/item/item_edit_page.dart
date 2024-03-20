@@ -54,7 +54,7 @@ class _ItemsEditPageState extends AbstractItemsWritePageState {
       setState(() {
         titleController.text = selectedItemData['title'];
         category = selectedItemData['category'];
-        notesController.text = selectedItemData['notes'];
+        notesController.text = selectedItemData['notes'] ?? "";
         tags = List<String>.from(selectedItemData['tags'] ?? []);
         
         // Clear and fill categoriesApi and typesApi

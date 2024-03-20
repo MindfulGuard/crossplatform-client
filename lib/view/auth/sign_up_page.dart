@@ -14,7 +14,6 @@ import 'package:mindfulguard/restart_widget.dart';
 import 'package:mindfulguard/view/components/qr.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:drift/drift.dart' as drift;
-import 'package:mindfulguard/view/main/main_page.dart';
 import 'package:otp/otp.dart';
 import 'package:uuid/uuid.dart';
 
@@ -65,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Private Key:',
+              '${AppLocalizations.of(context)!.privateKey}:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -75,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Row(
               children: [
                 Text(
-                  'TOTP Code:',
+                  '${AppLocalizations.of(context)!.totpCode}:',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -95,7 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       }
                     );
                   },
-                  icon: Icon(Icons.qr_code)
+                  icon: Icon(Icons.qr_code_rounded)
                 )
                 : Container()
               ],
@@ -103,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text(base32TotpCode),
             SizedBox(height: 8.0),
             Text(
-              'Backup Codes:',
+              '${AppLocalizations.of(context)!.backupCodes}:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -260,12 +259,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 10),
                 AlignTextField(
-                  labelText: "Login",
+                  labelText: AppLocalizations.of(context)!.loginUser,
                   controller: login,
                 ),
                 SizedBox(height: 10),
                 AlignTextField(
-                  labelText: "Password",
+                  labelText: AppLocalizations.of(context)!.password,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   controller: password,
@@ -274,7 +273,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                   ),
                   onPressed: () async{
                     isRegistered ? _signIn() : _signUp();

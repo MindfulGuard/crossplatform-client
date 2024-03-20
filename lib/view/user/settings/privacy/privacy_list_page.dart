@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/user/settings/privacy/delete_account.dart';
 import 'package:mindfulguard/view/user/settings/privacy/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/set_passcode_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/qr_code_login_page.dart';
+import 'package:mindfulguard/view/user/settings/privacy/update_one_time_code_page.dart';
+import 'package:mindfulguard/view/user/settings/privacy/update_password_and_private_key.dart';
 
 class ListPrivacySettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -29,6 +32,9 @@ class _ListPrivacySettingsPageState extends State<ListPrivacySettingsPage>{
         {'name': AppLocalizations.of(context)!.devices, 'icon': Icons.devices},
         {'name': AppLocalizations.of(context)!.qrCodeLogin, 'icon': Icons.qr_code_rounded},
         {'name': AppLocalizations.of(context)!.localPasscode, 'icon': Icons.password},
+        {'name': AppLocalizations.of(context)!.updateOneTimeCode, 'icon': Icons.security},
+        {'name': AppLocalizations.of(context)!.updatePasswordAndPrivateKey, 'icon': Icons.security},
+        {'name': AppLocalizations.of(context)!.deleteAccount, 'icon': Icons.remove_circle_outline},
       ];
     });
   }
@@ -68,6 +74,30 @@ class _ListPrivacySettingsPageState extends State<ListPrivacySettingsPage>{
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SetPasscodePrivacySettingsPage(
+                      token: widget.token,
+                      apiUrl: widget.apiUrl,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.updateOneTimeCode) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdateOneTimeCodePrivacySettingsPage(
+                      token: widget.token,
+                      apiUrl: widget.apiUrl,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.updatePasswordAndPrivateKey) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdatePasswordAndPrivateKeyPrivacySettingsPage(
+                      token: widget.token,
+                      apiUrl: widget.apiUrl,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.deleteAccount) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DeleteAccountPrivacySettingsPage(
                       token: widget.token,
                       apiUrl: widget.apiUrl,
                     )),

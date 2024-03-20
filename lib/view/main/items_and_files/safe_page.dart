@@ -69,16 +69,23 @@ class _SafePageState extends State<SafePage> {
     await api.execute();
 
     var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
-    var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-        decodedApiResponse,
-        ['description'],
-        widget.password,
-        widget.privateKeyBytes
-    );
-    setState(() {
-      widget.itemsApiResponse = decryptedApiResponse; // Update itemsApiResponse
-      fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
-    });
+    try{
+      var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
+          decodedApiResponse,
+          ['description'],
+          widget.password,
+          widget.privateKeyBytes
+      );
+      setState(() {
+        widget.itemsApiResponse = decryptedApiResponse; // Update itemsApiResponse
+        fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
+      });
+    } catch (e){
+      setState(() {
+        widget.itemsApiResponse = decodedApiResponse; // Update itemsApiResponse
+        fileCounts = _calculateFileCount(widget.itemsApiResponse); // Recalculate fileCounts
+      });
+    }
 
   }
 
@@ -246,14 +253,14 @@ class _SafePageState extends State<SafePage> {
                     );
                   },
                   customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0), // Установите здесь радиус, соответствующий вашей карточке
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       ListTile(
                         title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
-                        subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"])),
+                        subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"] ?? "")),
                       ),
                       ListTile(
                         title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
@@ -273,7 +280,6 @@ class _SafePageState extends State<SafePage> {
                           ),
                         ],
                       ),
-                      // Add more ListTile widgets here for other safe properties if needed
                     ],
                   ),
                 ),

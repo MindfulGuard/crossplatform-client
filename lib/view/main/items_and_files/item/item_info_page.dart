@@ -69,7 +69,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
             ),
             SizedBox(height: 8.0),
             Center(
-              child: widget.selectedSafeItems['notes'].isNotEmpty
+              child:  widget.selectedSafeItems['notes'] != null && widget.selectedSafeItems['notes'].isNotEmpty
                   ? Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Text(
-                        widget.selectedSafeItems['notes'],
+                        widget.selectedSafeItems['notes'] ?? "",
                         style: TextStyle(
                           fontSize: 30.0,
                           color: Colors.black,
@@ -194,7 +194,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                       SizedBox(height: 4.0),
                       if (field['type'] != 'PASSWORD' && field['type'] != 'URL' && field['type'] != 'OTP')
                         Text(
-                          AppLocalizations.of(context)!.fieldValueWithValue(field['value']),
+                          AppLocalizations.of(context)!.fieldValueWithValue(field['value'] ?? ""),
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Colors.grey[800],
@@ -205,7 +205,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.fieldValueWithValue(_isPasswordVisibleList[index] ? field['value'] : '********'),
+                              AppLocalizations.of(context)!.fieldValueWithValue(_isPasswordVisibleList[index] ? field['value'] ?? "" : '********'),
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.grey[800],
@@ -228,10 +228,10 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                         if (field['type'] == 'URL')
                           InkWell(
                             onTap: () {
-                              _launchURL(field['value']);
+                              _launchURL(field['value'] ?? "");
                             },
                             child: Text(
-                              AppLocalizations.of(context)!.fieldValueTypeLinkWithValue(field['value']),
+                              AppLocalizations.of(context)!.fieldValueTypeLinkWithValue(field['value'] ?? ""),
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.blue,
@@ -241,7 +241,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                         if (field['type'] == 'OTP')
                           Text(
                             AppLocalizations.of(context)!.fieldValueWithValue(
-                              _generateTotpString(field['value'])
+                              _generateTotpString(field['value'] ?? "")
                             ),
                             style: TextStyle(
                               fontSize: 18.0,
@@ -261,9 +261,9 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: (){
                               if (field['type'] == 'OTP'){
-                                return _generateTotpString(field['value']);
+                                return _generateTotpString(field['value'] ?? "");
                               }
-                              return field['value'];
+                              return field['value'] ?? "";
                             }()));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
