@@ -1,4 +1,3 @@
-- Added `Update one-time code` page, allowing for the refresh of TOTP code and backup codes.
-- The `Update password & private key` page has been added, which allows you to change your password and private key.
-- Added the `Delete Account` page, which allows users to delete their account.
-- The issue causing user data to remain undecipherable and the application to cease functioning after changing the password and private key has been corrected.
+- Improved virtual keyboard design, now it's more pleasant.
+- On the lock screen, an animated lock icon has been added.
+- The lock icon on the main screen has been updated, and now it is animated.

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:http/http.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
@@ -36,6 +37,7 @@ class _MainPageState extends State<MainPage> {
   Map<String, dynamic> itemsApiResponse = {};
   bool isLoading = true; // Move _isLoading to the top level
   bool passcodeExists = false;
+  bool screenLockOpen = false;
 
   @override
   void initState() {
@@ -237,6 +239,35 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
+  Future<void> _lockScreen() async{
+    var db = AppDb();
+    var result = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('passcode'))).getSingleOrNull();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => InsertPasscodePage(
+        appBar: AppBar(actions: [
+          IconButton(
+            onPressed: (){
+              __signOut(context);
+            },
+            icon: Icon(
+              color: Colors.red,
+              Icons.logout
+            )
+          )
+        ]),
+        passcode: result!.value!,
+        passcodeSuccess: (){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage(
+              passcodeSuccess: true,
+            ))
+          );
+        }
+      )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -246,36 +277,24 @@ class _MainPageState extends State<MainPage> {
         actions: passcodeExists ?
         [
           IconButton(
-            onPressed: ()async{
-              var db = AppDb();
-              var result = await (db.select(db.modelSettings)..where((tbl) => tbl.key.equals('passcode'))).getSingleOrNull();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => InsertPasscodePage(
-                  appBar: AppBar(actions: [
-                    IconButton(
-                      onPressed: (){
-                        __signOut(context);
-                      },
-                      icon: Icon(
-                        color: Colors.red,
-                        Icons.logout
-                      )
-                    )
-                  ]),
-                  passcode: result!.value!,
-                  passcodeSuccess: (){
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainPage(
-                        passcodeSuccess: true,
-                      ))
-                    );
-                  }
-                )),
-              );
+            onPressed: () async{
+              setState(() {
+                screenLockOpen = true;
+              });
+              Future.delayed(Duration(milliseconds: 465), () {
+                _lockScreen();
+              });
             },
-            icon: Icon(Icons.lock_open)
+            icon: screenLockOpen 
+            ? Icon(
+                Icons.lock_open_outlined
+              ).animate().crossfade(
+                delay: 256.ms,
+                builder: ((context) => Icon(
+                  Icons.lock_outline
+                ))
+              )
+            : Icon(Icons.lock_open_outlined)
           )
         ]
         : null

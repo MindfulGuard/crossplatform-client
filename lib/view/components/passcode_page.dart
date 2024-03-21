@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -27,6 +28,7 @@ class InsertPasscodePage extends StatefulWidget {
 class _InsertPasscodePageState extends State<InsertPasscodePage> {
   final TextEditingController _passcodeController = TextEditingController();
   bool isDesktop = false;
+  bool _success = false;
   
   @override
   void initState(){
@@ -63,10 +65,15 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
   }
 
   void _verifyPasscode() {
-    String passcode =
-        Crypto.hash().sha(_passcodeController.text).toString();
+    String passcode = Crypto.hash().sha(_passcodeController.text).toString();
     if (passcode == widget.passcode) {
-      widget.passcodeSuccess();
+      setState(() {
+        _success = true;
+      });
+
+      Future.delayed(Duration(seconds: 1), () {
+        widget.passcodeSuccess();
+      });
     } else {
       widget.passcodeNotSuccess!();
     }
@@ -85,6 +92,7 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
               _buildKeyboardButton('3'),
             ],
           ),
+          SizedBox(height: 7,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -93,6 +101,7 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
               _buildKeyboardButton('6'),
             ],
           ),
+          SizedBox(height: 7,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -101,6 +110,7 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
               _buildKeyboardButton('9'),
             ],
           ),
+          SizedBox(height: 7,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -116,11 +126,23 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
 
   Widget _buildKeyboardButton(String value) {
     return Expanded(
-      child: MaterialButton(
+      child: TextButton(
+        style: ButtonStyle(
+          overlayColor:  MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Colors.grey.withOpacity(0.5);
+              } else if(states.contains(MaterialState.pressed)){
+                return Colors.grey.withOpacity(0.8);
+              }
+              return Colors.transparent;
+            },
+          ),
+        ),
         onPressed: () => _handleKeyboardInput(value),
         child: Text(
           value,
-          style: TextStyle(fontSize: 36.0), // Button Size.
+          style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold, color: Colors.black),
         ),
       ),
     );
@@ -132,9 +154,21 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
 
   Widget _buildBackspaceButton() {
     return Expanded(
-      child: MaterialButton(
+      child: TextButton(
+        style: ButtonStyle(
+          overlayColor:  MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Colors.grey.withOpacity(0.5);
+              } else if(states.contains(MaterialState.pressed)){
+                return Colors.grey.withOpacity(0.8);
+              }
+              return Colors.transparent;
+            },
+          ),
+        ),
         onPressed: () => _handleBackspace(),
-        child: Icon(Icons.backspace),
+        child: Icon(Icons.backspace, color: Colors.red),
       ),
     );
   }
@@ -164,33 +198,49 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 60,),
+              _success
+              ? Icon(
+                size: 56,
+                Icons.lock_outline
+              ).animate().crossfade(
+                delay: 256.ms,
+                builder: ((context) => Icon(
+                  size: 56,
+                  Icons.lock_open_outlined
+                ))
+              ).scale(delay: 744.ms, begin: Offset(1, 1), end: Offset(0, 0))
+              : Icon(
+                size: 56,
+                Icons.lock_outline
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.24),
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: 400.0,
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: 400.0,
+                ),
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 21,
                   ),
-                  child: TextField(
-                    style: TextStyle(
-                      fontSize: 21,
-                    ),
-                    keyboardType: isDesktop ? TextInputType.text : TextInputType.number,
-                    controller: _passcodeController,
-                    inputFormatters: isDesktop ? null : [FilteringTextInputFormatter.digitsOnly],
-                    readOnly: isDesktop ? false : true,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.enterPasscode,
-                      suffixIcon: isDesktop ?
-                      null
-                      : 
-                      IconButton(
-                        onPressed: _verifyPasscode,
-                        icon: Icon(Icons.arrow_forward),
-                      ),
+                  keyboardType: isDesktop ? TextInputType.text : TextInputType.number,
+                  controller: _passcodeController,
+                  inputFormatters: isDesktop ? null : [FilteringTextInputFormatter.digitsOnly],
+                  readOnly: isDesktop ? false : true,
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.enterPasscode,
+                    suffixIcon: isDesktop ?
+                    null
+                    : 
+                    IconButton(
+                      onPressed: _verifyPasscode,
+                      icon: Icon(Icons.arrow_forward),
                     ),
                   ),
                 ),
+              ),
               isDesktop
               ? Container()
                 :
