@@ -198,7 +198,7 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60,),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               _success
               ? Icon(
                 size: 56,

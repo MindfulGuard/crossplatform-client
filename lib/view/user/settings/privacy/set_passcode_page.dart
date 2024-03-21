@@ -1,24 +1,16 @@
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:drift/drift.dart' as drift; // Alias for Drift library
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/restart_widget.dart';
-import 'package:mindfulguard/view/components/passcode_page.dart';
-
 
 class SetPasscodePrivacySettingsPage extends StatefulWidget {
-  final String apiUrl;
-  final String token;
 
   SetPasscodePrivacySettingsPage({
-    required this.apiUrl,
-    required this.token,
     Key? key
   }) : super(key: key);
 
@@ -26,92 +18,7 @@ class SetPasscodePrivacySettingsPage extends StatefulWidget {
   _SetPasscodePrivacySettingsPageState createState() => _SetPasscodePrivacySettingsPageState();
 }
 
-class _SetPasscodePrivacySettingsPageState extends State<SetPasscodePrivacySettingsPage> {
-  final _db = AppDb();
-  String? _passcode;
-
-  @override
-  void initState() {
-    super.initState();
-    _isAuth();
-    _passcodeExists();
-  }
-
-  Future<void> _isAuth() async{
-    var response = UserInfoApi(
-      buildContext: context,
-      apiUrl: widget.apiUrl,
-      token: widget.token 
-    );
-
-    await response.execute();
-
-    if (response.response == null){
-      Navigator.pop(context);
-    } else if(response.response.statusCode == 401){
-      Navigator.pop(context);
-    }
-  }
-
-  Future<void> _passcodeExists() async {
-    var result = await (_db.select(_db.modelSettings)..where((tbl) => tbl.key.equals("passcode"))).getSingleOrNull();
-
-    if (result == null) {
-      setState(() {
-        _passcode = "";
-      });
-    } else {
-      setState(() {
-        _passcode = result.value!;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildContent();
-  }
-
-  Widget _buildContent() {
-    if (_passcode == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.localPasscode),
-        ),
-        body: Container(),
-      );
-    } else if (_passcode!.isEmpty) {
-      return LocalPasscodeWindowPrivacySettingsPage();
-    } else {
-      return InsertPasscodePage(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.localPasscode),
-        ),
-        passcodeSuccess: (){
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LocalPasscodeWindowPrivacySettingsPage()),
-          );
-        },
-        passcode: _passcode!,
-      );
-    }
-  }
-}
-
-
-class LocalPasscodeWindowPrivacySettingsPage extends StatefulWidget {
-
-  LocalPasscodeWindowPrivacySettingsPage({
-    Key? key
-  }) : super(key: key);
-
-  @override
-  _LocalPasscodeWindowPrivacySettingsPageState createState() => _LocalPasscodeWindowPrivacySettingsPageState();
-}
-
-class _LocalPasscodeWindowPrivacySettingsPageState extends State<LocalPasscodeWindowPrivacySettingsPage>{
+class _SetPasscodePrivacySettingsPageState extends State<SetPasscodePrivacySettingsPage>{
   final _db = AppDb();
   TextEditingController _passcodeController = TextEditingController();
   TextEditingController _rePasscodeController = TextEditingController();
@@ -129,7 +36,6 @@ class _LocalPasscodeWindowPrivacySettingsPageState extends State<LocalPasscodeWi
   @override
   void dispose(){
     super.dispose();
-  
     _passcodeController.dispose();
     _rePasscodeController.dispose();
   }

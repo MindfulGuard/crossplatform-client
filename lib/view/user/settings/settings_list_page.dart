@@ -117,7 +117,7 @@ class _SettingsListPageState extends State<SettingsListPage>{
               } else if (settings[index]['name'] == AppLocalizations.of(context)!.privacy) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ListPrivacySettingsPage(
+                    MaterialPageRoute(builder: (context) => ListPrivacySettingsPagePasscodePrivacySettingsPage(
                       token: widget.token,
                       apiUrl: widget.apiUrl,
                     )),
