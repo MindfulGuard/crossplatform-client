@@ -102,6 +102,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
             prerelease: ${{ env.is_prerelease }}
+            body_path: ${{env.CHANGELOG_FILE}}
             files: mindfulguard_windows_x64.zip
             tag_name: ${{ env.version }}
         env:
@@ -149,6 +150,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
             prerelease: ${{ env.is_prerelease }}
+            body_path: ${{env.CHANGELOG_FILE}}
             files: mindfulguard_linux_x64.tar.gz
             tag_name: ${{ env.version }}
         env:
