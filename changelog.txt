@@ -1,4 +1,1 @@
-- Improved virtual keyboard design, now it's more pleasant.
-- On the lock screen, an animated lock icon has been added.
-- The lock icon on the main screen has been updated, and now it is animated.
-- Updated, now if a local passcode is set, then when accessing the `Privacy` page, a passcode will be requested.
+- Important fix: due to this, in items, upon pressing the menu button on the card, the last item was always selected.

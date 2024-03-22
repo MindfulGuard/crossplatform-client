@@ -134,27 +134,27 @@ class _ItemsPageState extends State<ItemsPage> {
       await _getItems();
   }
 
-  void _pressOnActionDialog(int index, int i){
-    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS){
-      _cardInfoOnSecondaryTapDown = (details){
+  void _pressOnActionDialog(int index, int i) {
+    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+      _cardInfoOnSecondaryTapDown = (details) {
         _showItemActionsDialog(
           context,
           index,
           widget.safesApiResponse,
           i,
           selectedSafeItems[index]['items'][i]['id'],
-          selectedSafeItems[index]['items'][i]['favorite']
+          selectedSafeItems[index]['items'][i]['favorite'],
         );
       };
     } else {
-      _cardInfoOnLongPress = (){
+      _cardInfoOnLongPress = () {
         _showItemActionsDialog(
           context,
           index,
           widget.safesApiResponse,
           i,
           selectedSafeItems[index]['items'][i]['id'],
-          selectedSafeItems[index]['items'][i]['favorite']
+          selectedSafeItems[index]['items'][i]['favorite'],
         );
       };
     }
@@ -169,44 +169,11 @@ class _ItemsPageState extends State<ItemsPage> {
           child: ListView.builder(
             itemCount: selectedSafeItems.length,
             itemBuilder: (context, index) {
-              for (var i = 0; i < selectedSafeItems[index]['items'].length; i++) {
-                _pressOnActionDialog(index, i);
-              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var i = 0; i < selectedSafeItems[index]['items'].length; i++)
-                    Card(
-                      margin: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
-                        },
-                        onLongPress: _cardInfoOnLongPress,
-                        onSecondaryTapDown: _cardInfoOnSecondaryTapDown,
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0), // Установите здесь радиус, соответствующий вашему карточному виджету
-                        ),
-                        child: ListTile(
-                          title: Text(selectedSafeItems[index]['items'][i]['title']),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
-                              selectedSafeItems[index]['items'][i]['tags'].length > 0
-                                ? Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
-                                : Container(),
-                              selectedSafeItems[index]['items'][i]['updated_at'] != null // Only server API version 0.5.0 and higher is supported
-                                ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
-                                : Container(),
-                              selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
-                                ? Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
-                                : Container(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildCard(index, i),
                 ],
               );
             },
@@ -223,6 +190,41 @@ class _ItemsPageState extends State<ItemsPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCard(int index, int i) {
+    _pressOnActionDialog(index, i); // Initialization of event handlers for each list item
+    return Card(
+      margin: EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          _navigateToItemDetailsPage(selectedSafeItems[index]['items'][i]);
+        },
+        onLongPress: _cardInfoOnLongPress,
+        onSecondaryTapDown: _cardInfoOnSecondaryTapDown,
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: ListTile(
+          title: Text(selectedSafeItems[index]['items'][i]['title']),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
+              selectedSafeItems[index]['items'][i]['tags'].length > 0
+                ? Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
+                : Container(),
+              selectedSafeItems[index]['items'][i]['updated_at'] != null // Only server API version 0.5.0 and higher is supported
+                ? Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['updated_at'])))
+                : Container(),
+              selectedSafeItems[index]['items'][i]['created_at'] != null // Only server API version 0.5.0 and higher is supported
+                ? Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(selectedSafeItems[index]['items'][i]['created_at'])))
+                : Container(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
