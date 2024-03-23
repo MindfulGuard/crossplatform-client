@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
@@ -65,6 +66,15 @@ class _DeleteAccountPrivacySettingsPagePrivacySettingsPageState extends State<De
   }
 
   Future<void> _showWarningDialog() async {
+    if (oneTimeCodeController.text.length != 6){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.invalidValue),
+        ),
+      );
+      return;
+    }
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -108,6 +118,7 @@ class _DeleteAccountPrivacySettingsPagePrivacySettingsPageState extends State<De
           child: Column(
             children: [
               AlignTextField(
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 maxLength: 6,
                 labelText: AppLocalizations.of(context)!.oneTimeCode,
                 keyboardType: TextInputType.number,

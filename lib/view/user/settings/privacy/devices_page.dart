@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mindfulguard/crypto/crypto.dart';
+import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mindfulguard/view/components/deviceIcon.dart';
+import 'package:mindfulguard/view/components/app_icons.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -23,11 +25,14 @@ class DevicesSettingsPage extends StatefulWidget {
 }
 
 class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
+  final db = AppDb();
+
   Map<String, dynamic> userInfoApi = {};
   List<dynamic> devicesInfoApi = [];
 
   bool _sortByUpdatedAt = true; // default sorting by updatedAt
   bool _ascending = false; // default sorting in descending order
+  String currentTokenId = "";
 
   @override
   void initState() {
@@ -53,6 +58,21 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
     setState(() {
       devicesInfoApi = List<dynamic>.from(apiResponse['tokens']);
     });
+
+    var tokenHash = Crypto.hash().sha(widget.token).toString().substring(0, 28); // Hashing the token and extracts the first 28 characters.
+  
+    for (var val in apiResponse['tokens']){
+      if (val['short_hash'] == null){ // Checks if the "short_hash" key exists.
+        return;
+      } else{
+        if (val['short_hash'] == tokenHash){ // Retrieves the token id if the token hash matches the one found.
+          setState(() {
+            currentTokenId = val['id'];
+          });
+          break;
+        }
+      }
+    }
   }
 
   Future<void> _deleteToken(String tokenId) async {
@@ -104,7 +124,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
                     children: [
                       Center(
                         child: Animate(// defineDeviceIconByName(tokenInfo['device']).animate().shimmer(duration: 618.67.ms).flipV(duration: 618.67.ms).scale(duration: 450.ms).saturate()
-                          child: defineDeviceIconByName(tokenInfo['device']).animate(delay: 0.2.seconds).shimmer(duration: 618.67.ms).flipH().saturate()
+                          child: AppIcons().defineDeviceIconByName(tokenInfo['device']).animate(delay: 0.2.seconds).shimmer(duration: 618.67.ms).flipH().saturate()
                         ),
                       ),
                       SizedBox(height: 10),
@@ -227,19 +247,26 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
-                        Center(
+                      currentTokenId == tokenInfo['id'] ? Container() : SizedBox(height: 20),
+                        currentTokenId == tokenInfo['id']
+                        ? Container() 
+                        : Center(
                           child: ElevatedButton(
                           onPressed: () async {
                             await _deleteToken(tokenInfo['id']);
                           },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(Size(150, 50)), // Укажите желаемый размер
+                          style:ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.black,
+                            minimumSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                           child: Text(
                             AppLocalizations.of(context)!.terminateSession,
                             style: TextStyle(
-                              color: Colors.red,
+                              fontSize: 16
                             ),
                           ),
                         ),
@@ -319,11 +346,11 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
                   onTap: () {
                     _showTokenInformation(context, token);
                   },
-                  subtitle: Column( // Using a Column to display multiple pieces of information vertically
+                  subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(token['updated_at']))),
-                      Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(token['created_at']))), // Formatted created at date and time
+                      Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(token['created_at']))),
                       Text(AppLocalizations.of(context)!.ipAddressWithValue(token['last_ip'])),
                     ],
                   ),

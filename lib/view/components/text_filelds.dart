@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AlignTextField extends StatefulWidget {
   final String labelText;
@@ -10,9 +11,11 @@ class AlignTextField extends StatefulWidget {
   final Color cursorColor;
   final Color textColor;
   final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
 
   AlignTextField({
     this.labelText = "",
+    this.inputFormatters,
     this.inputBorder = const UnderlineInputBorder(),
     this.alignment = Alignment.topLeft,
     this.controller,
@@ -40,6 +43,7 @@ class _AlignTextFieldState extends State<AlignTextField> {
       child: TextFormField(
         maxLength: widget.maxLength,
         controller: widget.controller,
+        inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
           border: widget.inputBorder,
           labelText: widget.labelText,

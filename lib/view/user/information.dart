@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/localization/localization.dart';
-import 'package:mindfulguard/utils/disk.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/user/settings/settings_list_page.dart';
 
@@ -109,15 +108,15 @@ class DiskSpaceBarWidget extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)!.totalDiskSpace(formatBytes(totalSpace, context)),
+              AppLocalizations.of(context)!.totalDiskSpace(Localization.formatBytes(totalSpace, context)),
               style: TextStyle(fontSize: 16)
             ),
             Text(
-              AppLocalizations.of(context)!.availableDiskSpace(formatBytes(totalSpace-filledSpace, context)),
+              AppLocalizations.of(context)!.availableDiskSpace(Localization.formatBytes(totalSpace-filledSpace, context)),
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              AppLocalizations.of(context)!.filledDiskSpace(formatBytes(filledSpace, context)),
+              AppLocalizations.of(context)!.filledDiskSpace(Localization.formatBytes(filledSpace, context)),
               style: TextStyle(fontSize: 16),
             ),
           ],

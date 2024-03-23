@@ -1,1 +1,3 @@
-- Important fix: due to this, in items, upon pressing the menu button on the card, the last item was always selected.
+- The `Terminate Session' button in the device details has been changed.
+- The `Terminate Session' button is now not displayed on the device that the user is currently using.
+- For the text field of the one-time code, input of various characters other than numbers has been blocked.

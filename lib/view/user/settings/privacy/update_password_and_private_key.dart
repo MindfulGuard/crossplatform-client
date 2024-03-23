@@ -182,6 +182,7 @@ class _UpdatePasswordAndPrivateKeyPrivacySettingsPageState extends State<UpdateP
               ),
               SizedBox(height: 30),
               AlignTextField(
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 maxLength: 6,
                 labelText: AppLocalizations.of(context)!.oneTimeCode,
                 keyboardType: TextInputType.number,
@@ -205,7 +206,12 @@ class _UpdatePasswordAndPrivateKeyPrivacySettingsPageState extends State<UpdateP
                     Map<String, dynamic> configResponse = json.decode(configApi.response.body);
 
                     RegExp regExp = RegExp(configResponse['password_rule']);
-                    if (!regExp.hasMatch(newPasswordController.text) || newPasswordController.text.isEmpty || oneTimeCodeController.text.isEmpty){
+                    if (
+                      !regExp.hasMatch(newPasswordController.text)
+                      || newPasswordController.text.isEmpty 
+                      || oneTimeCodeController.text.isEmpty
+                      || oneTimeCodeController.text.length != 6
+                    ){
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(AppLocalizations.of(context)!.invalidValue),

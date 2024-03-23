@@ -16,12 +16,12 @@
 import 'package:flutter/widgets.dart';
 
 class CustomIcons {
-  CustomIcons._();
+  CustomIcons();
 
   static const _kFontFam = 'CustomIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData linux = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData github = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData windows = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  IconData linux = const IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  IconData github = const IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  IconData windows = const IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/user/audit.dart';
-import 'package:mindfulguard/view/components/deviceIcon.dart';
+import 'package:mindfulguard/view/components/app_icons.dart';
 
 class AuditSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -212,7 +212,7 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
                         ],
                       ),
                     ),
-                    defineDeviceIconByName(deviceSystem, iconSize: 28).animate().shimmer(duration: 618.67.ms),
+                    AppIcons().defineDeviceIconByName(deviceSystem, iconSize: 28).animate().shimmer(duration: 618.67.ms),
                   ],
                 ),
                 Divider(color: Colors.black),

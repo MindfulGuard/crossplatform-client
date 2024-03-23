@@ -9,7 +9,6 @@ import 'package:mindfulguard/net/api/items/files/delete.dart';
 import 'package:mindfulguard/net/api/items/files/download.dart';
 import 'package:mindfulguard/net/api/items/files/upload.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
-import 'package:mindfulguard/utils/disk.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
@@ -284,7 +283,7 @@ class _FilesPageState extends State<FilesPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(AppLocalizations.of(context)!.fileName(file['name'])),
-                          Text(AppLocalizations.of(context)!.size('${formatBytes(file['size'], context)}')),
+                          Text(AppLocalizations.of(context)!.size(Localization.formatBytes(file['size'], context))),
                           Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(file['updated_at']))),
                           SizedBox(height: 16.0),
                           Row(
@@ -350,7 +349,7 @@ class _FilesPageState extends State<FilesPage> {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                AppLocalizations.of(context)!.totalFileSizeWithValue(formatBytes(safeSizeBytes, context)),
+                AppLocalizations.of(context)!.totalFileSizeWithValue(Localization.formatBytes(safeSizeBytes, context)),
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),

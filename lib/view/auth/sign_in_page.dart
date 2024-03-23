@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -132,6 +133,7 @@ class _SignInPageState extends State<SignInPage> {
                   children: <Widget>[
                     Expanded(
                       child: AlignTextField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         maxLength: 6,
                         labelText: AppLocalizations.of(context)!.oneTimeCode,
                         controller: oneTimeOrBackupCode,
