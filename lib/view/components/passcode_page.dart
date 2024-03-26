@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vibration/vibration.dart';
 
 class InsertPasscodePage extends StatefulWidget {
   String passcode;
@@ -64,14 +66,34 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
     print(isDesktop);
   }
 
-  void _verifyPasscode() {
+  Future<void> _vibrate() async{
+    if (Platform.isAndroid){
+      if (await Vibration.hasVibrator() == true) {
+        if (await Vibration.hasCustomVibrationsSupport() == true) {
+            Vibration.vibrate(
+              duration: 40,
+              intensities: [1],
+            );
+        } else {
+          return;
+        }
+      }
+    } else{
+      return;
+    }
+  }
+
+  void _verifyPasscode(){
     String passcode = Crypto.hash().sha(_passcodeController.text).toString();
     if (passcode == widget.passcode) {
       setState(() {
         _success = true;
       });
+      Future.delayed(Duration(milliseconds: 256), (){
+        _vibrate();
+      });
 
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(Duration(seconds: 1), (){
         widget.passcodeSuccess();
       });
     } else {
