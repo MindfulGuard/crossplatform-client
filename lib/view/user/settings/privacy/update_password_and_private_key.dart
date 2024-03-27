@@ -52,7 +52,7 @@ class _UpdatePasswordAndPrivateKeyPrivacySettingsPageState extends State<UpdateP
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Private Key:',
+              '${AppLocalizations.of(context)!.privateKey}:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),

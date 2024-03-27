@@ -14,7 +14,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// Defining a StatefulWidget for the FilesPage
 class FilesPage extends StatefulWidget {
   final String apiUrl;
   final String token;
@@ -23,7 +22,6 @@ class FilesPage extends StatefulWidget {
   final Uint8List privateKeyBytes;
   String selectedSafeId;
 
-  // Constructor to initialize the FilesPage
   FilesPage({
     required this.apiUrl,
     required this.token,
@@ -38,7 +36,6 @@ class FilesPage extends StatefulWidget {
   _FilesPageState createState() => _FilesPageState();
 }
 
-// State class for the FilesPage widget
 class _FilesPageState extends State<FilesPage> {
   late List<dynamic> selectedSafeFiles = [];
   Map<String, dynamic> itemsApiResponse = {};
@@ -46,7 +43,6 @@ class _FilesPageState extends State<FilesPage> {
   double _uploadProgress = 0.0;
   int safeSizeBytes = 0;
 
-  // initState method to initialize the state of the widget
   @override
   void initState() {
     super.initState();
@@ -106,7 +102,11 @@ class _FilesPageState extends State<FilesPage> {
   }
 
   // Method to download a file
-  Future<void> _downloadFile(String contentPath, String fileName, BuildContext context) async {
+  Future<void> _downloadFile(String contentPath, String fileName, BuildContext context, {bool toDownload = false}) async {
+    if (!Platform.isAndroid && toDownload == true){
+      throw UnsupportedError("Attention parameter 'toDownloads', supported only on Android devices.");
+    }
+
     var statusPermission = await Permission.manageExternalStorage.status;
 
     if (!statusPermission.isGranted){
@@ -151,12 +151,19 @@ class _FilesPageState extends State<FilesPage> {
     }
 
     try {
-      Directory? appDocDir = await getDownloadsDirectory();
-      String filePath = '${appDocDir!.path}/$fileName';
+      Directory? appDownloadDir = await getDownloadsDirectory();
+      String filePath = '${appDownloadDir!.path}/$fileName';
+      if (toDownload){
+        filePath = '/storage/emulated/0/Download/$fileName';
+      }
       await File(filePath).writeAsBytes(fileBytes);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.fileDownloadedSuccessfully),
+          content: Text(
+            toDownload
+            ? AppLocalizations.of(context)!.fileHasBeenSuccessfullySavedInDownloadFolder
+            : AppLocalizations.of(context)!.fileDownloadedSuccessfully
+          ),
         ),
       );
       setState(() {
@@ -261,7 +268,22 @@ class _FilesPageState extends State<FilesPage> {
       }
   }
 
-  // Build method to create the UI
+  Future<void> _deleteFileFromDevice(String fileName, BuildContext context) async{
+    try{
+      Directory? appDownloadDir = await getDownloadsDirectory();
+      String filePath = '${appDownloadDir!.path}/$fileName';
+      await File(filePath).delete();
+      await _getItems();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.fileWasSuccessfullyDeletedFromDevice),
+        ),
+      );
+    } catch (e){
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -282,9 +304,70 @@ class _FilesPageState extends State<FilesPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(AppLocalizations.of(context)!.fileName(file['name'])),
-                          Text(AppLocalizations.of(context)!.size(Localization.formatBytes(file['size'], context))),
-                          Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(file['updated_at']))),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(AppLocalizations.of(context)!.fileName(file['name'])),
+                                    Text(AppLocalizations.of(context)!.size(Localization.formatBytes(file['size'], context))),
+                                    Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(file['updated_at']))),
+                                  ],
+                                ),
+                              ),
+                              Platform.isAndroid
+                                ? FutureBuilder<bool>(
+                                    future: _checkFile(file['name']),
+                                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                        return Container();
+                                      } else {
+                                        return snapshot.data == true
+                                            ? PopupMenuButton<String>(
+                                                itemBuilder: (BuildContext context) => [
+                                                  PopupMenuItem<String>(
+                                                    value: 'saveToDownloads',
+                                                    child: Text(AppLocalizations.of(context)!.saveToDownloads),
+                                                  ),
+                                                  PopupMenuItem<String>(
+                                                    value: 'deleteLocally',
+                                                    child: Text(AppLocalizations.of(context)!.removeFromDevice),
+                                                  ),
+                                                ],
+                                                onSelected: (String action) {
+                                                  switch (action) {
+                                                    case 'saveToDownloads':
+                                                      _downloadFile(file['content_path'], file['name'], context, toDownload: true);
+                                                      break;
+                                                    case 'deleteLocally':
+                                                      _deleteFileFromDevice(file['name'], context);
+                                                      break;
+                                                  }
+                                                },
+                                              )
+                                            : PopupMenuButton<String>(
+                                                itemBuilder: (BuildContext context) => [
+                                                  PopupMenuItem<String>(
+                                                    value: 'saveToDownloads',
+                                                    child: Text(AppLocalizations.of(context)!.saveToDownloads),
+                                                  ),
+                                                ],
+                                                onSelected: (String action) {
+                                                  switch (action) {
+                                                    case 'saveToDownloads':
+                                                      _downloadFile(file['content_path'], file['name'], context, toDownload: true);
+                                                      break;
+                                                  }
+                                                },
+                                              );
+                                      }
+                                    },
+                                  )
+                                : Container()
+                            ],
+                          ),
                           SizedBox(height: 16.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -296,10 +379,10 @@ class _FilesPageState extends State<FilesPage> {
                                 child: Text(AppLocalizations.of(context)!.download),
                               ),
                               FutureBuilder<bool>(
-                                future: _checkFile(file['name']), // Check if the file exists in the directory
+                                future: _checkFile(file['name']),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
+                                    return Container();
                                   } else {
                                     bool isFileExists = snapshot.data ?? false;
                                     return isFileExists
@@ -309,7 +392,7 @@ class _FilesPageState extends State<FilesPage> {
                                             },
                                             child: Text(AppLocalizations.of(context)!.open),
                                           )
-                                        : SizedBox(); // Return empty SizedBox if file doesn't exist
+                                        : SizedBox();
                                   }
                                 },
                               ),

@@ -73,15 +73,9 @@ class _ItemsPageState extends State<ItemsPage> {
     await api.execute();
     
     var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
-    var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
-      decodedApiResponse,
-      ['value', 'notes'],
-      widget.password,
-      widget.privateKeyBytes,
-    );
 
     setState(() {
-      itemsApiResponse = decryptedApiResponse;
+      itemsApiResponse = decodedApiResponse;
       // Filter items based on selectedSafeId and convert to List
       selectedSafeItems = (itemsApiResponse['list'] as List<dynamic>)
           .where((item) => item['safe_id'] == widget.selectedSafeId)
@@ -377,6 +371,14 @@ class _ItemsPageState extends State<ItemsPage> {
   Future<void> _navigateToItemsUpdatePage(int indexSafe, int indexItem) async {
     print(indexSafe);
     print(indexItem);
+
+    var decryptedData = await Crypto.crypto().decryptMapValues(
+      selectedSafeItems[indexSafe]['items'][indexItem],
+      ['value', 'notes'],
+      widget.password,
+      widget.privateKeyBytes,
+    );
+  
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -388,7 +390,7 @@ class _ItemsPageState extends State<ItemsPage> {
           privateKeyBytes: widget.privateKeyBytes,
           selectedSafeId: widget.selectedSafeId,
           selectedItemId: selectedSafeItems[indexSafe]['items'][indexItem]['id'],
-          selectedItemData: selectedSafeItems[indexSafe]['items'][indexItem],
+          selectedItemData: decryptedData,
       )
       ),
     ).then((result) {

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
+import 'package:mindfulguard/restart_widget.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
@@ -69,15 +70,11 @@ class _SettingsListPageState extends State<SettingsListPage>{
     await api.execute();
 
     if (api.response.statusCode == 200) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignInPage()),
-        );
-
         final db = AppDb();
         await db.delete(db.modelUser).go();
         await db.delete(db.modelSettings).go();
 
+        RestartWidget.restartApp(context);
     } else{
       return;
     }

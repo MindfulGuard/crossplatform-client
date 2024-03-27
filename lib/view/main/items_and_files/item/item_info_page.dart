@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added to use Clipboard
+import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:url_launcher/url_launcher.dart'; // Added to open links
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:otp/otp.dart';
@@ -30,18 +31,38 @@ class ItemsInfoPage extends StatefulWidget {
 
 class _ItemsInfoPageState extends State<ItemsInfoPage> {
   late List<bool> _isPasswordVisibleList;
+  bool _isDecrypted = false;
 
   @override
   void initState() {
     super.initState();
     _isPasswordVisibleList = List.filled(widget.selectedSafeItems['sections'].length, false);
+    Future.delayed(Duration(milliseconds: 150), (){
+      _decryptData();
+    });
+  }
+
+  Future<void> _decryptData() async{
+    var decryptedData = await Crypto.crypto().decryptMapValues(
+      widget.selectedSafeItems,
+      ['value', 'notes'],
+      widget.password,
+      widget.privateKeyBytes,
+    );
+
+    setState(() {
+      widget.selectedSafeItems = decryptedData;
+      _isDecrypted = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
+      body: 
+        _isDecrypted
+        ? SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,7 +126,8 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
               _buildSectionCard(widget.selectedSafeItems['sections'][index], index),
           ],
         ),
-      ),
+      )
+      : Container()
     );
   }
 

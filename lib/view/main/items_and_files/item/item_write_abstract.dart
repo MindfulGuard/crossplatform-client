@@ -44,7 +44,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
 
   // Asynchronous function for loading data from API
   Future<void> fetchApiData() async {
-    var api = await ConfigurationApi(
+    var api = ConfigurationApi(
       apiUrl: widget.apiUrl
     );
 

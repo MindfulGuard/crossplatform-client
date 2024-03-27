@@ -387,5 +387,9 @@
     "password": "Пароль",
     "privateKey": "Приватный ключ",
     "totpCode": "TOTP код",
-    "backupCodes": "Резервные коды"
+    "backupCodes": "Резервные коды",
+    "removeFromDevice": "Удалить с устройства",
+    "saveToDownloads": "Сохранить в загрузки",
+    "fileHasBeenSuccessfullySavedInDownloadFolder": "Файл успешно сохранен в папке Download.",
+    "fileWasSuccessfullyDeletedFromDevice": "Файл был успешно удален с устройства."
 }

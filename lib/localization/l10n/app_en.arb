@@ -387,5 +387,9 @@
     "password": "Password",
     "privateKey": "Private key",
     "totpCode": "TOTP code",
-    "backupCodes": "Backup Codes"
+    "backupCodes": "Backup Codes",
+    "removeFromDevice": "Delete from device",
+    "saveToDownloads": "Save to downloads",
+    "fileHasBeenSuccessfullySavedInDownloadFolder": "The file has been successfully saved in the Download folder.",
+    "fileWasSuccessfullyDeletedFromDevice": "The file was successfully deleted from the device."
 }
