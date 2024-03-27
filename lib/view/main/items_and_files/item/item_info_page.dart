@@ -37,7 +37,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
   void initState() {
     super.initState();
     _isPasswordVisibleList = List.filled(widget.selectedSafeItems['sections'].length, false);
-    Future.delayed(Duration(milliseconds: 150), (){
+    Future.delayed(Duration(milliseconds: 200), (){
       _decryptData();
     });
   }
@@ -127,7 +127,9 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
           ],
         ),
       )
-      : Container()
+      : Center(
+        child: CircularProgressIndicator(),
+      )
     );
   }
 

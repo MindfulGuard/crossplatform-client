@@ -12,6 +12,7 @@ abstract class AbstractItemsWritePage extends StatefulWidget {
   final String privateKey;
   final Uint8List privateKeyBytes;
   String selectedSafeId;
+  bool isCreateItem;
 
   AbstractItemsWritePage({
     required this.apiUrl,
@@ -20,6 +21,7 @@ abstract class AbstractItemsWritePage extends StatefulWidget {
     required this.privateKey,
     required this.privateKeyBytes,
     required this.selectedSafeId,
+    this.isCreateItem = true,
     Key? key,
   }) : super(key: key);
 
@@ -71,7 +73,11 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.createItem),
+        title: Text(
+          widget.isCreateItem
+          ? AppLocalizations.of(context)!.createItem
+          : AppLocalizations.of(context)!.editItem
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

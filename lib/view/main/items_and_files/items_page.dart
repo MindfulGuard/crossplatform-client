@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
@@ -371,13 +370,6 @@ class _ItemsPageState extends State<ItemsPage> {
   Future<void> _navigateToItemsUpdatePage(int indexSafe, int indexItem) async {
     print(indexSafe);
     print(indexItem);
-
-    var decryptedData = await Crypto.crypto().decryptMapValues(
-      selectedSafeItems[indexSafe]['items'][indexItem],
-      ['value', 'notes'],
-      widget.password,
-      widget.privateKeyBytes,
-    );
   
     await Navigator.push(
       context,
@@ -390,7 +382,7 @@ class _ItemsPageState extends State<ItemsPage> {
           privateKeyBytes: widget.privateKeyBytes,
           selectedSafeId: widget.selectedSafeId,
           selectedItemId: selectedSafeItems[indexSafe]['items'][indexItem]['id'],
-          selectedItemData: decryptedData,
+          selectedItemData: selectedSafeItems[indexSafe]['items'][indexItem],
       )
       ),
     ).then((result) {

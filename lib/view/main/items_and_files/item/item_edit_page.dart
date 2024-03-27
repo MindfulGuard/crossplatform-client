@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/items/item/update.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_write_abstract.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemsEditPage extends AbstractItemsWritePage {
   String selectedItemId;
@@ -25,6 +27,7 @@ class ItemsEditPage extends AbstractItemsWritePage {
           privateKeyBytes: privateKeyBytes,
           selectedSafeId: selectedSafeId,
           key: key,
+          isCreateItem: false
         );
 
   @override
@@ -37,19 +40,36 @@ class ItemsEditPage extends AbstractItemsWritePage {
 class _ItemsEditPageState extends AbstractItemsWritePageState {
   String selectedItemId;
   Map<String, dynamic> selectedItemData;
+  bool _isLoading = true;
 
   _ItemsEditPageState({
     required this.selectedItemId,
     required this.selectedItemData
   });
 
+  Future<void> _decryptData() async{
+    var data = await Crypto.crypto().decryptMapValues(
+        selectedItemData,
+        ['value', 'notes'],
+        widget.password,
+        widget.privateKeyBytes,
+    );
+    setState(() {
+      selectedItemData = data;
+      _isLoading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _fetchAndDecryptData();
+  }
 
-    fetchApiData();
+  Future<void> _fetchAndDecryptData() async {
+    await fetchApiData();
+    await _decryptData();
 
-    // Check that the data is available
     if (selectedItemData != null) {
       setState(() {
         titleController.text = selectedItemData['title'];
@@ -57,9 +77,6 @@ class _ItemsEditPageState extends AbstractItemsWritePageState {
         notesController.text = selectedItemData['notes'] ?? "";
         tags = List<String>.from(selectedItemData['tags'] ?? []);
         
-        // Clear and fill categoriesApi and typesApi
-        categoriesApi.clear();
-        typesApi.clear();
         var json = selectedItemData;
         if (json['item_categories'] != null) {
           categoriesApi.addAll(json['item_categories'].map<String>((e) => e.toString()));
@@ -109,5 +126,21 @@ class _ItemsEditPageState extends AbstractItemsWritePageState {
     ).execute();
 
     Navigator.pop(context, true); // Pass any result you want, e.g., true
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.editItem),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else {
+      return super.build(context);
+    }
   }
 }
