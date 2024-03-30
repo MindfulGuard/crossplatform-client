@@ -150,12 +150,10 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
     );
   }
 
-  String _generateTotpString(String secretCode){
+  String _generateTotpString(String secretCode) {
     // Checks if the string is a BASE32 so that an exception will not occur when generating TOTP code.
-    if (
-      RegExp(r'#^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$#')
-      .hasMatch(secretCode)
-    ){
+    if (RegExp(r'^[A-Z2-7]+=*$').hasMatch(secretCode)) {
+      print("Ok");
       return OTP.generateTOTPCodeString(
         secretCode, 
         DateTime.now().millisecondsSinceEpoch,
@@ -164,7 +162,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
         algorithm: Algorithm.SHA1,
         isGoogle: true
       );
-    } else{
+    } else {
       return secretCode;
     }
   }

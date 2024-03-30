@@ -1,3 +1,1 @@
-- Added, now if the user successfully enters a passcode, a short vibration is triggered then.
-- Added optimization for data decryption.
-- Added, on the `Files` page, a menu has been added for each card, which includes 2 buttons, `Save to downloads` and `Delete from device`, supported only on Android devices.
+- Fixed TOTP code output.
