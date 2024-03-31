@@ -17,6 +17,10 @@ class CryptoHelper {
   }
   
   Future<String> encrypt(String text, String password, Uint8List salt) async {
+    if (text.isEmpty){
+      return text;
+    }
+
     final keyAndIV = await generateKeyAndIV(password, salt);
 
     final algorithm = AesGcm.with256bits();
