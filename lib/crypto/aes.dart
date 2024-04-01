@@ -87,8 +87,11 @@ class CryptoHelper {
     Map<String, dynamic> decryptedMap = {};
     for (var entry in originalMap.entries) {
       if (entry.value is String && (keys.contains(entry.key))) {
-        // Add decryption logic based on your requirements here
-        decryptedMap[entry.key] = await decrypt(entry.value, password, privateKey);
+        try{
+          decryptedMap[entry.key] = await decrypt(entry.value, password, privateKey);
+        } catch (e){
+          decryptedMap[entry.key] = ""; // Set default value for failed decryption
+        }
       } else if (entry.value is Map<String, dynamic>) {
         try {
           decryptedMap[entry.key] = await decryptMapValues(entry.value, keys, password, privateKey); // Recursively decrypt nested maps
