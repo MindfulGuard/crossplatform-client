@@ -391,5 +391,23 @@
     "removeFromDevice": "Удалить с устройства",
     "saveToDownloads": "Сохранить в загрузки",
     "fileHasBeenSuccessfullySavedInDownloadFolder": "Файл успешно сохранен в папке Download.",
-    "fileWasSuccessfullyDeletedFromDevice": "Файл был успешно удален с устройства."
+    "fileWasSuccessfullyDeletedFromDevice": "Файл был успешно удален с устройства.",
+    "updatingApplication": "Обновление приложения",
+    "checkForUpdates": "Проверить обновления",
+    "currentVersionWithValue": "Текущая версия: {value}",
+    "@currentVersionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "latestVersionWithValue": "Последняя версия: {value}",
+    "@latestVersionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -1,2 +1,1 @@
-- Fixed TOTP code output.
-- The encryption function has been updated, if the string is empty it will not be encrypted.
+- Added app update from windows app.

@@ -391,5 +391,23 @@
     "removeFromDevice": "Delete from device",
     "saveToDownloads": "Save to downloads",
     "fileHasBeenSuccessfullySavedInDownloadFolder": "The file has been successfully saved in the Download folder.",
-    "fileWasSuccessfullyDeletedFromDevice": "The file was successfully deleted from the device."
+    "fileWasSuccessfullyDeletedFromDevice": "The file was successfully deleted from the device.",
+    "updatingApplication": "Updating the application",
+    "checkForUpdates": "Check for updates",
+    "currentVersionWithValue": "Current version: {value}",
+    "@currentVersionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "latestVersionWithValue": "Latest version: {value}",
+    "@latestVersionWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }

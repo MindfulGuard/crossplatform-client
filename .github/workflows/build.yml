@@ -71,14 +71,26 @@ jobs:
         with:
           flutter-version: '3.16.9'
 
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+
       - name: Install yq
         run: choco install yq
+      
+      - name: Install make
+        run: choco install make
 
       - name: Enable Windows desktop
         run: flutter config --enable-windows-desktop
 
       - name: Build
-        run: flutter build windows
+        run: |
+          cd updater
+          make windows
+          cd ..
+          flutter build windows
 
       - name: Extract version & prerelease from pubspec.yaml
         shell: bash
@@ -94,6 +106,7 @@ jobs:
             mkdir mindfulguard_windows_x64
             Copy-Item -Path "build\windows\x64\runner\Release\*" -Destination "mindfulguard_windows_x64\" -Recurse
             Copy-Item -Path "LICENSE" -Destination "mindfulguard_windows_x64\"
+            Copy-Item -Path "updater\updater.exe" -Destination "mindfulguard_windows_x64\"
             Compress-Archive -Path "mindfulguard_windows_x64/" -DestinationPath mindfulguard_windows_x64.zip -CompressionLevel Optimal
         working-directory: ${{ github.workspace }}
   
