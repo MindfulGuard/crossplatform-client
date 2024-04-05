@@ -1,1 +1,2 @@
-- Added app update from the app. Supported on Windows, Linux.
+- Added app update from the app. Supported on Windows, Linux and Android.
+- Removed field type output, in the item information output.

@@ -248,14 +248,6 @@
             }
         }
     },
-    "fieldTypeWithValue": "Тип: {value}",
-    "@fieldTypeWithValue" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
     "copy": "Копировать",
     "valueCopiedToClipboard": "Значение скопировано в буфер обмена",
     "editItem": "Редактировать Запись",
@@ -409,5 +401,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "permissionDeniedUnableToInstallFile": "Отказано в доступе. Невозможно установить файл."
 }

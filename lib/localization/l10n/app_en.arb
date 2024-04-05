@@ -248,14 +248,6 @@
             }
         }
     },
-    "fieldTypeWithValue": "Type: {value}",
-    "@fieldTypeWithValue" :{
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
-        }
-    },
     "copy": "Copy",
     "valueCopiedToClipboard": "Value copied to clipboard",
     "editItem": "Edit Item",
@@ -409,5 +401,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "permissionDeniedUnableToInstallFile": "Permission denied. Unable to install file."
 }

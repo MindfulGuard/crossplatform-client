@@ -46,6 +46,14 @@ abstract class BaseUpdater{
             fileName_ = value['name'];
             uploadUrl = value['browser_download_url'];
           }
+      } else if (Platform.isAndroid){
+          String fileName = value['name'];
+          fileName = fileName.toLowerCase();
+
+          if (fileName.contains("android")){
+            fileName_ = value['name'];
+            uploadUrl = value['browser_download_url'];
+          }
       } else{
         fileName_ = "";
       }
@@ -60,7 +68,7 @@ abstract class BaseUpdater{
     var response = await _githubReleaseApi.downloadRelease(uploadUrl);
 
     if (response.statusCode == 200){
-      if (Platform.isWindows){
+      if (Platform.isWindows || Platform.isLinux || Platform.isAndroid){
         fileBytes = response.bodyBytes;
       }
     }

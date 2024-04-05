@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/updater/desktop_android.dart';
 import 'package:mindfulguard/updater/desktop_linux.dart';
 import 'package:mindfulguard/updater/desktop_windows.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UpdateApplicationSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -25,6 +27,7 @@ class _UpdateApplicationSettingsPageState
   bool isPreReleaseSelected = false;
   var updaterDesktopWindows = UpdaterDesktopWindows();
   var updaterDesktopLinux = UpdaterDesktopLinux();
+  var updaterDesktopAndroid = UpdaterDesktopAndroid();
   bool updateAvailable = false;
   bool isLoaded = false;
   String _currentVersion = "";
@@ -136,6 +139,53 @@ class _UpdateApplicationSettingsPageState
       await updaterDesktopWindows.update();
     } else if(Platform.isLinux){
       await updaterDesktopLinux.update();
+    } else if(Platform.isAndroid){
+      var statusPermission = await Permission.manageExternalStorage.status;
+      var statusPermissionInstallPackages = await Permission.requestInstallPackages.status;
+
+      if (!statusPermission.isGranted){
+        var permissionStatus = await Permission.manageExternalStorage.request();
+        if (!permissionStatus.isGranted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.permissionDeniedUnableToSaveFile),
+            ),
+          );
+          setState(() {
+            downloading = false;
+          });
+          return;
+        } else{
+          if(!statusPermissionInstallPackages.isGranted){
+            var permissionStatus = await Permission.requestInstallPackages.request();
+            if (!permissionStatus.isGranted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!.permissionDeniedUnableToInstallFile),
+                ),
+              );
+              setState(() {
+                downloading = false;
+              });
+              return;
+            }
+          }
+        }
+      } else if(!statusPermissionInstallPackages.isGranted){
+        var permissionStatus = await Permission.requestInstallPackages.request();
+        if (!permissionStatus.isGranted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.permissionDeniedUnableToInstallFile),
+            ),
+          );
+          setState(() {
+            downloading = false;
+          });
+          return;
+        }
+      }
+      await updaterDesktopAndroid.update();
     }
     setState(() {
       downloading = false;

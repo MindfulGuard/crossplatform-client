@@ -270,14 +270,6 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
                               color: Colors.grey[800],
                             ),
                           ),
-                        SizedBox(height: 4.0),
-                        Text(
-                          AppLocalizations.of(context)!.fieldTypeWithValue(field['type']),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey[800],
-                          ),
-                        ),
                         SizedBox(height: 8.0),
                         ElevatedButton.icon(
                           onPressed: () {
