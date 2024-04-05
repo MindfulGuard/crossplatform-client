@@ -135,7 +135,7 @@ class _SettingsListPageState extends State<SettingsListPage>{
                     context,
                     MaterialPageRoute(builder: (context) => ApplicationInfoSettingsPage()),
                   );
-              } else if (settings[index]['name'] == AppLocalizations.of(context)!.updatingApplication && Platform.isWindows) { // Temporarily available on Windows only.
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.updatingApplication && Platform.isWindows && Platform.isLinux) { // Temporarily available on Windows and Linux only.
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => UpdateApplicationSettingsPage(
