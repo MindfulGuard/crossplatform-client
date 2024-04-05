@@ -44,7 +44,7 @@ func (prcs *Process) FindPIdByName(pName string) (int64, error) {
 		v, err := prcs.findPIdByNameLinux(pName)
 		return int64(v), err
 	default:
-		panic("unknown operating system")
+		return 0, fmt.Errorf("unknown operating system")
 	}
 }
 

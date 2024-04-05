@@ -38,12 +38,19 @@ abstract class BaseUpdater{
           fileName_ = value['name'];
           uploadUrl = value['browser_download_url'];
         }
+      } else if(Platform.isLinux){
+          String fileName = value['name'];
+          fileName = fileName.toLowerCase();
+
+          if (fileName.contains("linux")){
+            fileName_ = value['name'];
+            uploadUrl = value['browser_download_url'];
+          }
       } else{
         fileName_ = "";
       }
     }
 
-    uploadUrl = uploadUrl.replaceAll("{?name,label}", "/$fileName_");
     return uploadUrl;
   }
 

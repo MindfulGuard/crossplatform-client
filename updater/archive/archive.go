@@ -5,6 +5,7 @@ import (
 	"archive/zip"
 	"compress/gzip"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -22,9 +23,10 @@ func (arch *Archive) ExtractArchive(archiveFile, dest string) error {
 	case "windows":
 		return arch.unzip(archiveFile, dest)
 	case "linux":
-		return arch.untarXz(archiveFile, dest)
+		return arch.untarGz(archiveFile, dest)
 	default:
-		panic("Неизвестная операционная система:")
+		log.Fatalln("unknown operating system")
+		return nil
 	}
 }
 
@@ -64,8 +66,8 @@ func (arch *Archive) unzip(zipFile, dest string) error {
 	return nil
 }
 
-func (arch *Archive) untarXz(tarXzFile, dest string) error {
-	f, err := os.Open(tarXzFile)
+func (arch *Archive) untarGz(tarGzFile, dest string) error {
+	f, err := os.Open(tarGzFile)
 	if err != nil {
 		return err
 	}

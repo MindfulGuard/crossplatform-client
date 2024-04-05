@@ -2,23 +2,23 @@ import 'dart:io';
 
 import 'package:mindfulguard/updater/base.dart';
 
-class UpdaterDesktopWindows extends BaseUpdater {
-  UpdaterDesktopWindows() : super();
+class UpdaterDesktopLinux extends BaseUpdater {
+  UpdaterDesktopLinux() : super();
 
   Future<void> _openScript({
     required String appFullPath,
     required String updatesFullPath,
     required String archiveFullPath
   }) async {
-    String executablePath = "$appFullPath/$getUpdaterFileName.exe";
+    String executablePath = "$appFullPath/$getUpdaterFileName.sh";
     await Process.start(executablePath, [
       "--APP_FULL_PATH=$appFullPath",
       "--UPDATES_FULL_PATH=$updatesFullPath",
       "--ARCHIVE_FILE_FULL_PATH=$archiveFullPath",
-      "--FILE_IGNORE=$getUpdaterFileName.exe", // !
-      "--MAIN_PROGRAM_NAME=mindfulguard.exe",
-      "--FILE_DELETE_AFTER=/mindfulguard_windows_x64",
-      "--RUN_FILE_AFTER=$appFullPath/mindfulguard.exe",
+      "--FILE_IGNORE=$getUpdaterFileName.sh", // !
+      "--MAIN_PROGRAM_NAME=mindfulguard",
+      "--FILE_DELETE_AFTER=/mindfulguard_linux_x64",
+      "--RUN_FILE_AFTER=$appFullPath/mindfulguard",
     ]);
   }
 
@@ -27,14 +27,14 @@ class UpdaterDesktopWindows extends BaseUpdater {
   Future<void> update() async {
     await init();
 
-    const String archiveName = 'archive.zip';
+    const String archiveName = 'archive.tar.gz';
     String filePath = appCurrentDir.path;
 
     var fileBytes = await downloadRelease();
     await File("$filePath/$archiveName").writeAsBytes(fileBytes);
     await _openScript(
       appFullPath: filePath,
-      updatesFullPath: "$filePath/mindfulguard_windows_x64",
+      updatesFullPath: "$filePath/mindfulguard_linux_x64",
       archiveFullPath: "$filePath/$archiveName"
     );
   }

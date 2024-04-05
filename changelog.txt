@@ -1,1 +1,1 @@
-- Added app update from windows app.
+- Added app update from the app. Supported on Windows, Linux.

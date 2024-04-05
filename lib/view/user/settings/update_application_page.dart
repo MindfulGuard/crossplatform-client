@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/updater/desktop_linux.dart';
 import 'package:mindfulguard/updater/desktop_windows.dart';
 
 class UpdateApplicationSettingsPage extends StatefulWidget {
@@ -21,6 +24,7 @@ class _UpdateApplicationSettingsPageState
     extends State<UpdateApplicationSettingsPage> {
   bool isPreReleaseSelected = false;
   var updaterDesktopWindows = UpdaterDesktopWindows();
+  var updaterDesktopLinux = UpdaterDesktopLinux();
   bool updateAvailable = false;
   bool isLoaded = false;
   String _currentVersion = "";
@@ -128,7 +132,11 @@ class _UpdateApplicationSettingsPageState
     setState(() {
       downloading = true;
     });
-    await updaterDesktopWindows.update();
+    if (Platform.isWindows){
+      await updaterDesktopWindows.update();
+    } else if(Platform.isLinux){
+      await updaterDesktopLinux.update();
+    }
     setState(() {
       downloading = false;
     });
