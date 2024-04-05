@@ -1,3 +1,5 @@
+//go:build linux
+
 package main
 
 import (
@@ -36,9 +38,9 @@ func main() {
 	}
 
 	_process_ := process.NewProcess()
-	_processPId_, processPIdErr := _process_.FindPIdByName(*MainProgramName)
+	_processPId_, processPIdErr := _process_.FindPIdByNameLinux(*MainProgramName)
 	if processPIdErr == nil {
-		_process_.Kill(_processPId_)
+		_process_.Kill(int64(_processPId_))
 	}
 
 	archive := archive.NewArchive()
