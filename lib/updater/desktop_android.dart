@@ -14,8 +14,16 @@ class UpdaterDesktopAndroid extends BaseUpdater {
     const String fileName = 'MindfulGuard_android.apk';
     String filePath = "/storage/emulated/0/Download/$fileName";
 
-    var fileBytes = await downloadRelease();
-    await File(filePath).writeAsBytes(fileBytes);
+    try{
+      var fileBytes = await downloadRelease();
+      if (fileBytes.isNotEmpty){
+        await File(filePath).writeAsBytes(fileBytes);
+      } else{
+        return;
+      }
+    } catch(e){
+      return;
+    }
     await OpenFile.open(filePath);
   }
 }

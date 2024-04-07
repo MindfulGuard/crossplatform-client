@@ -30,8 +30,16 @@ class UpdaterDesktopWindows extends BaseUpdater {
     const String archiveName = 'archive.zip';
     String filePath = appCurrentDir.path;
 
-    var fileBytes = await downloadRelease();
-    await File("$filePath/$archiveName").writeAsBytes(fileBytes);
+    try{
+      var fileBytes = await downloadRelease();
+      if (fileBytes.isNotEmpty){
+        await File("$filePath/$archiveName").writeAsBytes(fileBytes);
+      } else{
+        return;
+      }
+    } catch(e){
+      return;
+    }
     await _openScript(
       appFullPath: filePath,
       updatesFullPath: "$filePath/mindfulguard_windows_x64",
