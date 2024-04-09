@@ -4,7 +4,8 @@ package process
 
 import "golang.org/x/sys/windows"
 
-func (*Process) FindPIdByNameWindows(pName string) (uint32, error) {
+// Windows
+func (*Process) FindPIdByName(pName string) (uint32, error) {
 	const processEntrySize = 568
 
 	h, e := windows.CreateToolhelp32Snapshot(windows.TH32CS_SNAPPROCESS, 0)

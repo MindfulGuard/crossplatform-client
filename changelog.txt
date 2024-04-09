@@ -1,2 +1,2 @@
-- Fixed Updater which, when the update was finished, opened the program along with the console.
-- Improved exception handling during application update.
+- Improved updater code.
+- Updated safe description output field, now if the description is empty, then "description" is not displayed.

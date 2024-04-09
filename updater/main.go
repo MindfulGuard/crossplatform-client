@@ -1,5 +1,3 @@
-//go:build linux
-
 package main
 
 import (
@@ -38,7 +36,7 @@ func main() {
 	}
 
 	_process_ := process.NewProcess()
-	_processPId_, processPIdErr := _process_.FindPIdByNameLinux(*MainProgramName)
+	_processPId_, processPIdErr := _process_.FindPIdByName(*MainProgramName)
 	if processPIdErr == nil {
 		_process_.Kill(int64(_processPId_))
 	}

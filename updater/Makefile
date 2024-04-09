@@ -10,12 +10,7 @@ else
     BINARY_NAME := $(BINARY_NAME).sh
 endif
 
-all: linux windows
-
-linux: $(SRC)
-	$(GO) build -o $(BINARY_NAME)
-
-windows: $(SRC)
+ubuild:
 	$(GO) build -o $(BINARY_NAME)
 
 clean:

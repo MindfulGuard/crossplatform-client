@@ -9,7 +9,8 @@ import (
 	"strings"
 )
 
-func (*Process) FindPIdByNameLinux(pName string) (int, error) {
+// Linux
+func (*Process) FindPIdByName(pName string) (int, error) {
 	cmd := exec.Command("pgrep", pName)
 	var out bytes.Buffer
 	cmd.Stdout = &out

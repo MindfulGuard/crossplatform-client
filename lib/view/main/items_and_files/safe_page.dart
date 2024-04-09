@@ -260,7 +260,9 @@ class _SafePageState extends State<SafePage> {
                     children: <Widget>[
                       ListTile(
                         title: Text(AppLocalizations.of(context)!.nameWithValue(safe["name"])),
-                        subtitle: Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"] ?? "")),
+                        subtitle: safe["description"] != "" && safe["description"] != null
+                        ? Text(AppLocalizations.of(context)!.descriptionWithValue(safe["description"]))
+                        : null,
                       ),
                       ListTile(
                         title: Text(AppLocalizations.of(context)!.updatedAt(Localization.formatUnixTimestamp(safe["updated_at"] as int))),
