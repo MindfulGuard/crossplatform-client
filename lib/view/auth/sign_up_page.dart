@@ -254,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 AlignTextField(
-                  labelText: "Api url",
+                  labelText: AppLocalizations.of(context)!.apiServer,
                   controller: apiUrl,
                 ),
                 SizedBox(height: 10),

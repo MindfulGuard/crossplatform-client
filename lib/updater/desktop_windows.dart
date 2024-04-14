@@ -5,7 +5,8 @@ import 'package:mindfulguard/updater/base.dart';
 class UpdaterDesktopWindows extends BaseUpdater {
   UpdaterDesktopWindows() : super();
 
-  Future<void> _openScript({
+  @override
+  Future<void> openScript({
     required String appFullPath,
     required String updatesFullPath,
     required String archiveFullPath
@@ -21,7 +22,6 @@ class UpdaterDesktopWindows extends BaseUpdater {
       "--RUN_FILE_AFTER=$appFullPath/mindfulguard.exe",
     ]);
   }
-
 
   @override
   Future<void> update() async {
@@ -40,7 +40,7 @@ class UpdaterDesktopWindows extends BaseUpdater {
     } catch(e){
       return;
     }
-    await _openScript(
+    await openScript(
       appFullPath: filePath,
       updatesFullPath: "$filePath/mindfulguard_windows_x64",
       archiveFullPath: "$filePath/$archiveName"

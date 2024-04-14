@@ -77,4 +77,9 @@ abstract class BaseUpdater{
   }
 
   Future<void> update();
+  Future<void> openScript({
+    required String appFullPath,
+    required String updatesFullPath,
+    required String archiveFullPath
+  });
 }

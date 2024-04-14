@@ -86,7 +86,7 @@ class _SignInPageState extends State<SignInPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 AlignTextField(
-                  labelText: "Api url",
+                  labelText: AppLocalizations.of(context)!.apiServer,
                   controller: apiUrl,
                 ),
                 SizedBox(height: 10),

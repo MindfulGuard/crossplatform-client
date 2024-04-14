@@ -6,6 +6,14 @@ import 'package:open_file/open_file.dart';
 class UpdaterDesktopAndroid extends BaseUpdater {
   UpdaterDesktopAndroid() : super();
 
+  @override
+  Future<void> openScript({
+    String appFullPath = "",
+    required  String updatesFullPath,
+    String archiveFullPath = ""
+  }) async{
+    await OpenFile.open(updatesFullPath);
+  }
 
   @override
   Future<void> update() async {
@@ -24,6 +32,6 @@ class UpdaterDesktopAndroid extends BaseUpdater {
     } catch(e){
       return;
     }
-    await OpenFile.open(filePath);
+    await openScript(updatesFullPath: filePath);
   }
 }

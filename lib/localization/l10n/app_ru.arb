@@ -51,8 +51,9 @@
     "items": "Записи",
     "item": "Запись",
     "userInformation": "Информация о пользователе",
-    "apiServer": "Api Сервер: {value}",
-    "@apiServer" :{
+    "apiServer": "Api Сервер",
+    "apiServerWithValue": "Api Сервер: {value}",
+    "@apiServerWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"

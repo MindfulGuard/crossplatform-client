@@ -1,2 +1,2 @@
-- Improved updater code.
-- Updated safe description output field, now if the description is empty, then "description" is not displayed.
+- Added application window size limitation for Windows and Linux. 
+- Updated translation.

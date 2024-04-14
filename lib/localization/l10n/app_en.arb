@@ -51,8 +51,9 @@
     "items": "Items",
     "item": "Item",
     "userInformation": "User Information",
-    "apiServer": "Api Server: {value}",
-    "@apiServer" :{
+    "apiServer": "Api Server",
+    "apiServerWithValue": "Api Server: {value}",
+    "@apiServerWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
