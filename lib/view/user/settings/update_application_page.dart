@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mindfulguard/updater/desktop_android.dart';
+import 'package:mindfulguard/updater/android.dart';
 import 'package:mindfulguard/updater/desktop_linux.dart';
 import 'package:mindfulguard/updater/desktop_windows.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -27,7 +27,7 @@ class _UpdateApplicationSettingsPageState
   bool isPreReleaseSelected = false;
   var updaterDesktopWindows = UpdaterDesktopWindows();
   var updaterDesktopLinux = UpdaterDesktopLinux();
-  var updaterDesktopAndroid = UpdaterDesktopAndroid();
+  var updaterAndroid = UpdaterAndroid();
   bool updateAvailable = false;
   bool isLoaded = false;
   String _currentVersion = "";
@@ -185,7 +185,7 @@ class _UpdateApplicationSettingsPageState
           return;
         }
       }
-      await updaterDesktopAndroid.update();
+      await updaterAndroid.update();
     }
     setState(() {
       downloading = false;

@@ -1,2 +1,1 @@
-- Added application window size limitation for Windows and Linux. 
-- Updated translation.
+- Minor code update.

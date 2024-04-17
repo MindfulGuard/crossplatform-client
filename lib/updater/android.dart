@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:mindfulguard/updater/base.dart';
 import 'package:open_file/open_file.dart';
 
-class UpdaterDesktopAndroid extends BaseUpdater {
-  UpdaterDesktopAndroid() : super();
+class UpdaterAndroid extends BaseUpdater {
+  UpdaterAndroid() : super();
 
   @override
   Future<void> openScript({
