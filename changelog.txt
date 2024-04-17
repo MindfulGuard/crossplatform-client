@@ -1,1 +1,2 @@
-- Minor code update.
+- Slightly redesigned the login and registration page.
+- Updated, now you don't have to select the access token expiration time when logging in, now the value will always be 30 days.

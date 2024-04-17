@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -247,75 +246,77 @@ class _SignUpPageState extends State<SignUpPage> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.signUp),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.apiServer,
-                  controller: apiUrl,
-                ),
-                SizedBox(height: 10),
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.loginUser,
-                  controller: login,
-                ),
-                SizedBox(height: 10),
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.password,
-                  obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
-                  controller: password,
-                ),
-                SizedBox(height: 30),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.apiServer,
+                    controller: apiUrl,
                   ),
-                  onPressed: () async{
-                    isRegistered ? _signIn() : _signUp();
-                  },
-                  child: Text(
-                    isRegistered 
-                    ? AppLocalizations.of(context)!.next
-                    : AppLocalizations.of(context)!.send
+                  SizedBox(height: 10),
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.loginUser,
+                    controller: login,
                   ),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    msg,
-                    style: TextStyle(
-                      color: Colors.red
-                    )
+                  SizedBox(height: 10),
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.password,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: password,
                   ),
-                ),
-                SizedBox(height: 20),
-                buildInfo,
-                SizedBox(height: 10),
-                isRegistered
-                ? ElevatedButton.icon(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: (){
-                      return "Login: ${login.text}\nPassword: ${password.text}\nPrivate Key: $privateKey\n\nTOTP code: $base32TotpCode\n\nBackup Codes: $backupCodes";
-                    }()));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),
-                      ),
-                    );
-                  },
-                  icon: Icon(Icons.copy),
-                  label: Text(AppLocalizations.of(context)!.copy),
-                )
-                : Container()
-              ]
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    onPressed: () async{
+                      isRegistered ? _signIn() : _signUp();
+                    },
+                    child: Text(
+                      isRegistered 
+                      ? AppLocalizations.of(context)!.next
+                      : AppLocalizations.of(context)!.send
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      msg,
+                      style: TextStyle(
+                        color: Colors.red
+                      )
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  buildInfo,
+                  SizedBox(height: 10),
+                  isRegistered
+                  ? ElevatedButton.icon(
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: (){
+                        return "Login: ${login.text}\nPassword: ${password.text}\nPrivate Key: $privateKey\n\nTOTP code: $base32TotpCode\n\nBackup Codes: $backupCodes";
+                      }()));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppLocalizations.of(context)!.valueCopiedToClipboard),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.copy),
+                    label: Text(AppLocalizations.of(context)!.copy),
+                  )
+                  : Container()
+                ]
+            )
           )
-        )
-      )
+        ),
+      ),
     );
   }
 }

@@ -5,16 +5,6 @@
     "language": "Язык",
     "signIn": "Вход",
     "next": "Далее",
-    "tokenExpirationDays": "Срок действия токена (максимум {days} дней)",
-    "@tokenExpirationDays": {
-      "description": "Сообщение для отображения максимального количества дней действия токена",
-      "placeholders": {
-        "days": {
-          "type": "int",
-          "example": "90"
-        }
-      }
-    },
     "data": "Данные",
     "profile": "Профиль",
     "name": "Название",

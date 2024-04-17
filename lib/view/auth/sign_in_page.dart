@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
-import 'package:mindfulguard/localization/localization.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/view/auth/sign_up_page.dart';
@@ -33,19 +31,12 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController login = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController privateKey = TextEditingController();
-  DateTime selectedDateTime = DateTime.now();
   TextEditingController oneTimeOrBackupCode = TextEditingController();
   String? _selectedOption = "";
 
   MobileScannerController cameraController = MobileScannerController();
 
   bool _onHoverTextSignUp = false;
-
-  String _formatTime(int year, int month, int day, int hour, int minute) {
-    DateTime dateTime = DateTime(year, month, day, hour, minute);
-    String dateTimeFormat = DateFormat.yMd(Localization.currentlanguageCodeSystem).add_Hms().format(dateTime);
-    return dateTimeFormat;
-  }
 
   void _decodeData(String? jsonString) async{
     Map<String, dynamic> data = json.decode(jsonString!);
@@ -77,156 +68,139 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: AppLocalizations.of(context)!.signIn,
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.apiServer,
-                  controller: apiUrl,
-                ),
-                SizedBox(height: 10),
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.loginUser,
-                  controller: login,
-                ),
-                SizedBox(height: 10),
-                AlignTextField(
-                  labelText: AppLocalizations.of(context)!.password,
-                  obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
-                  controller: password,
-                ),
-                SizedBox(height: 10),
-                AlignTextField(
-                  obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
-                  labelText: AppLocalizations.of(context)!.privateKey,
-                  controller: privateKey,
-                ),
-                SizedBox(height: 10),
-                ListTile(
-                  title: Text(
-                    AppLocalizations.of(context)!.tokenExpirationDays(90),
-                    style: TextStyle(fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.signIn),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.apiServer,
+                    controller: apiUrl,
                   ),
-                  subtitle: Text(
-                    _formatTime(
-                      selectedDateTime.year,
-                      selectedDateTime.month,
-                      selectedDateTime.day,
-                      selectedDateTime.hour,
-                      selectedDateTime.minute
-                    ),
+                  SizedBox(height: 10),
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.loginUser,
+                    controller: login,
                   ),
-                  onTap: () {
-                    _selectDateTime(context);
-                  },
-                ),
-                Divider(),
-                SizedBox(height: 10),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: AlignTextField(
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        maxLength: 6,
-                        labelText: AppLocalizations.of(context)!.oneTimeCode,
-                        controller: oneTimeOrBackupCode,
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    SizedBox(width: 10), // Add a small space between elements
-                    DropDown(
-                      options: const ['basic', 'backup'],
-                      onOptionChanged: (String? selectedValue) {
-                        _selectedOption = selectedValue;
-                        print(selectedValue);
-                        // Perform other actions upon value change
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                  SizedBox(height: 10),
+                  AlignTextField(
+                    labelText: AppLocalizations.of(context)!.password,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: password,
                   ),
-                  onPressed: () async {
-                    final signInApi = await _signInApi();
-                    if (signInApi == null || signInApi.statusCode != 200) {
-                      setState(() {
-                        errorMessage = json.decode(utf8.decode(signInApi!.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
-                      });
-                    } else {
-                      setState(() {
-                        errorMessage = json.decode(utf8.decode(signInApi.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi.body)['msg']['en'];
-                      });
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainPage()),
-                      );
-                    }
-                  },
-                  child: Text(AppLocalizations.of(context)!.next),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Center(
-                    child: errorMessage != null ? Text(errorMessage, style: TextStyle(color: Colors.red)) : SizedBox() 
+                  SizedBox(height: 10),
+                  AlignTextField(
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: AppLocalizations.of(context)!.privateKey,
+                    controller: privateKey,
                   ),
-                ),
-                if (Platform.isAndroid)
+                  SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.qr_code_scanner),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Center(
-                                child: SingleChildScrollView(
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                                      child: GlassMorphism(
-                                        start: 0.1,
-                                        end: 0.2,
-                                        child: Container(
-                                          width: 400,
-                                          constraints: BoxConstraints(maxHeight: 250),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: SingleChildScrollView(
-                                              child: ConstrainedBox(
-                                                constraints: BoxConstraints(
-                                                  minHeight: 100
-                                                ),
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Container(
-                                                        width: 225, // Camera width
-                                                        height: 225, // Camera height
-                                                        child: MobileScanner(
-                                                          controller: cameraController,
-                                                          onDetect: (capture) {
-                                                            final List<Barcode> barcodes = capture.barcodes;
-                                                            for (final barcode in barcodes) {
-                                                              _decodeData(barcode.rawValue);
-                                                            }
-                                                          },
-                                                        ),
-                                                      )
-                                                  ],
+                      Expanded(
+                        child: AlignTextField(
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          maxLength: 6,
+                          labelText: AppLocalizations.of(context)!.oneTimeCode,
+                          controller: oneTimeOrBackupCode,
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      DropDown(
+                        options: const ['basic', 'backup'],
+                        onOptionChanged: (String? selectedValue) {
+                          _selectedOption = selectedValue;
+                          print(selectedValue);
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    onPressed: () async {
+                      final signInApi = await _signInApi();
+                      if (signInApi == null || signInApi.statusCode != 200) {
+                        setState(() {
+                          errorMessage = json.decode(utf8.decode(signInApi!.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi!.body)['msg']['en'];
+                        });
+                      } else {
+                        setState(() {
+                          errorMessage = json.decode(utf8.decode(signInApi.body.runes.toList()))['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signInApi.body)['msg']['en'];
+                        });
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                        );
+                      }
+                    },
+                    child: Text(AppLocalizations.of(context)!.next),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Center(
+                      child: errorMessage != null ? Text(errorMessage, style: TextStyle(color: Colors.red)) : SizedBox() 
+                    ),
+                  ),
+                  if (Platform.isAndroid)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.qr_code_scanner),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Center(
+                                  child: SingleChildScrollView(
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                                        child: GlassMorphism(
+                                          start: 0.1,
+                                          end: 0.2,
+                                          child: Container(
+                                            width: 400,
+                                            constraints: BoxConstraints(maxHeight: 250),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(20.0),
+                                              child: SingleChildScrollView(
+                                                child: ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                    minHeight: 100
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Container(
+                                                          width: 225, // Camera width
+                                                          height: 225, // Camera height
+                                                          child: MobileScanner(
+                                                            controller: cameraController,
+                                                            onDetect: (capture) {
+                                                              final List<Barcode> barcodes = capture.barcodes;
+                                                              for (final barcode in barcodes) {
+                                                                _decodeData(barcode.rawValue);
+                                                              }
+                                                            },
+                                                          ),
+                                                        )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -235,84 +209,56 @@ class _SignInPageState extends State<SignInPage> {
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      Text(AppLocalizations.of(context)!.scanQrCodeSignIn),
-                    ],
-                  ),
-                SizedBox(height: 20,),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Redirect to sign up page ...");
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        Text(AppLocalizations.of(context)!.scanQrCodeSignIn),
+                      ],
+                    ),
+                  SizedBox(height: 20,),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        print("Redirect to sign up page ...");
 
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: MouseRegion(
-                      onHover: (event){
-                        setState(() {
-                          _onHoverTextSignUp = true;
-                        });
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
                       },
-                      onExit: (event){
-                        setState(() {
-                          _onHoverTextSignUp = false;
-                        });
-                      },
-                      cursor: SystemMouseCursors.click,
-                      child: Text(
-                        AppLocalizations.of(context)!.signUp,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.blue[800],
-                          decoration: _onHoverTextSignUp ? TextDecoration.underline : TextDecoration.none,
-                          decorationColor: Colors.blue[800],
+                      child: MouseRegion(
+                        onHover: (event){
+                          setState(() {
+                            _onHoverTextSignUp = true;
+                          });
+                        },
+                        onExit: (event){
+                          setState(() {
+                            _onHoverTextSignUp = false;
+                          });
+                        },
+                        cursor: SystemMouseCursors.click,
+                        child: Text(
+                          AppLocalizations.of(context)!.signUp,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.blue[800],
+                            decoration: _onHoverTextSignUp ? TextDecoration.underline : TextDecoration.none,
+                            decorationColor: Colors.blue[800],
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   )
-                )
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> _selectDateTime(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDateTime,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 90)), // Max 90 days
-    );
-
-    if (pickedDate != null) {
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-
-      if (pickedTime != null) {
-        setState(() {
-          selectedDateTime = DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour,
-            pickedTime.minute,
-          );
-        });
-      }
-    }
   }
 
   Future<Response?> _signInApi() async {
@@ -338,7 +284,7 @@ class _SignInPageState extends State<SignInPage> {
       apiUrl: apiUrl.text,
       login: login.text,
       secretString: secretString,
-      tokenExpiration: (selectedDateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) ~/ 60000, // From unixtime (milliseconds) to minutes.
+      tokenExpiration: 43200, // 30 days (in minutes)
       totp: oneTimeOrBackupCode.text,
       codeType: _selectedOption!
     );
