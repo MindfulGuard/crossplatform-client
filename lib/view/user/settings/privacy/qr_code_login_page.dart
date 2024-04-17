@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/components/qr.dart';
-import 'package:mindfulguard/view/components/video_player.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCodeLoginPrivacySettingsPage extends StatefulWidget {
@@ -70,50 +69,48 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.qrCodeLogin),
-        actions: [
-          IconButton(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => QrCodeLoginPrivacySettingsHelpPage()),
-              );
-            },
-            icon: Icon(Icons.help_outline),
-          ),
-          ],
       ),
       body: Center(
-        child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isVisible = !isVisible; // Switching data visibility
-                  });
-                },
-                child: Qr(
-                    isLoaded: isLoaded,
-                    data: data,
-                    isVisible: isVisible,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isVisible = !isVisible; // Switching data visibility
+                });
+              },
+              child: Qr(
+                  isLoaded: isLoaded,
+                  data: data,
+                  isVisible: isVisible,
+                ),
+              ),
+              SizedBox(height: 25),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  AppLocalizations.of(context)!.qrCodeViewVisibleWarning,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.qrCodeViewVisibleWarning,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                AppLocalizations.of(context)!.thisFeatureIsSupportedOnDevices("Android"),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
       ),
     );
   }
@@ -170,50 +167,5 @@ class Qr extends StatelessWidget{
           ),
         ],
       );
-  }
-}
-
-class QrCodeLoginPrivacySettingsHelpPage extends StatefulWidget {
-  QrCodeLoginPrivacySettingsHelpPage({Key? key}) : super(key: key);
-
-  @override
-  _QrCodeLoginPrivacySettingsHelpPageState createState() =>
-      _QrCodeLoginPrivacySettingsHelpPageState();
-}
-
-class _QrCodeLoginPrivacySettingsHelpPageState
-    extends State<QrCodeLoginPrivacySettingsHelpPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.helpReference),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IgnorePointer(
-                ignoring: true,
-                child: AppPlayer(
-                  source: 'assets/video/sign_in_qr.webm',
-                  mediaType: AppPlayerResourceType.asset,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context)!.thisFeatureIsSupportedOnDevices('Android'),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
