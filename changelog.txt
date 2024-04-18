@@ -1,1 +1,2 @@
 - Removed video that explains how to use the `Qr code Login` feature.
+- Updated api request to retrieve audit log.

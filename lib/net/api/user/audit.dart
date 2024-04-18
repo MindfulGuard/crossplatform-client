@@ -22,7 +22,7 @@ class UserAuditGetApi extends BaseApi {
       await init();
       this.setAuthTokenHeader(token);
       response_ = await httpClient.get(
-        Uri.parse("$apiUrl/v1/user/audit?page=$page"),
+        Uri.parse("$apiUrl/v1/user/audit?page=$page&per_page=15"),
         headers: headers,
       );
       return;
