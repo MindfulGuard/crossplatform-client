@@ -28,7 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController login = TextEditingController();
   TextEditingController password = TextEditingController();
   
-  String msg = "";
   String privateKey = "";
 
   bool isRegistered = false;
@@ -223,12 +222,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     print(signUpApi.response.statusCode);
 
-    setState(() {
-      msg = json.decode(
-        utf8.decode(signUpApi.response.body.runes.toList())
-      )['msg'][AppLocalizations.of(context)?.localeName] ?? json.decode(signUpApi.response.body)['msg']['en'];
-    });
-
     if (signUpApi.response.statusCode == 200){
       var body = json.decode(signUpApi.response.body);
       setState(() {
@@ -237,6 +230,30 @@ class _SignUpPageState extends State<SignUpPage> {
         isRegistered = true;
       });
       _buildSignUpInfo();
+    } else if(signUpApi.response.statusCode == 503){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.registrationIsDisabled),
+          ),
+        );
+    } else if (signUpApi.response.statusCode == 400){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.incorrectData),
+          ),
+        );
+    } else if(signUpApi.response.statusCode == 409){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.suchUserAlreadyExists),
+          ),
+        );
+    } else if(signUpApi.response.statusCode == 500 || signUpApi.response == null){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.failedToRegister),
+          ),
+        );
     }
   }
 
@@ -282,15 +299,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       isRegistered 
                       ? AppLocalizations.of(context)!.next
                       : AppLocalizations.of(context)!.send
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      msg,
-                      style: TextStyle(
-                        color: Colors.red
-                      )
                     ),
                   ),
                   SizedBox(height: 20),

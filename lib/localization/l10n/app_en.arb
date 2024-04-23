@@ -393,5 +393,12 @@
             }
         }
     },
-    "permissionDeniedUnableToInstallFile": "Permission denied. Unable to install file."
+    "permissionDeniedUnableToInstallFile": "Permission denied. Unable to install file.",
+    "incorrectData": "Incorrect data.",
+    "failedToLogInToAccount": "Failed to log in to the account.",
+    "noSuchUserExists": "No such user exists.",
+    "registrationIsDisabled": "Registration is disabled.",
+    "suchUserAlreadyExists": "Such a user already exists.",
+    "failedToRegister": "Failed to register.",
+    "incorrectPassword": "Incorrect password."
 }

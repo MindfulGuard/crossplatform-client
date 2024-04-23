@@ -200,7 +200,7 @@ class _SetPasscodePrivacySettingsPageState extends State<SetPasscodePrivacySetti
                 AppLocalizations.of(context)!.submitPasscode,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontSize: 18,
                 ),
               ),
             ),

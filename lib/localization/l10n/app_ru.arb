@@ -303,7 +303,7 @@
     "fileNameMustContainOnlyASCIICharactersWarning": "Имя файла должно содержать только символы ASCII.",
     "privacy": "Конфиденциальность",
     "qrCodeLogin": "Вход по Qr коду",
-    "qrCodeViewVisibleWarning": "Внимание! Этот QR-код содержит конфиденциальные данные, такие как: API-сервер, Имя пользователя, Пароль, Приватный ключ. Не распространяйте его нигде.",
+    "qrCodeViewVisibleWarning": "Внимание! Этот QR-код содержит конфиденциальные данные, такие как: API-сервер, Имя пользователя, Пароль, Приватный ключ. Нигде его не распространяйте.",
     "scanQrCodeSignIn": "Сканирование QR-кода для входа",
     "thisFeatureIsSupportedOnDevices": "Эта функция поддерживается на устройствах {value}.",
     "@thisFeatureIsSupportedOnDevices": {
@@ -393,5 +393,12 @@
             }
         }
     },
-    "permissionDeniedUnableToInstallFile": "Отказано в доступе. Невозможно установить файл."
+    "permissionDeniedUnableToInstallFile": "Отказано в доступе. Невозможно установить файл.",
+    "incorrectData": "Неправильные данные.",
+    "failedToLogInToAccount": "Не удалось войти в учетную запись.",
+    "noSuchUserExists": "Такого пользователя не существует.",
+    "registrationIsDisabled": "Регистрация отключена.",
+    "suchUserAlreadyExists": "Такой пользователь уже существует.",
+    "failedToRegister": "Не удалось зарегистрироваться.",
+    "incorrectPassword": "Неправильный пароль."
 }
