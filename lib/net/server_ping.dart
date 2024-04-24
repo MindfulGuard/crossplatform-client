@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:mindfulguard/logger/logs.dart';
 
 Future<bool> pingServer(String url) async {
   try {
@@ -6,7 +7,7 @@ Future<bool> pingServer(String url) async {
     return response.statusCode == 200;
   }
   catch (e){
-    print(e);
+    AppLogger.logger.w(e);
     return false;
   }
 }

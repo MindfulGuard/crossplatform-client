@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mindfulguard/localization/localization.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/items/files/delete.dart';
 import 'package:mindfulguard/net/api/items/files/download.dart';
 import 'package:mindfulguard/net/api/items/files/upload.dart';
@@ -170,7 +171,7 @@ class _FilesPageState extends State<FilesPage> {
         selectedSafeFiles.firstWhere((file) => file['name'] == fileName)['isDownloaded'] = true;
       });
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.errorSavingFile),
@@ -279,7 +280,7 @@ class _FilesPageState extends State<FilesPage> {
         ),
       );
     } catch (e){
-      print(e);
+      AppLogger.logger.w(e);
     }
   }
 

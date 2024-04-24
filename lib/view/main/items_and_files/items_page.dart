@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/localization/localization.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/item/delete.dart';
 import 'package:mindfulguard/net/api/items/item/favorite.dart';
@@ -363,13 +364,12 @@ class _ItemsPageState extends State<ItemsPage> {
           content: Text(AppLocalizations.of(context)!.errorFailedToMoveItemToSafe),
         ),
       );
-      print('Error during item move: $error');
+      AppLogger.logger.i('Error during item move: $error');
     }
   }
 
   Future<void> _navigateToItemsUpdatePage(int indexSafe, int indexItem) async {
-    print(indexSafe);
-    print(indexItem);
+    AppLogger.logger.i("Index safe: $indexSafe. Index item: $indexItem");
   
     await Navigator.push(
       context,

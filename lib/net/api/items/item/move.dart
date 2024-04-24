@@ -1,3 +1,4 @@
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class ItemMoveToNewSafeApi extends BaseApi{
@@ -29,7 +30,7 @@ class ItemMoveToNewSafeApi extends BaseApi{
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

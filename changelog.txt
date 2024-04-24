@@ -1,2 +1,1 @@
-- Password validation has been removed.
-- Added support for the updated API.
+- Logging added.

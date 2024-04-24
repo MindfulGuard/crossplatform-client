@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/view/auth/service_not_available_page.dart';
 import 'package:mindfulguard/view/auth/sign_in_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -87,7 +88,7 @@ abstract class BaseApi {
         return response_;
       }
     } catch (e){
-      print(e);
+      AppLogger.logger.w(e);
 
       db.select(db.modelUser).get().then((settings) {
         if (settings.length > 0) {
@@ -102,7 +103,8 @@ abstract class BaseApi {
           );
         }
       }).catchError((error) {
-        print("Error while getting settings: $error");
+        AppLogger.logger.w("Error while getting settings: $error");
+
         Navigator.pushReplacement(
           buildContext!,
           MaterialPageRoute(builder: (context) => SignInPage()),

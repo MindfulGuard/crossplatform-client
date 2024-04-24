@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,7 +39,7 @@ class SignUpApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

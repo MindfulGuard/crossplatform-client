@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:mindfulguard/logger/logs.dart';
 
 class GithubReleaseApi{
   final String _apiUrlLastRelease = "https://api.github.com/repos/MindfulGuard/crossplatform-client/releases/latest";
@@ -22,7 +23,7 @@ class GithubReleaseApi{
       );
       return response;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return http.Response("", 500);
     }
   }

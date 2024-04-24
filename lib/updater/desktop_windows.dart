@@ -16,7 +16,7 @@ class UpdaterDesktopWindows extends BaseUpdater {
       "--APP_FULL_PATH=$appFullPath",
       "--UPDATES_FULL_PATH=$updatesFullPath",
       "--ARCHIVE_FILE_FULL_PATH=$archiveFullPath",
-      "--FILE_IGNORE=$getUpdaterFileName.exe", // !
+      "--FILE_IGNORE=$getUpdaterFileName.exe",
       "--MAIN_PROGRAM_NAME=mindfulguard.exe",
       "--FILE_DELETE_AFTER=/mindfulguard_windows_x64",
       "--RUN_FILE_AFTER=$appFullPath/mindfulguard.exe",

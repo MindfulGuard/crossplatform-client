@@ -1,3 +1,4 @@
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class SignOutApi extends BaseApi {
@@ -25,7 +26,7 @@ class SignOutApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class UserInfoApi extends BaseApi {
@@ -20,7 +21,8 @@ class UserInfoApi extends BaseApi {
       await init();
       setAuthTokenHeader(token);
 
-      print("$apiUrl/v1/user");
+      AppLogger.logger.d("$apiUrl/v1/user");
+
       response_ = await httpClient.get(
         Uri.parse("$apiUrl/v1/user"),
         headers: headers,
@@ -29,7 +31,7 @@ class UserInfoApi extends BaseApi {
       });
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

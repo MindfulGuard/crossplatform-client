@@ -1,3 +1,4 @@
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class SafeDeleteApi extends BaseApi {
@@ -22,7 +23,7 @@ class SafeDeleteApi extends BaseApi {
       response_ = await httpClient.delete(Uri.parse("$apiUrl/v1/safe/$safeId"), headers: headers);
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

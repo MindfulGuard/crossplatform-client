@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class UpdateSecretStringApi extends BaseApi {
@@ -39,7 +40,7 @@ class UpdateSecretStringApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

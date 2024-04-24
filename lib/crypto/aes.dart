@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:math';
 import 'package:cryptography/cryptography.dart';
 import 'package:convert/convert.dart';
+import 'package:mindfulguard/logger/logs.dart';
 
 class CryptoHelper {
   final int keyLength = 32; // 256 bits
@@ -51,7 +52,7 @@ class CryptoHelper {
       );
       return utf8.decode(cleartext);
     } catch (error) {
-      print('Decryption failed: $error');
+      AppLogger.logger.i("Decryption failed: $error");
       return null;
     }
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class ItemCreateApi extends BaseApi {
@@ -32,7 +33,7 @@ class ItemCreateApi extends BaseApi {
 
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

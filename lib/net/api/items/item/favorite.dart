@@ -1,3 +1,4 @@
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class ItemFavoriteApi extends BaseApi {
@@ -27,7 +28,7 @@ class ItemFavoriteApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

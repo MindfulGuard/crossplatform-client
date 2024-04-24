@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/localization/localization.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -101,7 +102,7 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
       Navigator.pop(context); // Close the modal after successful token deletion
       
     }
-    print(api.response.statusCode);
+    AppLogger.logger.d(api.response.statusCode);
   }
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:mindfulguard/logger/logs.dart';
 
 import 'package:mindfulguard/net/api/base.dart';
 
@@ -50,7 +51,7 @@ class FileUploadApi extends BaseApi {
 
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

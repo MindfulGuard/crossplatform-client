@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added to use Clipboard
 import 'package:mindfulguard/crypto/crypto.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:url_launcher/url_launcher.dart'; // Added to open links
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:otp/otp.dart';
@@ -153,7 +154,9 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
   String _generateTotpString(String secretCode) {
     // Checks if the string is a BASE32 so that an exception will not occur when generating TOTP code.
     if (RegExp(r'^[A-Z2-7]+=*$').hasMatch(secretCode)) {
-      print("Ok");
+      
+      AppLogger.logger.i("Is base32 string, $secretCode");
+
       return OTP.generateTOTPCodeString(
         secretCode, 
         DateTime.now().millisecondsSinceEpoch,
@@ -303,7 +306,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
     try {
       await launch(url);
     } catch (e) {
-      print('Error launching URL: $e');
+      AppLogger.logger.w('Error launching URL: $e');
     }
   }
 }

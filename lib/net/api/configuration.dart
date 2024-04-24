@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class ConfigurationApi extends BaseApi {
@@ -25,7 +26,7 @@ class ConfigurationApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

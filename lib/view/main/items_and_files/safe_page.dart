@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/localization/localization.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/items/safe/create.dart';
 import 'package:mindfulguard/net/api/items/safe/delete.dart';
@@ -374,7 +375,7 @@ class _SafePageState extends State<SafePage> {
                   SizedBox(height: 24.0),
                   ElevatedButton(
                     onPressed: () async {
-                      print(safeId);
+                      AppLogger.logger.i("Safe id: $safeId");
                       await _updateSafe(
                         context,
                         safeId,

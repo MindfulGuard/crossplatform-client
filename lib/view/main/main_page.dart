@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:http/http.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/items/get.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
@@ -174,7 +175,7 @@ class _MainPageState extends State<MainPage> {
     );
 
     await api.execute();
-
+    
     var decodedApiResponse = json.decode(utf8.decode(api.response.body.runes.toList()));
     var decryptedApiResponse = await Crypto.crypto().decryptMapValues(
       decodedApiResponse,
@@ -210,7 +211,8 @@ class _MainPageState extends State<MainPage> {
 
       await userInfoApiResponse.execute();
 
-      print(dataSettings.value);
+      AppLogger.logger.d(dataSettings.value);
+
       this.apiUrl = dataSettings.value!;
       this.password = dataUser.firstOrNull!.password!;
       this.privateKey = dataUser.firstOrNull!.privateKey!;

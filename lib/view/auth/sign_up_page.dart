@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/auth/sign_up.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
@@ -127,7 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
     Map<String, dynamic> configResponse = json.decode(configApi.response.body);
-    print(configApi.response.body);
+
+    AppLogger.logger.d(configApi.response.body);
 
     RegExp regExp = RegExp(configResponse['password_rule']);
     if (!regExp.hasMatch(password.text)){
@@ -154,7 +156,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     await signInApi.execute();
 
-    print(signInApi.response.statusCode);
+    AppLogger.logger.d(signInApi.response.statusCode);
+
     if (signInApi.response.statusCode != 200){
       return;
     }
@@ -199,7 +202,8 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
     Map<String, dynamic> configResponse = json.decode(configApi.response.body);
-    print(configApi.response.body);
+
+    AppLogger.logger.d(configApi.response.body);
 
     RegExp regExp = RegExp(configResponse['password_rule']);
     if (!regExp.hasMatch(password.text)){
@@ -220,7 +224,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     await signUpApi.execute();
 
-    print(signUpApi.response.statusCode);
+    AppLogger.logger.d(signUpApi.response.statusCode);
 
     if (signUpApi.response.statusCode == 200){
       var body = json.decode(signUpApi.response.body);

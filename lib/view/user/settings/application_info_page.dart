@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/view/components/app_icons.dart';
-import 'package:mindfulguard/view/components/icons.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,7 +40,7 @@ class _ApplicationInfoSettingsPageState extends State<ApplicationInfoSettingsPag
       const url = 'https://github.com/MindfulGuard/crossplatform-client';
       await launch(url);
     } catch (e) {
-      print('Error launching URL: $e');
+      AppLogger.logger.w('Error launching URL: $e');
     }
   }
 

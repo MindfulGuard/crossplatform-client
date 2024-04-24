@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/items/item/create.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_write_abstract.dart';
 
@@ -64,6 +65,6 @@ class _ItemsCreatePageState extends AbstractItemsWritePageState {
 
     Navigator.pop(context, true); // Pass any result you want, e.g., true
 
-    print(api.response.statusCode);
+    AppLogger.logger.d(api.response.statusCode);
   }
 }

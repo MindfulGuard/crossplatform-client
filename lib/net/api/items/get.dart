@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class ItemsApi extends BaseApi {
@@ -24,7 +25,7 @@ class ItemsApi extends BaseApi {
       );
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/base.dart';
 
 class FileDeleteApi extends BaseApi {
@@ -32,7 +33,7 @@ class FileDeleteApi extends BaseApi {
 
       return;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return;
     }
   }

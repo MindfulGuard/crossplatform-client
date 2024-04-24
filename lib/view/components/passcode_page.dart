@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:vibration/vibration.dart';
 
 class InsertPasscodePage extends StatefulWidget {
@@ -62,7 +63,8 @@ class _InsertPasscodePageState extends State<InsertPasscodePage> {
         isDesktop = false;
       });
     }
-    print(isDesktop);
+
+    AppLogger.logger.i("Is Desktop: $isDesktop");
   }
 
   Future<void> _vibrate() async{

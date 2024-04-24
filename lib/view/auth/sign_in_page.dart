@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/view/auth/sign_up_page.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
@@ -115,7 +116,7 @@ class _SignInPageState extends State<SignInPage> {
                       options: const ['basic', 'backup'],
                       onOptionChanged: (String? selectedValue) {
                         _selectedOption = selectedValue;
-                        print(selectedValue);
+                        AppLogger.logger.d(selectedValue);
                       },
                     ),
                   ],
@@ -224,7 +225,7 @@ class _SignInPageState extends State<SignInPage> {
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      print("Redirect to sign up page ...");
+                      AppLogger.logger.d("Redirect to sign up page ...");
 
                       Navigator.push(
                         context, 

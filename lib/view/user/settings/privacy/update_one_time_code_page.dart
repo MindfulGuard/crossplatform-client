@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/user/update_one_time_code.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
@@ -155,7 +156,7 @@ class _UpdateOneTimeCodePrivacySettingsPageState extends State<UpdateOneTimeCode
                 options: const ['basic', 'backup'],
                 onOptionChanged: (String? selectedValue) {
                   codeType = selectedValue!;
-                  print(selectedValue);
+                  AppLogger.logger.i("Selected one-time code type: $selectedValue");
                 },
               ),
               SizedBox(height: 50),
