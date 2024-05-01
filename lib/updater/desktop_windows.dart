@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/updater/base.dart';
 
 class UpdaterDesktopWindows extends BaseUpdater {
@@ -38,6 +39,7 @@ class UpdaterDesktopWindows extends BaseUpdater {
         return;
       }
     } catch(e){
+      AppLogger.logger.e("Failed to download the file, for the update. Platform: Windows. Error: $e.");
       return;
     }
     await openScript(

@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/updater/android.dart';
 import 'package:mindfulguard/updater/desktop_linux.dart';
 import 'package:mindfulguard/updater/desktop_windows.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UpdateApplicationSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -65,11 +68,48 @@ class _UpdateApplicationSettingsPageState
     });
   }
 
+  Future<void> _launchURL(String url) async {
+    try {
+      await launch(url);
+    } catch (e) {
+      AppLogger.logger.w('Error launching URL: $e');
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.updatingApplication),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.applicationUpdateInfo),
+                      InkWell(
+                        onTap: () {
+                          _launchURL("https://github.com/MindfulGuard/crossplatform-client/releases");
+                        },
+                        child: Text(
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                          "GitHub.",
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Center(
         child: isLoaded
@@ -128,8 +168,6 @@ class _UpdateApplicationSettingsPageState
       ),
     );
   }
-
-
 
   Future<void> _handleUpdate() async{
     setState(() {

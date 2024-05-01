@@ -7,6 +7,7 @@ import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 
 class SetPasscodePrivacySettingsPage extends StatefulWidget {
 
@@ -133,6 +134,26 @@ class _SetPasscodePrivacySettingsPageState extends State<SetPasscodePrivacySetti
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.localPasscode),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.passCodeInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.passCodeInfoPartTwo)
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

@@ -6,6 +6,7 @@ import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/localization/localization.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 
 class LanguageSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -45,6 +46,22 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)?.language ?? ''),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: AppLocalizations.of(context)!.selectedLanguageWillBeUsedAsPrimaryLanguageInApplication,
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: languagesInfo.length,

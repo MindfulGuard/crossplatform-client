@@ -55,7 +55,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     if (api.response.statusCode != 200) {
       return;
     } else {
-      var json = jsonDecode(api.response.body);
+      var json = jsonDecode(utf8.decode(api.response.body.runes.toList()));
       
       List<dynamic>? categoriesDynamic = json['item_categories'];
       List<dynamic>? typesDynamic = json['item_types'];

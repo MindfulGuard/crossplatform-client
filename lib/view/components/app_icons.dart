@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mindfulguard/view/components/icons.dart';
 
 final class AppIcons extends CustomIcons {
-  /// Note that if you create a new CustomIcons class, the constructor must be public and the class fields must be non-static.
+  /// Note that if you create a new `CustomIcons` class,
+  /// you must run the `scripts/configure_icons.py` script,
+  /// which modifies the file for the code to work properly.
   AppIcons() : super();
 
   Icon defineDeviceIconByName(String device, {double iconSize = 64}) {

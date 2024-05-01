@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/components/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -24,7 +25,15 @@ class QrCodeLoginPrivacySettingsPage extends StatefulWidget {
 
 class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySettingsPage>{
 
-  /// Data is presented in JSON format {"apiServer": "", "userName": "", "password": "", "privateKey": ""}
+  /// Data is presented in JSON format 
+  /// ```
+  /// {
+  ///   "apiServer": "",
+  ///   "userName": "",
+  ///   "password": "",
+  ///   "privateKey": ""
+  /// }
+  /// ```
   String data = '{}';
   bool isVisible = false;
   bool isLoaded = false;
@@ -69,6 +78,26 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.qrCodeLogin),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.qrLoginInfo),
+                      SizedBox(height: 10,),
+                      Text(AppLocalizations.of(context)!.thisFeatureIsSupportedOnDevices("Android")),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -98,14 +127,6 @@ class _QrCodeLoginPrivacySettingsPageState extends State<QrCodeLoginPrivacySetti
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
                   ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                AppLocalizations.of(context)!.thisFeatureIsSupportedOnDevices("Android"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
                 ),
               ),
             ],

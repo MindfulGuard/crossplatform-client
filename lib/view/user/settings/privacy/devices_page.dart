@@ -10,6 +10,7 @@ import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/app_icons.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 
 class DevicesSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -107,8 +108,15 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
 
   void _showTokenInformation(BuildContext context, Map<String, dynamic> tokenInfo) {
     List<String> partsDevice = tokenInfo['device'].split('/');
-    String deviceApplication = partsDevice[0];
-    String deviceSystem = partsDevice[1];
+    String deviceApplication = "";
+    String deviceSystem = "";
+    try{
+      deviceApplication = partsDevice[0];
+      deviceSystem = partsDevice[1];
+    } catch(e){
+      AppLogger.logger.i(e);
+      deviceApplication = tokenInfo['device'];
+    }
 
     showModalBottomSheet(
       context: context,
@@ -329,6 +337,20 @@ class _DevicesSettingsPageState extends State<DevicesSettingsPage>{
           iconSize: 30,
           onPressed: (){_showSortDialog(context);},
           icon: Icon(Icons.filter_list),
+        ),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialogWindow(
+                  title: AppLocalizations.of(context)!.helpReference,
+                  content: AppLocalizations.of(context)!.devicesInfoInfo,
+                );
+              },
+            );
+          },
+          icon: Icon(Icons.help_outline),
         ),
         ],
       ),

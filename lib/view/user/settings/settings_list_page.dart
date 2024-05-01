@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/net/api/admin/get_settings.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/app_icons.dart';
+import 'package:mindfulguard/view/user/settings/privacy/admin_panel/admin_panel_list_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
@@ -41,7 +44,7 @@ class _SettingsListPageState extends State<SettingsListPage>{
         {'name': AppLocalizations.of(context)!.language, 'icon': Icons.translate},
         {'name': AppLocalizations.of(context)!.privacy, 'icon': Icons.lock_outline},
         {'name': AppLocalizations.of(context)!.auditLog, 'icon': Icons.auto_stories},
-        {'name': AppLocalizations.of(context)!.updatingApplication, 'icon': Icons.cloud_download_outlined},
+        {'name': AppLocalizations.of(context)!.updatingApplication, 'icon': AppIcons().arrows_cw},
         {'name': AppLocalizations.of(context)!.aboutApp, 'icon': Icons.info_outline},
       ];
     });
@@ -100,7 +103,13 @@ class _SettingsListPageState extends State<SettingsListPage>{
         itemCount: settings.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(settings[index]['icon']), // Icon on the left
+            leading: (){
+              if (settings[index]['name'] == AppLocalizations.of(context)!.updatingApplication){
+                return Icon(settings[index]['icon'], size: 20);
+              } else{
+                return Icon(settings[index]['icon']);
+              }
+            }(), // Icon on the left
             title: Text(
               settings[index]['name'],
             ),

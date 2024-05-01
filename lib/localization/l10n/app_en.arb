@@ -50,8 +50,8 @@
             }
         }
     },
-    "username": "Username: {value}",
-    "@username" :{
+    "usernameWithValue": "Username: {value}",
+    "@usernameWithValue" :{
         "placeholders": {
             "value": {
                 "type": "String"
@@ -360,8 +360,9 @@
     "newPassword": "New password",
     "oneTimeCode": "One-time code",
     "yes": "Yes",
+    "no": "No",
     "warning": "Warning",
-    "updatePasswordAndPrivateKeyWarning": "If the password and secret key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur. Do you want to continue?",
+    "updatePasswordAndPrivateKeyWarning": "If the password and private key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur. Do you want to continue?",
     "failedUpdatePasswordAndPrivateKey": "Failed to update password and private key.",
     "deleteAccount": "Delete account",
     "failedDeleteAccount": "Failed to delete the account.",
@@ -400,5 +401,63 @@
     "registrationIsDisabled": "Registration is disabled.",
     "suchUserAlreadyExists": "Such a user already exists.",
     "failedToRegister": "Failed to register.",
-    "incorrectPassword": "Incorrect password."
+    "incorrectPassword": "Incorrect password.",
+    "adminPanel": "Admin panel",
+    "serverSettings": "Server settings",
+    "information": "Information",
+    "selectedLanguageWillBeUsedAsPrimaryLanguageInApplication": "The selected language will be used as the primary language in the application.",
+    "applicationUpdateInfo": "The app is only updated to the latest stable version, if you want to use the beta version or install an older version of the app then follow this link.",
+    "auditLogInfo": "The audit log contains brief information about the user's actions in the system.",
+    "devicesInfoInfo": "This page contains information about the user's active sessions.",
+    "passCodeInfo": "A passcode is a security feature that allows you to block access to your app. Once the feature is activated, you will need to enter the correct passcode to unlock and use the app.",
+    "passCodeInfoPartTwo": "Important: if you forget the passcode, you will need to log out and re-authorize.",
+    "close": "Close",
+    "oneTimeCodeInfo": "A one-time code is a temporary, unique code that is used in addition to your password and private key to increase security when logging in.",
+    "oneTimeCodeBasicInfo": "basic - the code is generated using the \"Google Authenticator\" application. To change it, you need to click on the \"Update\" button, copy the secret key, go to the \"Google Authenticator\" application and add a new key. You can also open the \"Google Authenticator\" app and scan the Qr code from the app.",
+    "oneTimeCodeBackupInfo": "backup - this code is required to log in to your account in case you lose your smartphone or accidentally delete the code from the \"Google Authenticator\" application. The code is one-time use, i.e. once used, it cannot be used again.",
+    "updatePasswordAndPrivateKeyInfo": "The password and private key are required to log in to the account.",
+    "updatePasswordAndPrivateKeyPasswordInfo": "The password must be complex.",
+    "updatePasswordAndPrivateKeyOneTimeCodeInfo": "The one-time code must be entered from the \"Google Authenticator\" application.",
+    "updatePasswordAndPrivateKeyWarningInfo": "If the password and private key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur",
+    "deleteAccountInfo": "Permanently deletes your account.",
+    "deleteAccountOneTimeCodeInfo": "The one-time code must be entered from the \"Google Authenticator\" application.",
+    "failedToUpdateSettings": "Failed to update settings.",
+    "adminSettingsInfo": "Server settings are settings that affect the operation of the server and its services.",
+    "adminSettingsWarningInfo": "Attention, be careful in changing the service settings, as incorrect configuration can lead to service failure.",
+    "userManagement": "User management",
+    "username": "Username",
+    "confirmed": "Confirmed",
+    "key": "Key",
+    "value": "Value",
+    "noUsersFound": "No users found.",
+    "usersTotalStorageSizeInfoWithValue": "Total storage capacity occupied by users: {value}.",
+    "@usersTotalStorageSizeInfoWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUser": "Delete user",
+    "userManagementInfo": "On the \"Manage users\" page, you can create new users, delete users, view user information and additional information related to users.",
+    "createAUser": "Create a user",
+    "userSearch": "User Search",
+    "search": "Search",
+    "searchByWithValue": "Search by {value}",
+    "@searchByWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "identifierWithValue": "Identifier: {value}",
+    "@identifierWithValue": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "qrLoginInfo": "To use this feature, click on the QR code icon on the login page. You will then be asked for permission to use the camera. When you give permission, a window will open where you need to place the QR code. After that, the window will close and you will only have to enter the one-time code to authorize yourself."
 }

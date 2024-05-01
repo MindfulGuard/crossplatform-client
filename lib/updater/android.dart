@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/updater/base.dart';
 import 'package:open_file/open_file.dart';
 
@@ -30,6 +31,7 @@ class UpdaterAndroid extends BaseUpdater {
         return;
       }
     } catch(e){
+      AppLogger.logger.e("Failed to download the file, for the update. Platform: Android. Error: $e.");
       return;
     }
     await openScript(updatesFullPath: filePath);

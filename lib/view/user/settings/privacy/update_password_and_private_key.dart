@@ -8,6 +8,7 @@ import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/net/api/user/update_secret_string.dart';
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:uuid/uuid.dart';
 
@@ -169,6 +170,31 @@ class _UpdatePasswordAndPrivateKeyPrivacySettingsPageState extends State<UpdateP
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKey),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKeyInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKeyPasswordInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKeyOneTimeCodeInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKeyWarningInfo),
+                      SizedBox(height: 10),
+                    ]
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(

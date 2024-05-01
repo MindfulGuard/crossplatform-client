@@ -12,6 +12,10 @@
 ///       - asset: fonts/CustomIcons.ttf
 ///
 /// 
+/// * Elusive, Copyright (C) 2013 by Aristeides Stathopoulos
+///         Author:    Aristeides Stathopoulos
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://aristeides.com/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -24,4 +28,5 @@ class CustomIcons {
   IconData linux = const IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   IconData github = const IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   IconData windows = const IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  IconData arrows_cw = const IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -44,7 +44,7 @@ class _UserInfoPageState extends State<UserInfoPage> with TickerProviderStateMix
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(AppLocalizations.of(context)!.apiServerWithValue(widget.apiUrl), style: TextStyle(fontSize: 16)), // Set font size to 16
-                Text(AppLocalizations.of(context)!.username(information['username']), style: TextStyle(fontSize: 16)), // Set font size to 16
+                Text(AppLocalizations.of(context)!.usernameWithValue(information['username']), style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text(AppLocalizations.of(context)!.createdAtWithValue(Localization.formatUnixTimestamp(information['created_at'])), style: TextStyle(fontSize: 16)), // Set font size to 16
                 Text(AppLocalizations.of(context)!.ipAddressWithValue(information['ip']), style: TextStyle(fontSize: 16)), // Set font size to 16
               ],

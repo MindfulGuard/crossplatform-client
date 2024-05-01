@@ -9,6 +9,7 @@ import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/user/update_one_time_code.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/view/components/buttons.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/components/qr.dart';
 
 class UpdateOneTimeCodePrivacySettingsPage extends StatefulWidget {
@@ -146,6 +147,28 @@ class _UpdateOneTimeCodePrivacySettingsPageState extends State<UpdateOneTimeCode
         title: Text(
           AppLocalizations.of(context)!.updateOneTimeCode,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.oneTimeCodeInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.oneTimeCodeBasicInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.oneTimeCodeBackupInfo),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(

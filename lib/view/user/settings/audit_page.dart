@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/localization/localization.dart';
+import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/user/audit.dart';
 import 'package:mindfulguard/view/components/app_icons.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 
 class AuditSettingsPage extends StatefulWidget {
   final String apiUrl;
@@ -120,8 +122,15 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
 
   void _showAuditDetails(Map<String, dynamic> auditItem) {
     List<String> partsDevice = auditItem['device'].split('/');
-    String deviceApplication = partsDevice[0];
-    String deviceSystem = partsDevice[1];
+          String deviceApplication = "";
+      String deviceSystem = "";
+    try{
+      deviceApplication = partsDevice[0];
+      deviceSystem = partsDevice[1];
+    } catch(e){
+      AppLogger.logger.i(e);
+      deviceApplication = auditItem['device'];
+    }
 
     showModalBottomSheet(
       context: context,
@@ -289,6 +298,22 @@ class _AuditSettingsPageState extends State<AuditSettingsPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.auditLog),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: AppLocalizations.of(context)!.auditLogInfo,
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Column(
         children: [

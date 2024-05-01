@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/db/database.dart';
+import 'package:mindfulguard/net/api/admin/get_settings.dart';
 import 'package:mindfulguard/net/api/user/information.dart';
 import 'package:mindfulguard/view/components/passcode_page.dart';
+import 'package:mindfulguard/view/user/settings/privacy/admin_panel/admin_panel_list_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/delete_account.dart';
 import 'package:mindfulguard/view/user/settings/privacy/devices_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/qr_code_login_page.dart';
@@ -120,6 +124,33 @@ class ListPrivacySettingsPage extends StatefulWidget {
 
 class _ListPrivacySettingsPageState extends State<ListPrivacySettingsPage>{
   List<Map<String, dynamic>> settings = [];
+  bool userIsAdmin = false;
+
+  Future<void> isAdmin() async {
+    var api = AdminSettingsGetApi(
+      buildContext: context,
+      apiUrl: widget.apiUrl,
+      token: widget.token
+    );
+
+    await api.execute();
+
+    if (api.response.statusCode == 200) {
+      setState(() {
+        userIsAdmin = true;
+        settings.add({'name': AppLocalizations.of(context)!.adminPanel, 'icon': Icons.admin_panel_settings});
+      });
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+
+    if (Platform.isWindows || Platform.isLinux){
+      isAdmin();
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -146,7 +177,7 @@ class _ListPrivacySettingsPageState extends State<ListPrivacySettingsPage>{
         itemCount: settings.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(settings[index]['icon']), // Icon on the left
+            leading: Icon(settings[index]['icon']),
             title: Text(
               settings[index]['name'],
             ),
@@ -194,6 +225,14 @@ class _ListPrivacySettingsPageState extends State<ListPrivacySettingsPage>{
                     MaterialPageRoute(builder: (context) => DeleteAccountPrivacySettingsPage(
                       token: widget.token,
                       apiUrl: widget.apiUrl,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.adminPanel) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminPanelListPage(
+                      apiUrl: widget.apiUrl,
+                      token: widget.token,
                     )),
                   );
               }

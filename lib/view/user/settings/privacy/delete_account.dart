@@ -7,6 +7,7 @@ import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/net/api/user/delete_account.dart';
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 
 class DeleteAccountPrivacySettingsPage extends StatefulWidget {
@@ -112,6 +113,26 @@ class _DeleteAccountPrivacySettingsPagePrivacySettingsPageState extends State<De
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.deleteAccount),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogRowWindow(
+                    title: AppLocalizations.of(context)!.helpReference,
+                    content: [
+                      Text(AppLocalizations.of(context)!.deleteAccountInfo),
+                      SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.deleteAccountOneTimeCodeInfo),
+                    ]
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.help_outline),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
