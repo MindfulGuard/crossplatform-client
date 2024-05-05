@@ -1,5 +1,2 @@
-- Updated icons.
-- Added a help button in the settings, clicking on which opens a window with information.
-- Fixed a bug with outputting device information, on `Audit log` and `Devices` pages.
-- Fixed a problem with encodings.
-- Added admin panel.
+- Updated translation.
+- Added new help to the registration page.

@@ -11,6 +11,7 @@ import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/net/api/auth/sign_up.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:mindfulguard/restart_widget.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/components/qr.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:drift/drift.dart' as drift;
@@ -266,6 +267,26 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.signUp),
+          actions: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialogRowWindow(
+                      title: AppLocalizations.of(context)!.helpReference,
+                      content: [
+                        Text(AppLocalizations.of(context)!.registrationPageWarningAfter),
+                        SizedBox(height: 10),
+                        Text(AppLocalizations.of(context)!.registrationPageWarningAfterTwo),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.help_outline),
+            ),
+          ],
         ),
         body: Center(
           child: SingleChildScrollView(

@@ -30,7 +30,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController password = TextEditingController();
   TextEditingController privateKey = TextEditingController();
   TextEditingController oneTimeOrBackupCode = TextEditingController();
-  String? _selectedOption = "";
+  String? _selectedOption = "basic";
 
   MobileScannerController cameraController = MobileScannerController();
 
@@ -112,11 +112,23 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    DropDown(
-                      options: const ['basic', 'backup'],
-                      onOptionChanged: (String? selectedValue) {
-                        _selectedOption = selectedValue;
-                        AppLogger.logger.d(selectedValue);
+                    DropdownButton<String>(
+                      value: _selectedOption,
+                      items: [
+                        DropdownMenuItem(
+                          value: 'basic',
+                          child: Text("TOTP"),
+                        ),
+                        DropdownMenuItem(
+                          value: 'backup',
+                          child: Text(AppLocalizations.of(context)!.backupCode2FA),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedOption = value ?? 'basic';
+                        });
+                        AppLogger.logger.i("Selected one-time code type: $_selectedOption");
                       },
                     ),
                   ],

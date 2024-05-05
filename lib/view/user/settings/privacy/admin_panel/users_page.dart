@@ -242,6 +242,25 @@ class _UsersSettingsAdminPageState extends State<UsersSettingsAdminPage> with Ti
             onSelected: (int result) {
               switch (result) {
                 case 0:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreateUserPage(
+                      apiUrl: widget.apiUrl,
+                      token: widget.token,
+                    )),
+                  );
+                  break;
+                case 1:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchUserPage(
+                      apiUrl: widget.apiUrl,
+                      token: widget.token,
+                      deleteUser: _deleteUser,
+                    )),
+                  );
+                  break;
+                case 2:
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -252,25 +271,6 @@ class _UsersSettingsAdminPageState extends State<UsersSettingsAdminPage> with Ti
                     },
                   );
                   break;
-                case 1:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CreateUserPage(
-                      apiUrl: widget.apiUrl,
-                      token: widget.token,
-                    )),
-                  );
-                  break;
-                case 2:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SearchUserPage(
-                      apiUrl: widget.apiUrl,
-                      token: widget.token,
-                      deleteUser: _deleteUser,
-                    )),
-                  );
-                  break;
                 default:
                   break;
               }
@@ -279,22 +279,22 @@ class _UsersSettingsAdminPageState extends State<UsersSettingsAdminPage> with Ti
               PopupMenuItem<int>(
                 value: 0,
                 child: ListTile(
-                  leading: Icon(Icons.info_outline),
-                  title: Text(AppLocalizations.of(context)!.information),
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: ListTile(
                   leading: Icon(Icons.add),
                   title: Text(AppLocalizations.of(context)!.createAUser),
                 ),
               ),
               PopupMenuItem<int>(
-                value: 2,
+                value: 1,
                 child: ListTile(
                   leading: Icon(Icons.search),
                   title: Text(AppLocalizations.of(context)!.userSearch),
+                ),
+              ),
+              PopupMenuItem<int>(
+                value: 2,
+                child: ListTile(
+                  leading: Icon(Icons.info_outline),
+                  title: Text(AppLocalizations.of(context)!.information),
                 ),
               ),
             ],

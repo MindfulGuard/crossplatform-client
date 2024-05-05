@@ -27,7 +27,7 @@ class UpdateOneTimeCodePrivacySettingsPage extends StatefulWidget {
 }
 
 class _UpdateOneTimeCodePrivacySettingsPageState extends State<UpdateOneTimeCodePrivacySettingsPage>{
-  String codeType = '';
+  String codeType = 'basic';
   Widget resultData = Container();
 
   void _buildResultData(dynamic data, String login) {
@@ -175,11 +175,23 @@ class _UpdateOneTimeCodePrivacySettingsPageState extends State<UpdateOneTimeCode
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropDown(
-                options: const ['basic', 'backup'],
-                onOptionChanged: (String? selectedValue) {
-                  codeType = selectedValue!;
-                  AppLogger.logger.i("Selected one-time code type: $selectedValue");
+              DropdownButton<String>(
+                value: codeType,
+                items: [
+                  DropdownMenuItem(
+                    value: 'basic',
+                    child: Text("TOTP"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'backup',
+                    child: Text(AppLocalizations.of(context)!.backupCode2FA),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    codeType = value ?? 'basic';
+                  });
+                  AppLogger.logger.i("Selected one-time code type: $codeType");
                 },
               ),
               SizedBox(height: 50),

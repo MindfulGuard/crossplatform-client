@@ -413,8 +413,8 @@
     "passCodeInfoPartTwo": "Important: if you forget the passcode, you will need to log out and re-authorize.",
     "close": "Close",
     "oneTimeCodeInfo": "A one-time code is a temporary, unique code that is used in addition to your password and private key to increase security when logging in.",
-    "oneTimeCodeBasicInfo": "basic - the code is generated using the \"Google Authenticator\" application. To change it, you need to click on the \"Update\" button, copy the secret key, go to the \"Google Authenticator\" application and add a new key. You can also open the \"Google Authenticator\" app and scan the Qr code from the app.",
-    "oneTimeCodeBackupInfo": "backup - this code is required to log in to your account in case you lose your smartphone or accidentally delete the code from the \"Google Authenticator\" application. The code is one-time use, i.e. once used, it cannot be used again.",
+    "oneTimeCodeBasicInfo": "TOTP - the code is generated using the \"Google Authenticator\" application. To change it, you need to click on the \"Update\" button, copy the secret key, go to the \"Google Authenticator\" application and add a new key. You can also open the \"Google Authenticator\" app and scan the Qr code from the app.",
+    "oneTimeCodeBackupInfo": "Backup - this code is required to log in to your account in case you lose your smartphone or accidentally delete the code from the \"Google Authenticator\" application. The code is one-time use, i.e. once used, it cannot be used again.",
     "updatePasswordAndPrivateKeyInfo": "The password and private key are required to log in to the account.",
     "updatePasswordAndPrivateKeyPasswordInfo": "The password must be complex.",
     "updatePasswordAndPrivateKeyOneTimeCodeInfo": "The one-time code must be entered from the \"Google Authenticator\" application.",
@@ -459,5 +459,8 @@
             }
         }
     },
-    "qrLoginInfo": "To use this feature, click on the QR code icon on the login page. You will then be asked for permission to use the camera. When you give permission, a window will open where you need to place the QR code. After that, the window will close and you will only have to enter the one-time code to authorize yourself."
+    "qrLoginInfo": "To use this feature, click on the QR code icon on the login page. You will then be asked for permission to use the camera. When you give permission, a window will open where you need to place the QR code. After that, the window will close and you will only have to enter the one-time code to authorize yourself.",
+    "backupCode2FA": "Backup",
+    "registrationPageWarningAfter": "Important: After registration, you need to copy all the data to use it for future authorization.",
+    "registrationPageWarningAfterTwo": "To use the TOTP code, you will need a two-factor authentication app like 'Google Authenticator.' You should copy the secret key, open the 'Google Authenticator' app, and add a new key. Alternatively, you can open the 'Google Authenticator' app and scan the QR code."
 }
