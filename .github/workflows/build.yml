@@ -27,16 +27,13 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
             sudo chmod +x /usr/bin/yq
 
-      - name: Extract version & prerelease from pubspec.yaml & commit message
-        id: appInfo
+      - name: Extract version & prerelease from pubspec.yaml
         run: |
-          version=$(yq eval '.version' pubspec.yaml)
-          is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
-          cm_message=$(git log -1 --pretty=%B)
+            version=$(yq eval '.version' pubspec.yaml)
+            is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
 
-          echo "version=${version}" >> $GITHUB_ENV
-          echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
-          echo "::set-output name=commit_message::$cm_message"
+            echo "version=${version}" >> $GITHUB_ENV
+            echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
 
       - name: Sign Apk
         run: |
@@ -52,7 +49,6 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-            body: ${{ steps.appInfo.outputs.commit_message }}
             prerelease: ${{ env.is_prerelease }}
             files: MindfulGuard_android.apk
             tag_name: ${{ env.version }}
@@ -92,16 +88,14 @@ jobs:
           cd ..
           flutter build windows
 
-      - name: Extract version & prerelease from pubspec.yaml & commit message
-        id: appInfo
+      - name: Extract version & prerelease from pubspec.yaml
+        shell: bash
         run: |
-          version=$(yq eval '.version' pubspec.yaml)
-          is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
-          cm_message=$(git log -1 --pretty=%B)
+            version=$(yq eval '.version' pubspec.yaml)
+            is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
 
-          echo "version=${version}" >> $GITHUB_ENV
-          echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
-          echo "::set-output name=commit_message::$cm_message"
+            echo "version=${version}" >> $GITHUB_ENV
+            echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
   
       - name: Create directory
         run: |
@@ -116,7 +110,6 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-            body: ${{ steps.appInfo.outputs.commit_message }}
             prerelease: ${{ env.is_prerelease }}
             files: mindfulguard_windows_x64.zip
             tag_name: ${{ env.version }}
@@ -146,16 +139,13 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
             sudo chmod +x /usr/bin/yq
 
-      - name: Extract version & prerelease from pubspec.yaml & commit message
-        id: appInfo
+      - name: Extract version & prerelease from pubspec.yaml
         run: |
-          version=$(yq eval '.version' pubspec.yaml)
-          is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
-          cm_message=$(git log -1 --pretty=%B)
+            version=$(yq eval '.version' pubspec.yaml)
+            is_prerelease=$(yq eval '.prerelease' pubspec.yaml)
 
-          echo "version=${version}" >> $GITHUB_ENV
-          echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
-          echo "::set-output name=commit_message::$cm_message"
+            echo "version=${version}" >> $GITHUB_ENV
+            echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
 
       - name: Build
         run: |
@@ -176,7 +166,6 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-            body: ${{ steps.appInfo.outputs.commit_message }}
             prerelease: ${{ env.is_prerelease }}
             files: mindfulguard_linux_x64.tar.gz
             tag_name: ${{ env.version }}
