@@ -1,18 +1,24 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <CHANGELOG_FILE> <CURRENT_VERSION>"
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <PATH_TO_FILE> <VERSION>"
     exit 1
 fi
 
-changelog_file=$1
-current_version=$2
+file_path=$1
+version=$2
 
-latest_version=$(grep -E "^[0-9]+\.[0-9]+\.[0-9]+" "$changelog_file" | head -n 1)
-
-if [ "$current_version" = "$latest_version" ]; then
-    changelog_data=$(sed -n "/$latest_version/,/^[0-9]+\.[0-9]+\.[0-9]+/{p}" "$changelog_file")
-    echo "$changelog_data"
-else
-    echo ""
+if [ ! -f "$file_path" ]; then
+    echo "File not found: $file_path"
+    exit 1
 fi
+
+current_version=""
+
+while IFS= read -r line; do
+    if [[ "$line" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        current_version="$line"
+    elif [ "$current_version" = "$version" ]; then
+        echo "$line"
+    fi
+done < "$file_path"
