@@ -11,7 +11,8 @@ current_version=$2
 latest_version=$(grep -E "^[0-9]+\.[0-9]+\.[0-9]+" "$changelog_file" | head -n 1)
 
 if [ "$current_version" = "$latest_version" ]; then
-    sed -n "/$latest_version/,/^[0-9]+\.[0-9]+\.[0-9]+/{p}" "$changelog_file"
+    changelog_data=$(sed -n "/$latest_version/,/^[0-9]+\.[0-9]+\.[0-9]+/{p}" "$changelog_file")
+    echo "$changelog_data"
 else
     echo ""
 fi
