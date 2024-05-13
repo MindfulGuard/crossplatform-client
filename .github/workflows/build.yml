@@ -42,7 +42,7 @@ jobs:
         id: change_log_data
         run: |
           sudo chmod +x ci-cd/get_changelog.sh
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
           echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Sign Apk
@@ -112,7 +112,7 @@ jobs:
         id: change_log_data
         shell: bash
         run: |
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
           echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Create directory
@@ -170,7 +170,7 @@ jobs:
         id: change_log_data
         run: |
           sudo chmod +x ci-cd/get_changelog.sh
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
           echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Build
