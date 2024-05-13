@@ -273,12 +273,12 @@ class _SafePageState extends State<SafePage> {
                         children: [
                           Expanded(
                             child: ListTile(
-                              title: Text(AppLocalizations.of(context)!.itemCount(safe["count_items"])),
+                              title: Text(AppLocalizations.of(context)!.totalItemsWithValue(safe["count_items"])),
                             ),
                           ),
                           Expanded(
                             child: ListTile(
-                              title: Text(AppLocalizations.of(context)!.fileCount(fileCount)), // Display the number of files
+                              title: Text(AppLocalizations.of(context)!.totalFilesWithValue(fileCount)), // Display the number of files
                             ),
                           ),
                         ],

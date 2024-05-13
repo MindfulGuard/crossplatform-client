@@ -1,2 +1,217 @@
+1.8.2
+
+- Updated translation
+
+1.8.1
+
 - Updated translation.
 - Added new help to the registration page.
+
+1.8.0
+
+- Updated icons.
+- Added a help button in the settings, clicking on which opens a window with information.
+- Fixed a bug with outputting device information, on Audit log and Devices pages.
+- Fixed a problem with encodings.
+- Added admin panel.
+
+1.7.9
+
+- Code Improvement.
+
+1.7.8
+
+- Logging added.
+
+1.7.7
+
+- Password validation has been removed.
+- Added support for the updated API.
+
+1.7.6
+
+- Removed video that explains how to use the `Qr code Login` feature.
+- Updated api request to retrieve audit log.
+
+1.7.5
+
+- Slightly redesigned the login and registration page.
+- Updated, now you don't have to select the access token expiration time when logging in, now the value will always be 30 days.
+
+1.7.4
+
+- Minor code update.
+
+1.7.3
+
+- Added application window size limitation for Windows and Linux.
+- Updated translation.
+
+1.7.2
+
+- Improved updater code.
+- Updated safe description output field, now if the description is empty, then "description" is not displayed.
+
+1.7.1
+
+- Fixed Updater which, when the update was finished, opened the program along with the console.
+- Improved exception handling during application update.
+
+1.7.0
+
+- Added app update from the app. Supported on Windows, Linux and Android.
+- Removed field type output, in the item information output.
+
+1.6.9
+
+- Added app update from the app. Supported on Windows, Linux.
+
+1.6.8
+
+- Fixed TOTP code output.
+- The encryption function has been updated, if the string is empty it will not be encrypted.
+
+1.6.7
+
+- Added, now if the user successfully enters a passcode, a short vibration is triggered then.
+- Added optimization for data decryption.
+- Added, on the `Files` page, a menu has been added for each card, which includes 2 buttons, `Save to downloads` and `Delete from device`, supported only on Android devices.
+
+1.6.6
+
+- The `Terminate Session` button in the device details has been changed.
+- The `Terminate Session` button is now not displayed on the device that the user is currently using.
+- For the text field of the one-time code, input of various characters other than numbers has been blocked.
+
+1.6.5
+
+- Important fix: due to this, in items, upon pressing the menu button on the card, the last item was always selected.
+
+1.6.4
+
+- Improved virtual keyboard design, now it's more pleasant.
+- On the lock screen, an animated lock icon has been added.
+- The lock icon on the main screen has been updated, and now it is animated.
+- Updated, now if a local passcode is set, then when accessing the `Privacy` page, a passcode will be requested.
+
+1.6.3
+
+- Added `Update one-time code page`, allowing for the refresh of TOTP code and backup codes.
+- The `Update password & private key` page has been added, which allows you to change your password and private key.
+- Added the `Delete Account` page, which allows users to delete their account.
+- The issue causing user data to remain undecipherable and the application to cease functioning after changing the password and private key has been corrected.
+
+1.6.2
+
+- A registration page has been added.
+- On the page of registration added data output if registration was successful, also they can be copied if you click on the copy button.
+
+1.6.1
+
+- On the QR code login page, clicking the QR code to expand will now be unavailable until the verification that the user is authenticated.
+
+1.6.0
+
+- A Local passcode page has been added to the privacy section in settings.
+- Added support for local passcode.
+- Added function to add, remove local passcode.
+- A virtual keyboard for mobile devices has been added, for passcode input.
+- A lock icon has been added to the home screen to lock the app by tapping on it.
+
+1.5.5
+
+- Added data import/export section in settings.
+- Added data export in json format, with encrypted or decrypted data.
+- Added a page for importing, under development.
+
+- 1.5.4
+
+- Changed, now depending on the platform it will trigger, long press or right click on the card to open the menu.
+- Added output of the size of files in the safe.
+
+1.5.3
+
+- Fixed a long-standing bug that caused data to not be updated on page reload.
+- Reduced query waiting time for data retrieval.
+
+1.5.2
+
+- Added, now if the service is unavailable, but the user has data in the database, he is redirected to the page with a notification that the service is unavailable.
+
+1.5.1
+
+1.5.0
+
+- New feature - you can now log in to your account by scanning your Qr code, supported on Android devices only.
+- A privacy section has been added to the settings, where the "Devices" page has been moved and a new "Login by Qr code" page has been added.
+
+1.4.0
+
+- Added the ability to log out of an account without specifying in advance which device you want to log out of.
+- Fixed minor bugs.
+
+1.3.2
+
+- The directory for data storage has been changed.
+
+1.3.1
+
+- Fixed a bug in item display that caused clicking on the (reveal password) button to reveal all passwords, not just the required one.
+- Added "Windows" icon.
+- Added new animations for icons.
+
+1.3.0
+
+- A section with audit log output has been added to the settings, and an About the app page has been added.
+- Added "Github" icon.
+
+1.2.1
+
+- Updated version.
+
+1.2.0
+
+- Added moving item to another safe.
+
+1.1.8
+
+- Resolved a problem that made it impossible to overwrite the data of a new user in the users table.
+
+1.1.7
+
+- Added sorting for devices. Also added support for displaying one-time password in item information.
+
+1.1.6
+
+- The 'INIT' label is no longer displayed on the item info, create and edit pages.
+
+1.1.5
+
+- Added linux icon, slightly redesigned the output and device details.
+- Button positions in add/edit/delete windows for ItemCreatePage and ItemEditPage pages have been changed.
+
+1.1.4
+
+- Added new feature, to add or remove item from favorites, started transition to glasmorphism component style.
+
+1.1.3
+
+- Localization, now the date-time format depends on the system language.
+
+1.1.2
+
+- Updated localization.
+
+1.1.1
+
+- Translation corrected.
+- Device information has been moved to settings.
+
+1.1.0
+
+- Added localization, settings to change language.
+- Fixed visual elements.
+
+1.0.0
+
+- Stable version released.

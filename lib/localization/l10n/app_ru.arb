@@ -41,8 +41,8 @@
     "items": "Записи",
     "item": "Запись",
     "userInformation": "Информация о пользователе",
-    "apiServer": "Api Сервер",
-    "apiServerWithValue": "Api Сервер: {value}",
+    "apiServer": "API Сервер",
+    "apiServerWithValue": "API Сервер: {value}",
     "@apiServerWithValue" :{
         "placeholders": {
             "value": {
@@ -127,16 +127,16 @@
             }
         }
     },
-    "itemCount": "Кол-во Записей: {value}",
-    "@itemCount" :{
+    "totalItemsWithValue": "Кол-во Записей: {value}",
+    "@totalItemsWithValue" :{
         "placeholders": {
             "value": {
                 "type": "int"
             }
         }
     },
-    "fileCount": "Кол-во Файлов: {value}",
-    "@fileCount" :{
+    "totalFilesWithValue": "Кол-во Файлов: {value}",
+    "@totalFilesWithValue" :{
         "placeholders": {
             "value": {
                 "type": "int"

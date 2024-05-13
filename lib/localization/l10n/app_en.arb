@@ -41,8 +41,8 @@
     "items": "Items",
     "item": "Item",
     "userInformation": "User Information",
-    "apiServer": "Api Server",
-    "apiServerWithValue": "Api Server: {value}",
+    "apiServer": "API Server",
+    "apiServerWithValue": "API Server: {value}",
     "@apiServerWithValue" :{
         "placeholders": {
             "value": {
@@ -127,16 +127,16 @@
             }
         }
     },
-    "itemCount": "Item Count: {value}",
-    "@itemCount" :{
+    "totalItemsWithValue": "Total Items: {value}",
+    "@totalItemsWithValue" :{
         "placeholders": {
             "value": {
                 "type": "int"
             }
         }
     },
-    "fileCount": "File count: {value}",
-    "@fileCount" :{
+    "totalFilesWithValue": "Total Files: {value}",
+    "@totalFilesWithValue" :{
         "placeholders": {
             "value": {
                 "type": "int"
