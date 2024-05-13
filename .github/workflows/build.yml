@@ -39,10 +39,11 @@ jobs:
             echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
       
       - name: Get Change log
+        id: change_log_data
         run: |
           sudo chmod +x ci-cd/get_changelog.sh
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
-          echo "changelog_data=${changelog_data}" >> $GITHUB_ENV
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Sign Apk
         run: |
@@ -59,7 +60,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
             prerelease: ${{ env.is_prerelease }}
-            body: ${{ env.changelog_data }})
+            body: ${{ steps.change_log_data.outputs.changelog_data}}
             files: MindfulGuard_android.apk
             tag_name: ${{ env.version }}
         env:
@@ -108,10 +109,11 @@ jobs:
             echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
 
       - name: Get Change log
+        id: change_log_data
         shell: bash
         run: |
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
-          echo "changelog_data=${changelog_data}" >> $GITHUB_ENV
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Create directory
         run: |
@@ -127,7 +129,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
             prerelease: ${{ env.is_prerelease }}
-            body: ${{ env.changelog_data }})
+            body: ${{ steps.change_log_data.outputs.changelog_data}}
             files: mindfulguard_windows_x64.zip
             tag_name: ${{ env.version }}
         env:
@@ -165,10 +167,11 @@ jobs:
             echo "is_prerelease=${is_prerelease}" >> $GITHUB_ENV
 
       - name: Get Change log
+        id: change_log_data
         run: |
           sudo chmod +x ci-cd/get_changelog.sh
-          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }})
-          echo "changelog_data=${changelog_data}" >> $GITHUB_ENV
+          changelog_data=$(./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }}))
+          echo "::set-output name=changelog_data::${changelog_data}"
 
       - name: Build
         run: |
@@ -190,7 +193,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
             prerelease: ${{ env.is_prerelease }}
-            body: ${{ env.changelog_data }})
+            body: ${{ steps.change_log_data.outputs.changelog_data}}
             files: mindfulguard_linux_x64.tar.gz
             tag_name: ${{ env.version }}
         env:
