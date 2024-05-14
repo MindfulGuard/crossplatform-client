@@ -40,8 +40,8 @@ jobs:
 
       - name: Get Change log
         run: |
-          sudo chmod +x ci-cd/get_changelog.sh
-          ./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
+          sudo chmod +x .ci/get_changelog.sh
+          ./.ci/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
 
       - name: Sign Apk
         run: |
@@ -109,7 +109,7 @@ jobs:
       - name: Get Change log
         shell: bash
         run: |
-          ./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
+          ./.ci/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
 
       - name: Create directory
         run: |
@@ -164,8 +164,8 @@ jobs:
 
       - name: Get Change log
         run: |
-          sudo chmod +x ci-cd/get_changelog.sh
-          ./ci-cd/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
+          sudo chmod +x .ci/get_changelog.sh
+          ./.ci/get_changelog.sh ${{env.CHANGELOG_FILE}} ${{ env.version }} > ${{ env.CHANGELOG_FILE }}.tmp
 
       - name: Build
         run: |
