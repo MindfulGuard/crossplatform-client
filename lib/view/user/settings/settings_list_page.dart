@@ -8,6 +8,7 @@ import 'package:mindfulguard/net/api/admin/get_settings.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/restart_widget.dart';
 import 'package:mindfulguard/view/components/app_icons.dart';
+import 'package:mindfulguard/view/user/settings/font_family_page.dart';
 import 'package:mindfulguard/view/user/settings/privacy/admin_panel/admin_panel_list_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
@@ -42,6 +43,7 @@ class _SettingsListPageState extends State<SettingsListPage>{
     setState(() {
       settings = [
         {'name': AppLocalizations.of(context)!.language, 'icon': Icons.translate},
+        {'name': AppLocalizations.of(context)!.fontFamily, 'icon': Icons.font_download_outlined},
         {'name': AppLocalizations.of(context)!.privacy, 'icon': Icons.lock_outline},
         {'name': AppLocalizations.of(context)!.auditLog, 'icon': Icons.auto_stories},
         {'name': AppLocalizations.of(context)!.updatingApplication, 'icon': AppIcons().arrows_cw},
@@ -148,6 +150,14 @@ class _SettingsListPageState extends State<SettingsListPage>{
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => UpdateApplicationSettingsPage(
+                      apiUrl: widget.apiUrl,
+                      token: widget.token,
+                    )),
+                  );
+              } else if (settings[index]['name'] == AppLocalizations.of(context)!.fontFamily){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FontFamilySettingsPage(
                       apiUrl: widget.apiUrl,
                       token: widget.token,
                     )),

@@ -494,5 +494,18 @@
     "dateItemTypesAPI": "Дата",
     "monthYearItemTypesAPI": "Месяц и год",
     "menuItemTypesAPI": "Меню",
-    "fileItemTypesAPI": "Файл"
+    "fileItemTypesAPI": "Файл",
+    "fontFamily": "Семейство шрифтов",
+    "defaulT": "По умолчанию",
+    "fontFamilyChangeConfirmation": "Подтверждение изменения шрифта",
+    "fontFamilyChangeRequest": "Для смены шрифта требуется перезагрузка приложения.",
+    "selectedFontWillBeUsedAsPrimaryLanguageInApplication": "Выбранный шрифт будет использоваться в качестве основного в приложении.",
+    "fontFamilyInfoWithValueTwo": "Шрифт по умолчанию: {value}.",
+    "@fontFamilyInfoWithValueTwo": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }

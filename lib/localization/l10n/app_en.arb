@@ -494,5 +494,18 @@
     "dateItemTypesAPI": "Date",
     "monthYearItemTypesAPI": "Month and Year",
     "menuItemTypesAPI": "Menu",
-    "fileItemTypesAPI": "File"
+    "fileItemTypesAPI": "File",
+    "fontFamily": "Font family",
+    "defaulT": "Default",
+    "fontFamilyChangeConfirmation": "Font Change Confirmation",
+    "fontFamilyChangeRequest": "A restart of the application is required to change the font.",
+    "selectedFontWillBeUsedAsPrimaryLanguageInApplication": "The selected font will be used as the primary font in the application.",
+    "fontFamilyInfoWithValueTwo": "Default font: {value}.",
+    "@fontFamilyInfoWithValueTwo": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }
