@@ -1,3 +1,8 @@
+1.8.3
+
+- Translation added for categories and types in the record.
+- Added the ability to change the font, for the application.
+
 1.8.2
 
 - Updated translation.
