@@ -9,7 +9,6 @@ import 'package:mindfulguard/db/database.dart';
 import 'package:mindfulguard/logger/logs.dart';
 import 'package:mindfulguard/net/api/auth/sign_in.dart';
 import 'package:mindfulguard/view/auth/sign_up_page.dart';
-import 'package:mindfulguard/view/components/buttons.dart';
 import 'package:mindfulguard/view/components/glass_morphism.dart';
 import 'package:mindfulguard/view/components/text_filelds.dart';
 import 'package:mindfulguard/view/main/main_page.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added to use Clipboard
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/logger/logs.dart';
+import 'package:mindfulguard/view/main/items_and_files/item/item_tool.dart';
 import 'package:url_launcher/url_launcher.dart'; // Added to open links
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:otp/otp.dart';
@@ -81,7 +82,7 @@ class _ItemsInfoPageState extends State<ItemsInfoPage> {
             SizedBox(height: 8.0),
             Center(
               child: Text(
-                widget.selectedSafeItems['category'],
+                ItemTool.getItemCategory(context, widget.selectedSafeItems['category']),
                 style: TextStyle(
                   fontSize: 24.0,
                   fontStyle: FontStyle.italic,

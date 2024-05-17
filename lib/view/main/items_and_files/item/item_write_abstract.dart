@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/main/items_and_files/item/item_tool.dart';
 
 abstract class AbstractItemsWritePage extends StatefulWidget {
   final String apiUrl;
@@ -103,7 +104,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
                       (String value) {
                         return DropdownMenuItem<String?>(
                           value: value,
-                          child: Text(value),
+                          child: Text(ItemTool.getItemCategory(context,value)),
                         );
                       },
                     ).toList(),
@@ -278,7 +279,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
           child: ListTile(
             title: Text('${sections[sectionIndex]['fields'][fieldIndex]['value']}'),
             subtitle: Text(
-                '${sections[sectionIndex]['fields'][fieldIndex]['label']} (${sections[sectionIndex]['fields'][fieldIndex]['type']})'),
+                '${sections[sectionIndex]['fields'][fieldIndex]['label']} (${ItemTool.getItemType(context, sections[sectionIndex]['fields'][fieldIndex]['type'])})'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -379,7 +380,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
                         (String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(ItemTool.getItemType(context, value)),
                           );
                         },
                       ).toList(),
@@ -468,7 +469,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     String selectedFieldType = sections[sectionIndex]['fields'][fieldIndex]
         ['type'];
 
-    final double dialogHeight = 350;
+    const double dialogHeight = 350;
 
     showDialog(
       context: context,
@@ -501,7 +502,7 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
                         (String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(ItemTool.getItemType(context, value)),
                           );
                         },
                       ).toList(),

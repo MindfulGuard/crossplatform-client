@@ -32,7 +32,7 @@ class ItemUpdateApi extends BaseApi {
         headers: headers,
         body: jsonEncode(data)
       );
-      print(response.statusCode);
+      AppLogger.logger.d(response.statusCode);
       return;
     } catch (e) {
       AppLogger.logger.w(e);

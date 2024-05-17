@@ -13,6 +13,7 @@ import 'package:mindfulguard/view/main/items_and_files/item/item_create_page.dar
 import 'package:mindfulguard/view/main/items_and_files/item/item_edit_page.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_info_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/main/items_and_files/item/item_tool.dart';
 
 class ItemsPage extends StatefulWidget {
   final String apiUrl;
@@ -205,7 +206,7 @@ class _ItemsPageState extends State<ItemsPage> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppLocalizations.of(context)!.categoryWithValue(selectedSafeItems[index]['items'][i]['category'])),
+              Text(AppLocalizations.of(context)!.categoryWithValue(ItemTool.getItemCategory(context, selectedSafeItems[index]['items'][i]['category']))),
               selectedSafeItems[index]['items'][i]['tags'].length > 0
                 ? Text(AppLocalizations.of(context)!.tags(selectedSafeItems[index]['items'][i]['tags'].join(', ')))
                 : Container(),

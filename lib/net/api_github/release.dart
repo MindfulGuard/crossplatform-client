@@ -11,7 +11,7 @@ class GithubReleaseApi{
       );
       return response;
     } catch (e) {
-      print(e);
+      AppLogger.logger.w(e);
       return http.Response("", 500);
     }
   }
