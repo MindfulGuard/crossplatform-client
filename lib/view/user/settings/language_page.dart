@@ -105,24 +105,15 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
   void _showConfirmationDialog(String languageName) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.languageChangeConfirmation),
-        content: Text(AppLocalizations.of(context)!.languageChangeRequest),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          TextButton(
-            onPressed: (){
-              _changeLanguage(languageName);
-              Navigator.of(context).pop();
-            },
-            child: Text(AppLocalizations.of(context)!.ok),
-          ),
-        ],
+      builder: (context) => AlertDialogWindow(
+        title: AppLocalizations.of(context)!.languageChangeConfirmation,
+        content: AppLocalizations.of(context)!.languageChangeRequest,
+        closeButtonText:  AppLocalizations.of(context)!.cancel,
+        secondButtonText: AppLocalizations.of(context)!.ok,
+        onSecondButtonPressed: (){
+          _changeLanguage(languageName);
+          Navigator.of(context).pop();
+        },
       ),
     );
   }

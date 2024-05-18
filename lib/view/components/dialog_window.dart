@@ -5,11 +5,17 @@ class AlertDialogWindow extends StatefulWidget {
   final String title;
   final String content;
   final String? closeButtonText;
+  final String? secondButtonText;
+  final VoidCallback? onCloseButtonPressed;
+  final VoidCallback? onSecondButtonPressed;
 
   AlertDialogWindow({
     required this.title,
     required this.content,
     this.closeButtonText,
+    this.secondButtonText,
+    this.onCloseButtonPressed,
+    this.onSecondButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -21,45 +27,71 @@ class _AlertDialogWindowState extends State<AlertDialogWindow> {
   @override
   Widget build(BuildContext context) {
     final closeButtonText = widget.closeButtonText ?? AppLocalizations.of(context)!.close;
+    final secondButtonText = widget.secondButtonText ?? '';
 
     return AlertDialog(
       title: Text(
         widget.title,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.black87), 
       ),
       content: SingleChildScrollView(
         child: Text(
           widget.content,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black87), 
         ),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.grey[350],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+        if (closeButtonText.isNotEmpty)
+          TextButton(
+            onPressed: widget.onCloseButtonPressed ?? () {
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 0, // Removed elevation
+            ).copyWith(
+              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.blue.withOpacity(0.3);
+                }
+                if (states.contains(MaterialState.pressed)) {
+                  return Colors.blue.withOpacity(0.6);
+                }
+                return null;
+              }),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black87),
             ),
-          ).copyWith(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-            overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Colors.grey.withOpacity(0.1);
-              }
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.grey.withOpacity(0.3);
-              }
-              return null;
-            }),
+            child: Text(closeButtonText),
           ),
-          child: Text(closeButtonText),
-        ),
+        if (secondButtonText.isNotEmpty)
+          TextButton(
+            onPressed: widget.onSecondButtonPressed ?? () {},
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 0,
+            ).copyWith(
+              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.blue.withOpacity(0.3);
+                }
+                if (states.contains(MaterialState.pressed)) {
+                  return Colors.blue.withOpacity(0.6); 
+                }
+                return null;
+              }),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+            ),
+            child: Text(secondButtonText),
+          ),
       ],
     );
   }
@@ -69,11 +101,17 @@ class AlertDialogRowWindow extends StatefulWidget {
   final String title;
   final List<Widget> content;
   final String? closeButtonText;
+  final String? secondButtonText;
+  final VoidCallback? onCloseButtonPressed;
+  final VoidCallback? onSecondButtonPressed;
 
   AlertDialogRowWindow({
     required this.title,
     required this.content,
     this.closeButtonText,
+    this.secondButtonText,
+    this.onCloseButtonPressed,
+    this.onSecondButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -85,11 +123,12 @@ class _AlertDialogRowWindowState extends State<AlertDialogRowWindow> {
   @override
   Widget build(BuildContext context) {
     final closeButtonText = widget.closeButtonText ?? AppLocalizations.of(context)!.close;
+    final secondButtonText = widget.secondButtonText ?? '';
 
     return AlertDialog(
       title: Text(
         widget.title,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.black87), 
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -101,29 +140,54 @@ class _AlertDialogRowWindowState extends State<AlertDialogRowWindow> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.grey[350],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+        if (closeButtonText.isNotEmpty)
+          TextButton(
+            onPressed: widget.onCloseButtonPressed ?? () {
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 0, // Removed elevation
+            ).copyWith(
+              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.blue.withOpacity(0.3); 
+                }
+                if (states.contains(MaterialState.pressed)) {
+                  return Colors.blue.withOpacity(0.6); 
+                }
+                return null;
+              }),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black87),
             ),
-          ).copyWith(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-            overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Colors.grey.withOpacity(0.1);
-              }
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.grey.withOpacity(0.3);
-              }
-              return null;
-            }),
+            child: Text(closeButtonText),
           ),
-          child: Text(closeButtonText),
-        ),
+        if (secondButtonText.isNotEmpty)
+          TextButton(
+            onPressed: widget.onSecondButtonPressed ?? () {},
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 0, // Removed elevation
+            ).copyWith(
+              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.blue.withOpacity(0.3);
+                }
+                if (states.contains(MaterialState.pressed)) {
+                  return Colors.blue.withOpacity(0.6); 
+                }
+                return null;
+              }),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+            ),
+            child: Text(secondButtonText),
+          ),
       ],
     );
   }

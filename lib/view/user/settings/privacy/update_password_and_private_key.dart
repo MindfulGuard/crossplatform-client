@@ -136,30 +136,15 @@ class _UpdatePasswordAndPrivateKeyPrivacySettingsPageState extends State<UpdateP
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.warning),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(AppLocalizations.of(context)!.updatePasswordAndPrivateKeyWarning),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.yes),
-              onPressed: (){
-                _updateSecretString();
-                Navigator.pop(context);
-              },
-            ),
-          ],
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.warning,
+          content: AppLocalizations.of(context)!.updatePasswordAndPrivateKeyWarning,
+          secondButtonText: AppLocalizations.of(context)!.yes,
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          onSecondButtonPressed: (){
+            _updateSecretString();
+            Navigator.pop(context);
+          },
         );
       },
     );

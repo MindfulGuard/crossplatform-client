@@ -151,24 +151,15 @@ class _FontFamilySettingsPageState extends State<FontFamilySettingsPage> {
   void _showConfirmationDialog(String fontFamily) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.fontFamilyChangeConfirmation),
-        content: Text(AppLocalizations.of(context)!.fontFamilyChangeRequest),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          TextButton(
-            onPressed: () {
-              _changeFontFamily(fontFamily);
-              RestartWidget.restartApp(context);
-            },
-            child: Text(AppLocalizations.of(context)!.ok),
-          ),
-        ],
+      builder: (context) => AlertDialogWindow(
+        title: AppLocalizations.of(context)!.fontFamilyChangeConfirmation,
+        content: AppLocalizations.of(context)!.fontFamilyChangeRequest,
+        closeButtonText: AppLocalizations.of(context)!.cancel,
+        secondButtonText: AppLocalizations.of(context)!.ok,
+        onSecondButtonPressed: (){
+          _changeFontFamily(fontFamily);
+          RestartWidget.restartApp(context);
+        },
       ),
     );
   }

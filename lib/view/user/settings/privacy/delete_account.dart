@@ -79,30 +79,15 @@ class _DeleteAccountPrivacySettingsPagePrivacySettingsPageState extends State<De
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.warning),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(AppLocalizations.of(context)!.deleteAccountWarning),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.yes),
-              onPressed: (){
-                _deleteAccount();
-                Navigator.pop(context);
-              },
-            ),
-          ],
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.warning,
+          content: AppLocalizations.of(context)!.deleteAccountWarning,
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.yes,
+          onSecondButtonPressed: (){
+            _deleteAccount();
+            Navigator.pop(context);
+          },
         );
       },
     );
