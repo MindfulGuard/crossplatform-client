@@ -418,7 +418,7 @@
     "updatePasswordAndPrivateKeyInfo": "The password and private key are required to log in to the account.",
     "updatePasswordAndPrivateKeyPasswordInfo": "The password must be complex.",
     "updatePasswordAndPrivateKeyOneTimeCodeInfo": "The one-time code must be entered from the \"Google Authenticator\" application.",
-    "updatePasswordAndPrivateKeyWarningInfo": "If the password and private key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur",
+    "updatePasswordAndPrivateKeyWarningInfo": "If the password and private key are changed, existing data will become inaccessible for decryption, and logout from all devices will occur.",
     "deleteAccountInfo": "Permanently deletes your account.",
     "deleteAccountOneTimeCodeInfo": "The one-time code must be entered from the \"Google Authenticator\" application.",
     "failedToUpdateSettings": "Failed to update settings.",
