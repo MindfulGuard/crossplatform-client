@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/db/database.dart';
-import 'package:mindfulguard/net/api/admin/get_settings.dart';
 import 'package:mindfulguard/net/api/auth/sign_out.dart';
 import 'package:mindfulguard/restart_widget.dart';
 import 'package:mindfulguard/view/components/app_icons.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/user/settings/font_family_page.dart';
-import 'package:mindfulguard/view/user/settings/privacy/admin_panel/admin_panel_list_page.dart';
 import 'package:mindfulguard/view/user/settings/application_info_page.dart';
 import 'package:mindfulguard/view/user/settings/audit_page.dart';
 import 'package:mindfulguard/view/user/settings/language_page.dart';
@@ -96,7 +95,22 @@ class _SettingsListPageState extends State<SettingsListPage>{
         actions: [
           IconButton(
             color: Colors.red,
-            onPressed: __signOut,
+            onPressed: (){
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialogWindow(
+                    title: AppLocalizations.of(context)!.logout,
+                    content: AppLocalizations.of(context)!.accountLogout,
+                    closeButtonText: AppLocalizations.of(context)!.cancel,
+                    secondButtonText: AppLocalizations.of(context)!.yes,
+                    onSecondButtonPressed: (){
+                      __signOut();
+                    },
+                  );
+                },
+              );
+            },
             icon: Icon(Icons.logout),
           ),
           ],

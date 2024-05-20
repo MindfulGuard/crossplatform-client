@@ -507,5 +507,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "logout": "Logout",
+    "accountLogout": "Are you sure you want to log out?"
 }
