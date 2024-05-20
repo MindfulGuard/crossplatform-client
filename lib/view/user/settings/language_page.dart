@@ -45,7 +45,7 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)?.language ?? ''),
+        title: Text(AppLocalizations.of(context)!.language),
         actions: [
           IconButton(
             onPressed: () {

@@ -273,7 +273,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialogRowWindow(
+                    return AlertDialogWindow(
                       title: AppLocalizations.of(context)!.helpReference,
                       content: [
                         Text(AppLocalizations.of(context)!.registrationPageWarningAfter),

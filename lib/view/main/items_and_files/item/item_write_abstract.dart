@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mindfulguard/crypto/crypto.dart';
 import 'package:mindfulguard/net/api/configuration.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mindfulguard/view/components/dialog_window.dart';
 import 'package:mindfulguard/view/main/items_and_files/item/item_tool.dart';
 
 abstract class AbstractItemsWritePage extends StatefulWidget {
@@ -230,26 +231,17 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.deleteSection),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.deleteSection,
           content: Text(AppLocalizations.of(context)!.deleteSectionWarning),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  sections.removeAt(index);
-                });
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.delete),
-            ),
-          ],
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.delete,
+          onSecondButtonPressed: (){
+            setState(() {
+              sections.removeAt(index);
+            });
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -311,32 +303,23 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.addSection),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.addSection,
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.add,
+          onSecondButtonPressed: (){
+            setState(() {
+              sections.add({
+                'section': sectionController.text,
+                'fields': [],
+              });
+            });
+            Navigator.pop(context);
+          },
           content: TextField(
             controller: sectionController,
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  sections.add({
-                    'section': sectionController.text,
-                    'fields': [],
-                  });
-                });
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.add),
-            ),
-          ],
         );
       },
     );
@@ -352,8 +335,29 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.addField),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.addField,
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.add,
+          onSecondButtonPressed: (){
+            if (selectedFieldType != null) {
+              setState(() {
+                sections[sectionIndex]['fields'].add({
+                  'type': selectedFieldType,
+                  'label': labelController.text,
+                  'value': valueController.text,
+                });
+              });
+              Navigator.pop(context);
+            } else {
+              // Display a message indicating that type is required
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!.typeSelectWarning),
+                ),
+              );
+            }
+          },
           content: SizedBox(
             height: dialogHeight,
             child: Column(
@@ -392,36 +396,6 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                if (selectedFieldType != null) {
-                  setState(() {
-                    sections[sectionIndex]['fields'].add({
-                      'type': selectedFieldType,
-                      'label': labelController.text,
-                      'value': valueController.text,
-                    });
-                  });
-                  Navigator.pop(context);
-                } else {
-                  // Display a message indicating that type is required
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.typeSelectWarning),
-                    ),
-                  );
-                }
-              },
-              child: Text(AppLocalizations.of(context)!.add),
-            ),
-          ],
         );
       },
     );
@@ -432,30 +406,21 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.editItemSection),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.editItemSection,
           content: TextField(
             controller: sectionController,
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.name),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  sections[sectionIndex]['section'] =
-                      sectionController.text;
-                });
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.save),
-            ),
-          ],
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.save,
+          onSecondButtonPressed: (){
+            setState(() {
+              sections[sectionIndex]['section'] =
+                  sectionController.text;
+            });
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -474,8 +439,20 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.editItemField),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.editItemField,
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.save,
+          onSecondButtonPressed: (){
+            setState(() {
+              sections[sectionIndex]['fields'][fieldIndex] = {
+                'type': selectedFieldType,
+                'label': labelController.text,
+                'value': valueController.text,
+              };
+            });
+            Navigator.pop(context);
+          },
           content: SizedBox(
             height: dialogHeight,
             child: Column(
@@ -514,27 +491,6 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  sections[sectionIndex]['fields'][fieldIndex] = {
-                    'type': selectedFieldType,
-                    'label': labelController.text,
-                    'value': valueController.text,
-                  };
-                });
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.save),
-            ),
-          ],
         );
       },
     );
@@ -544,30 +500,21 @@ class AbstractItemsWritePageState extends State<AbstractItemsWritePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.addTag),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.addTag,
           content: TextField(
             controller: tagController,
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.tag),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  tags.add(tagController.text);
-                  tagController.clear();
-                });
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.add),
-            ),
-          ],
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.add,
+          onSecondButtonPressed: (){
+            setState(() {
+              tags.add(tagController.text);
+              tagController.clear();
+            });
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -678,28 +625,19 @@ class TagChip extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.editTag),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.editTag,
           content: TextField(
             controller: editedTagController,
             decoration: InputDecoration(labelText: AppLocalizations.of(context)!.tag),
             maxLength: 20,
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                onEdit(editedTagController.text);
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.save),
-            ),
-          ],
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.save,
+          onSecondButtonPressed: (){
+            onEdit(editedTagController.text);
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -709,24 +647,15 @@ class TagChip extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.deleteTag),
+        return AlertDialogWindow(
+          title: AppLocalizations.of(context)!.deleteTag,
           content: Text(AppLocalizations.of(context)!.deleteTagWarning),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                onDelete();
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.delete),
-            ),
-          ],
+          closeButtonText: AppLocalizations.of(context)!.cancel,
+          secondButtonText: AppLocalizations.of(context)!.delete,
+          onSecondButtonPressed: (){
+            onDelete();
+            Navigator.pop(context);
+          },
         );
       },
     );
