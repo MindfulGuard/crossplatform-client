@@ -1,3 +1,8 @@
+1.8.4
+
+- The design of dialog windows has been updated.
+- Added a dialog box for the `Log out of account` button on the `Settings` page. Now when the button is clicked, a warning is displayed that account logout will occur.
+
 1.8.3
 
 - Translation added for categories and types in the record.
