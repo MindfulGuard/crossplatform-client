@@ -439,7 +439,7 @@
         }
     },
     "deleteUser": "Delete user",
-    "userManagementInfo": "On the \"Manage users\" page, you can create new users, delete users, view user information and additional information related to users.",
+    "userManagementInfo": "On the \"User management\" page, you can create new users, delete users, view user information and additional information related to users.",
     "createAUser": "Create a user",
     "userSearch": "User Search",
     "search": "Search",
