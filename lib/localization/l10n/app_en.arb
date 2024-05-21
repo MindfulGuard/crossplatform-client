@@ -499,7 +499,7 @@
     "defaulT": "Default",
     "fontFamilyChangeConfirmation": "Font Change Confirmation",
     "fontFamilyChangeRequest": "A restart of the application is required to change the font.",
-    "selectedFontWillBeUsedAsPrimaryLanguageInApplication": "The selected font will be used as the primary font in the application.",
+    "selectedFontWillBeUsedAsPrimaryFontInApplication": "The selected font will be used as the primary font in the application.",
     "fontFamilyInfoWithValueTwo": "Default font: {value}.",
     "@fontFamilyInfoWithValueTwo": {
         "placeholders": {

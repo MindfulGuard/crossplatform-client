@@ -76,7 +76,7 @@ class _FontFamilySettingsPageState extends State<FontFamilySettingsPage> {
                   return AlertDialogWindow(
                     title: AppLocalizations.of(context)!.helpReference,
                     content: [
-                      Text(AppLocalizations.of(context)!.selectedFontWillBeUsedAsPrimaryLanguageInApplication),
+                      Text(AppLocalizations.of(context)!.selectedFontWillBeUsedAsPrimaryFontInApplication),
                       SizedBox(height: 10),
                       Text(
                         AppLocalizations.of(context)!.fontFamilyInfoWithValueTwo(_fontFamily.fontFamilyDefault),

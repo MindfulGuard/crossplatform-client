@@ -499,7 +499,7 @@
     "defaulT": "По умолчанию",
     "fontFamilyChangeConfirmation": "Подтверждение изменения шрифта",
     "fontFamilyChangeRequest": "Для смены шрифта требуется перезагрузка приложения.",
-    "selectedFontWillBeUsedAsPrimaryLanguageInApplication": "Выбранный шрифт будет использоваться в качестве основного в приложении.",
+    "selectedFontWillBeUsedAsPrimaryFontInApplication": "Выбранный шрифт будет использоваться в качестве основного в приложении.",
     "fontFamilyInfoWithValueTwo": "Шрифт по умолчанию: {value}.",
     "@fontFamilyInfoWithValueTwo": {
         "placeholders": {
