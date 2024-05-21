@@ -1,3 +1,7 @@
+1.8.5
+
+- Fixed a bug that caused the `Updating the application` page to open instead of the `Font family` page on non-Windows devices.
+
 1.8.4
 
 - The design of dialog windows has been updated.
