@@ -41,7 +41,6 @@ class _FontFamilySettingsPageState extends State<FontFamilySettingsPage> {
     if (!_fontsInfo.contains(_defaultName)) {
       _fontsInfo.insert(0, _defaultName);
     }
-    setState(() {});
   }
 
   void _getSelectedFontFamily() async {
@@ -79,7 +78,10 @@ class _FontFamilySettingsPageState extends State<FontFamilySettingsPage> {
                     content: [
                       Text(AppLocalizations.of(context)!.selectedFontWillBeUsedAsPrimaryLanguageInApplication),
                       SizedBox(height: 10),
-                      Text(AppLocalizations.of(context)!.fontFamilyInfoWithValueTwo(_fontFamily.fontFamilyDefault))
+                      Text(
+                        AppLocalizations.of(context)!.fontFamilyInfoWithValueTwo(_fontFamily.fontFamilyDefault),
+                        style: GoogleFonts.getFont(_fontFamily.fontFamilyDefault),
+                      )
                     ],
                   );
                 },
