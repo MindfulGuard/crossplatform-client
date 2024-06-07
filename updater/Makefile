@@ -10,7 +10,8 @@ else
     BINARY_NAME := $(BINARY_NAME).sh
 endif
 
-ubuild:
+.PHONY: build
+build:
 	$(GO) build -o $(BINARY_NAME)
 
 clean:
