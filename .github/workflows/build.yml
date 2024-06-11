@@ -93,7 +93,7 @@ jobs:
       - name: Build
         run: |
           cd updater
-          make ubuild
+          make build
           cd ..
           flutter build windows
 
@@ -170,7 +170,7 @@ jobs:
       - name: Build
         run: |
           cd updater
-          make ubuild
+          make build
           cd ..
           flutter build linux --release
 
